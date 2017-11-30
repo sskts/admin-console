@@ -1,0 +1,28 @@
+<nb-card>
+  <nb-card-header>劇場設定</nb-card-header>
+  <nb-card-body>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>identifier</th>
+          <th>名称</th>
+          <th>URL</th>
+          <th>場所枝番号</th>
+          <th>ショップID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let movieTheater of movieTheaters">
+          <th scope="row">{{movieTheater.id}}</th>
+          <td>{{movieTheater.identifier}}</td>
+          <td>{{movieTheater.name.ja}}
+            <br>{{movieTheater.name.en}}</td>
+          <td>{{movieTheater.url}}</td>
+          <td>{{movieTheater.location.branchCode}}</td>
+          <td>{{movieTheater.gmoInfo.shopId}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </nb-card-body>
+</nb-card>
