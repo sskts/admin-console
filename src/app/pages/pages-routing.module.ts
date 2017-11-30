@@ -17,6 +17,10 @@ const routes: Routes = [{
       loadChildren: './settings/settings.module#SettingsModule',
     },
     {
+      path: 'search',
+      loadChildren: './search/search.module#SearchModule',
+    },
+    {
       path: 'telemetries',
       loadChildren: './telemetries/telemetries.module#TelemetriesModule',
     },

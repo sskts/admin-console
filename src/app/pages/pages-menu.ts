@@ -22,6 +22,16 @@ export const MENU_ITEMS: NbMenuItem[] = [
         ],
     },
     {
+        title: 'Search',
+        icon: 'nb-search',
+        children: [
+            {
+                title: '注文検索',
+                link: '/pages/search/orders',
+            },
+        ],
+    },
+    {
         title: 'Telemetries',
         icon: 'nb-bar-chart',
         children: [

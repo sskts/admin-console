@@ -4,20 +4,25 @@ webpackJsonp(["main"],{
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./search/search.module": [
+		"../../../../../src/app/pages/search/search.module.ts",
+		"common",
+		"search.module"
+	],
 	"./settings/settings.module": [
 		"../../../../../src/app/pages/settings/settings.module.ts",
 		"common",
-		"settings.module"
+		"settings.module.0"
 	],
 	"./telemetries/telemetries.module": [
 		"../../../../../src/app/pages/telemetries/telemetries.module.ts",
 		"common",
-		"telemetries.module"
+		"telemetries.module.0"
 	],
 	"./tests/tests.module": [
 		"../../../../../src/app/pages/tests/tests.module.ts",
 		"common",
-		"tests.module"
+		"tests.module.0"
 	],
 	"app/pages/pages.module": [
 		"../../../../../src/app/pages/pages.module.ts",
@@ -2236,7 +2241,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var BASE_MODULES = [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["b" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["f" /* ReactiveFormsModule */]];
+var BASE_MODULES = [__WEBPACK_IMPORTED_MODULE_1__angular_common__["CommonModule"], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["c" /* FormsModule */], __WEBPACK_IMPORTED_MODULE_2__angular_forms__["g" /* ReactiveFormsModule */]];
 var NB_MODULES = [
     __WEBPACK_IMPORTED_MODULE_4__nebular_theme__["b" /* NbCardModule */],
     __WEBPACK_IMPORTED_MODULE_4__nebular_theme__["d" /* NbLayoutModule */],

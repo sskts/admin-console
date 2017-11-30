@@ -1421,6 +1421,16 @@ var MENU_ITEMS = [
         ],
     },
     {
+        title: 'Search',
+        icon: 'nb-search',
+        children: [
+            {
+                title: '注文検索',
+                link: '/pages/search/orders',
+            },
+        ],
+    },
+    {
         title: 'Telemetries',
         icon: 'nb-bar-chart',
         children: [],
@@ -1470,6 +1480,10 @@ var routes = [{
             {
                 path: 'settings',
                 loadChildren: './settings/settings.module#SettingsModule',
+            },
+            {
+                path: 'search',
+                loadChildren: './search/search.module#SearchModule',
             },
             {
                 path: 'telemetries',

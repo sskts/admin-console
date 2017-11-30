@@ -19,10 +19,10 @@ export class MovieTheatersComponent {
 
   constructor(
   ) {
-    this.socket.emit('search-movieTheaters', {});
+    this.socket.emit('searching-movieTheaters', {});
 
     // 劇場検索結果
-    this.socket.on('searched-movieTheaters', (movieTheaters: IMovieTheater[]) => {
+    this.socket.on('movieTheaters-found', (movieTheaters: IMovieTheater[]) => {
       this.movieTheaters = movieTheaters;
     });
   }
