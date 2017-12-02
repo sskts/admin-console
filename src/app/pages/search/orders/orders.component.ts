@@ -42,7 +42,6 @@ export class OrdersComponent {
 
 
     onSubmit() {
-        console.log(this.conditionsForm.value);
         this.socket.emit('searching-orders', this.conditionsForm.value);
     }
 

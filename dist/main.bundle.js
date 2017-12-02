@@ -12,17 +12,17 @@ var map = {
 	"./settings/settings.module": [
 		"../../../../../src/app/pages/settings/settings.module.ts",
 		"common",
-		"settings.module.0"
+		"settings.module"
 	],
 	"./telemetries/telemetries.module": [
 		"../../../../../src/app/pages/telemetries/telemetries.module.ts",
 		"common",
-		"telemetries.module.0"
+		"telemetries.module"
 	],
 	"./tests/tests.module": [
 		"../../../../../src/app/pages/tests/tests.module.ts",
 		"common",
-		"tests.module.0"
+		"tests.module"
 	],
 	"app/pages/pages.module": [
 		"../../../../../src/app/pages/pages.module.ts",

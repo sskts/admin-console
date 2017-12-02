@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { ChartModule } from 'angular2-chartjs';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { SettingsRoutingModule, routedComponents } from './search-routing.module';
@@ -8,7 +8,7 @@ import { SettingsRoutingModule, routedComponents } from './search-routing.module
     imports: [
         ThemeModule,
         SettingsRoutingModule,
-        Ng2SmartTableModule,
+        ChartModule,
     ],
     declarations: [
         ...routedComponents,
