@@ -39,6 +39,7 @@ export class EventsComponent {
         // 注文検索結果
         this.socket.on('events-found', (events: IEvent[]) => {
             this.events = events;
+            console.log('events:', events);
             this.searching = false;
         });
 

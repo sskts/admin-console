@@ -36,8 +36,10 @@ export class EventComponent implements OnInit, OnDestroy {
     movieTheater: IMovieTheater;
     screeningRoom: IScreeningRoom;
     event: IEvent;
-    transactions: ITransaction[];
-    datas: any[];
+    reservationStartDate: Date;
+    reservationEndDate: Date;
+    transactions: ITransaction[] = [];
+    datas: any[] = [];
 
     config: NbJSThemeOptions;
     datasets: IDataset[];
@@ -53,10 +55,6 @@ export class EventComponent implements OnInit, OnDestroy {
         this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
             this.config = config;
 
-            // this.event = null;
-            this.transactions = [];
-            this.datas = [];
-
             // チャート初期化
             this.initalizeChart();
         });
@@ -65,6 +63,9 @@ export class EventComponent implements OnInit, OnDestroy {
         this.socket.on('movieTheaterPlace-found', (movieTheater: IMovieTheater) => {
             this.movieTheater = movieTheater;
             this.screeningRoom = <any>movieTheater.containsPlace.find((place) => place.branchCode === this.event.location.branchCode);
+
+            // イベントに対する取引検索
+            this.socket.emit('searching-transactions-by-event', this.event.identifier);
         });
 
         // イベント照会結果
@@ -96,15 +97,14 @@ export class EventComponent implements OnInit, OnDestroy {
                 };
             });
 
-            const screenRoom = this.movieTheater.containsPlace.find((place) => place.branchCode === this.event.location.branchCode);
-            let numberOfSeats = screenRoom.containsPlace[0].containsPlace.length;
-            const firstSeatReservationAuthorizeDate = this.datas[0].seatReservationAuthorizeAction.endDate;
+            let numberOfSeats = this.screeningRoom.containsPlace[0].containsPlace.length;
+
             this.datasets[0].data = this.datas.reduce(
                 (a, b) => {
                     numberOfSeats -= b.seatReservationAuthorizeAction.seatNumbers.length;
                     // 最初の座席仮予約からの時間
                     const diff = moment(b.seatReservationAuthorizeAction.endDate)
-                        .diff(moment(firstSeatReservationAuthorizeDate), 'minutes');
+                        .diff(moment(this.reservationStartDate), 'minutes');
                     a.push({
                         x: diff,
                         y: numberOfSeats,
@@ -112,7 +112,7 @@ export class EventComponent implements OnInit, OnDestroy {
 
                     return a;
                 },
-                [],
+                [{ x: 0, y: numberOfSeats }],
             );
 
             this.updateChart();
@@ -120,11 +120,12 @@ export class EventComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        // 売り出し日時は？
+        this.reservationStartDate = moment(`${this.event.coaInfo.rsvStartDate} 00:00:00+09:00`, 'YYYYMMDD HH:mm:ssZ').toDate();
+        this.reservationEndDate = moment(`${this.event.coaInfo.rsvEndDate} 23:59:59+09:00`, 'YYYYMMDD HH:mm:ssZ').toDate();
+
         // 劇場場所照会
         this.socket.emit('finding-movieTheater-by-branchCode', this.event.superEvent.location.branchCode);
-
-        // イベントに対する取引検索
-        this.socket.emit('searching-transactions-by-event', this.event.identifier);
     }
 
     ngOnDestroy() {
@@ -151,6 +152,17 @@ export class EventComponent implements OnInit, OnDestroy {
             data: [],
             color: colorChoices[0],
         }];
+    }
+
+    private updateChart() {
+        const colors: any = this.config.variables;
+        const chartjs: any = this.config.variables.chartjs;
+
+        const reservationPeriodInMinutes = moment(this.reservationEndDate).diff(moment(this.reservationStartDate), 'minutes');
+        const labels = [];
+        for (let i = 0; i < Math.floor(reservationPeriodInMinutes / 60) + 1; i++) {
+            labels.push(i * 60);
+        }
 
         this.options = {
             // elements: {
@@ -188,6 +200,10 @@ export class EventComponent implements OnInit, OnDestroy {
                         },
                         ticks: {
                             fontColor: chartjs.textColor,
+                            beginAtZero: true,
+                            min: 0,
+                            max: reservationPeriodInMinutes,
+                            // stepSize: 100,
                         },
                     },
                 ],
@@ -204,19 +220,16 @@ export class EventComponent implements OnInit, OnDestroy {
                         },
                         ticks: {
                             fontColor: chartjs.textColor,
-                            // beginAtZero: true,
+                            beginAtZero: true,
+                            min: 0,
                         },
                     },
                 ],
             },
         };
-    }
-
-    private updateChart() {
-        const colors: any = this.config.variables;
 
         this.data = {
-            // labels: this.labels,
+            // labels: labels,
             datasets: this.datasets.map((dataset) => {
                 return {
                     label: dataset.scope,
@@ -225,8 +238,8 @@ export class EventComponent implements OnInit, OnDestroy {
                     backgroundColor: dataset.color,
                     fill: false,
                     borderDash: [0, 0],
-                    pointRadius: 8,
-                    pointHoverRadius: 10,
+                    pointRadius: 4,
+                    pointHoverRadius: 5,
                 };
             }),
         };

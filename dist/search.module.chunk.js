@@ -70,6 +70,7 @@ var EventsComponent = /** @class */ (function () {
         // 注文検索結果
         this.socket.on('events-found', function (events) {
             _this.events = events;
+            console.log('events:', events);
             _this.searching = false;
         });
         this.conditionsForm = this.fb.group({
@@ -115,7 +116,7 @@ var EventsComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/pages/search/events/modal/event.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\n    <span>{{ modalHeader }}</span>\n    <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n</div>\n<div class=\"modal-body\">\n    <nb-tabset>\n        <nb-tab tabTitle=\"Details\">\n            <table class=\"table\" *ngIf=\"event && screeningRoom\">\n                <tbody>\n                    <tr>\n                        <th>identifier</th>\n                        <td>{{event.identifier}}</td>\n                    </tr>\n                    <tr>\n                        <th>name</th>\n                        <td>{{event.name.ja}}\n                            <br>{{event.name.en}}</td>\n                    </tr>\n                    <tr>\n                        <th>作品</th>\n                        <td>{{event.workPerformed.name}}\n                            <br>{{event.workPerformed.duration}}</td>\n                    </tr>\n                    <tr>\n                        <th>場所</th>\n                        <td>\n                            {{event.superEvent.location.branchCode}} {{event.location.branchCode}}\n                            <br>{{event.superEvent.location.name.ja}} {{event.location.name.ja}}\n                            <br> {{event.superEvent.location.name.en}} {{event.location.name.en}}\n                            <br>座席数:{{screeningRoom.containsPlace[0].containsPlace.length}}\n                        </td>\n                    </tr>\n                    <tr>\n                        <th>start - end</th>\n                        <td>{{event.startDate}} - {{event.endDate}}</td>\n                    </tr>\n                    <tr>\n                        <th>coaInfo</th>\n                        <td>{{event.coaInfo|json}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n\n        <nb-tab tabTitle=\"残席数遷移\">\n            <chart type=\"line\" [data]=\"data\" [options]=\"options\"></chart>\n        </nb-tab>\n\n        <nb-tab tabTitle=\"取引履歴\">\n            <table class=\"table\">\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>startDate</th>\n                        <th>endDate</th>\n                        <th>seats</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let data of datas\">\n                        <th scope=\"row\">{{data.id}}</th>\n                        <td>{{data.startDate}}</td>\n                        <td>{{data.endDate}}</td>\n                        <td>{{data.seatReservationAuthorizeAction.seatNumbers|json}}\n                            <br>{{data.seatReservationAuthorizeAction.endDate}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n    </nb-tabset>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n</div>"
+module.exports = "<div class=\"modal-header\">\n    <span>{{ modalHeader }}</span>\n    <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n</div>\n<div class=\"modal-body\">\n    <nb-tabset>\n        <nb-tab tabTitle=\"Details\">\n            <table class=\"table\" *ngIf=\"event && screeningRoom\">\n                <tbody>\n                    <tr>\n                        <th>identifier</th>\n                        <td>{{event.identifier}}</td>\n                    </tr>\n                    <tr>\n                        <th>name</th>\n                        <td>{{event.name.ja}}\n                            <br>{{event.name.en}}</td>\n                    </tr>\n                    <tr>\n                        <th>作品</th>\n                        <td>{{event.workPerformed.name}}\n                            <br>{{event.workPerformed.duration}}</td>\n                    </tr>\n                    <tr>\n                        <th>場所</th>\n                        <td>\n                            {{event.superEvent.location.branchCode}} {{event.location.branchCode}}\n                            <br>{{event.superEvent.location.name.ja}} {{event.location.name.ja}}\n                            <br> {{event.superEvent.location.name.en}} {{event.location.name.en}}\n                            <br>座席数:{{screeningRoom.containsPlace[0].containsPlace.length}}\n                        </td>\n                    </tr>\n                    <tr>\n                        <th>start - end</th>\n                        <td>{{event.startDate}} - {{event.endDate}}</td>\n                    </tr>\n                    <tr>\n                        <th>予約期間</th>\n                        <td>{{reservationStartDate}} - {{reservationEndDate}}</td>\n                    </tr>\n                    <tr>\n                        <th>coaInfo</th>\n                        <td>{{event.coaInfo|json}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n\n        <nb-tab tabTitle=\"残席数遷移\">\n            <chart type=\"line\" [data]=\"data\" [options]=\"options\"></chart>\n        </nb-tab>\n\n        <nb-tab tabTitle=\"取引履歴\">\n            <table class=\"table\">\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>startDate</th>\n                        <th>endDate</th>\n                        <th>seats</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let data of datas\">\n                        <th scope=\"row\">{{data.id}}</th>\n                        <td>{{data.startDate}}</td>\n                        <td>{{data.endDate}}</td>\n                        <td>{{data.seatReservationAuthorizeAction.seatNumbers|json}}\n                            <br>{{data.seatReservationAuthorizeAction.endDate}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n    </nb-tabset>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n</div>"
 
 /***/ }),
 
@@ -172,11 +173,10 @@ var EventComponent = /** @class */ (function () {
         this.route = route;
         this.theme = theme;
         this.socket = __WEBPACK_IMPORTED_MODULE_5_socket_io_client__();
+        this.transactions = [];
+        this.datas = [];
         this.themeSubscription = this.theme.getJsTheme().subscribe(function (config) {
             _this.config = config;
-            // this.event = null;
-            _this.transactions = [];
-            _this.datas = [];
             // チャート初期化
             _this.initalizeChart();
         });
@@ -184,6 +184,8 @@ var EventComponent = /** @class */ (function () {
         this.socket.on('movieTheaterPlace-found', function (movieTheater) {
             _this.movieTheater = movieTheater;
             _this.screeningRoom = movieTheater.containsPlace.find(function (place) { return place.branchCode === _this.event.location.branchCode; });
+            // イベントに対する取引検索
+            _this.socket.emit('searching-transactions-by-event', _this.event.identifier);
         });
         // イベント照会結果
         // this.socket.on('event-found', (event: IEvent) => {
@@ -208,28 +210,27 @@ var EventComponent = /** @class */ (function () {
                     },
                 };
             });
-            var screenRoom = _this.movieTheater.containsPlace.find(function (place) { return place.branchCode === _this.event.location.branchCode; });
-            var numberOfSeats = screenRoom.containsPlace[0].containsPlace.length;
-            var firstSeatReservationAuthorizeDate = _this.datas[0].seatReservationAuthorizeAction.endDate;
+            var numberOfSeats = _this.screeningRoom.containsPlace[0].containsPlace.length;
             _this.datasets[0].data = _this.datas.reduce(function (a, b) {
                 numberOfSeats -= b.seatReservationAuthorizeAction.seatNumbers.length;
                 // 最初の座席仮予約からの時間
                 var diff = __WEBPACK_IMPORTED_MODULE_4_moment__(b.seatReservationAuthorizeAction.endDate)
-                    .diff(__WEBPACK_IMPORTED_MODULE_4_moment__(firstSeatReservationAuthorizeDate), 'minutes');
+                    .diff(__WEBPACK_IMPORTED_MODULE_4_moment__(_this.reservationStartDate), 'minutes');
                 a.push({
                     x: diff,
                     y: numberOfSeats,
                 });
                 return a;
-            }, []);
+            }, [{ x: 0, y: numberOfSeats }]);
             _this.updateChart();
         });
     }
     EventComponent.prototype.ngOnInit = function () {
+        // 売り出し日時は？
+        this.reservationStartDate = __WEBPACK_IMPORTED_MODULE_4_moment__(this.event.coaInfo.rsvStartDate + " 00:00:00+09:00", 'YYYYMMDD HH:mm:ssZ').toDate();
+        this.reservationEndDate = __WEBPACK_IMPORTED_MODULE_4_moment__(this.event.coaInfo.rsvEndDate + " 23:59:59+09:00", 'YYYYMMDD HH:mm:ssZ').toDate();
         // 劇場場所照会
         this.socket.emit('finding-movieTheater-by-branchCode', this.event.superEvent.location.branchCode);
-        // イベントに対する取引検索
-        this.socket.emit('searching-transactions-by-event', this.event.identifier);
     };
     EventComponent.prototype.ngOnDestroy = function () {
         // this.sub.unsubscribe();
@@ -251,6 +252,15 @@ var EventComponent = /** @class */ (function () {
                 data: [],
                 color: colorChoices[0],
             }];
+    };
+    EventComponent.prototype.updateChart = function () {
+        var colors = this.config.variables;
+        var chartjs = this.config.variables.chartjs;
+        var reservationPeriodInMinutes = __WEBPACK_IMPORTED_MODULE_4_moment__(this.reservationEndDate).diff(__WEBPACK_IMPORTED_MODULE_4_moment__(this.reservationStartDate), 'minutes');
+        var labels = [];
+        for (var i = 0; i < Math.floor(reservationPeriodInMinutes / 60) + 1; i++) {
+            labels.push(i * 60);
+        }
         this.options = {
             // elements: {
             //     line: {
@@ -287,6 +297,9 @@ var EventComponent = /** @class */ (function () {
                         },
                         ticks: {
                             fontColor: chartjs.textColor,
+                            beginAtZero: true,
+                            min: 0,
+                            max: reservationPeriodInMinutes,
                         },
                     },
                 ],
@@ -303,16 +316,15 @@ var EventComponent = /** @class */ (function () {
                         },
                         ticks: {
                             fontColor: chartjs.textColor,
+                            beginAtZero: true,
+                            min: 0,
                         },
                     },
                 ],
             },
         };
-    };
-    EventComponent.prototype.updateChart = function () {
-        var colors = this.config.variables;
         this.data = {
-            // labels: this.labels,
+            // labels: labels,
             datasets: this.datasets.map(function (dataset) {
                 return {
                     label: dataset.scope,
@@ -321,8 +333,8 @@ var EventComponent = /** @class */ (function () {
                     backgroundColor: dataset.color,
                     fill: false,
                     borderDash: [0, 0],
-                    pointRadius: 8,
-                    pointHoverRadius: 10,
+                    pointRadius: 4,
+                    pointHoverRadius: 5,
                 };
             }),
         };
