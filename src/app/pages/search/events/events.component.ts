@@ -2,6 +2,7 @@ import { factory as ssktsFactory } from '@motionpicture/sskts-domain';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import * as moment from 'moment';
 import * as io from 'socket.io-client';
 
 import { EventComponent } from './modal/event.component';
@@ -16,10 +17,11 @@ type IOrder = ssktsFactory.order.IOrder;
     styleUrls: ['./events.component.scss'],
 })
 export class EventsComponent {
+    searching = false;
     conditionsForm: FormGroup;
     socket = io();
     movieTheaters: IMovieTheater[];
-    events: IEvent[];
+    events: IEvent[] = [];
     selectedEvent: IEvent;
 
     constructor(
@@ -31,13 +33,13 @@ export class EventsComponent {
 
         // 劇場検索結果
         this.socket.on('movieTheaterPlaces-found', (movieTheaters: IMovieTheater[]) => {
-            console.log(movieTheaters);
             this.movieTheaters = movieTheaters;
         });
 
         // 注文検索結果
         this.socket.on('events-found', (events: IEvent[]) => {
             this.events = events;
+            this.searching = false;
         });
 
         this.conditionsForm = this.fb.group({
@@ -48,23 +50,23 @@ export class EventsComponent {
     }
 
     onSubmit() {
-        console.log(this.conditionsForm.value);
         const conditions = {
             superEventLocationIdentifiers: this.conditionsForm.value.superEventLocationIdentifiers,
-            startFrom: new Date('2017-11-30T00:00:00Z').toISOString(),
-            startThrough: new Date('2017-12-01T00:00:00Z').toISOString(),
+            startFrom: moment(this.conditionsForm.value.startFrom).toISOString(),
+            startThrough: moment(this.conditionsForm.value.startThrough).add(1, 'day').toISOString(),
         };
         this.socket.emit('searching-events', conditions);
+        this.searching = true;
     }
 
     onSelect(event: IEvent): void {
         this.selectedEvent = event;
-        this.showLargeModal();
+        this.showEventModal();
     }
 
-    showLargeModal() {
+    showEventModal() {
         const activeModal = this.modalService.open(EventComponent, { size: 'lg', container: 'nb-layout' });
-        activeModal.componentInstance.modalHeader = '上映イベント詳細';
+        activeModal.componentInstance.modalHeader = `上映イベント ${this.selectedEvent.identifier}`;
         activeModal.componentInstance.event = this.selectedEvent;
     }
 }

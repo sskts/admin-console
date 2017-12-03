@@ -6,8 +6,8 @@ webpackJsonp(["telemetries.module"],{
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TelemetriesRoutingModule; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return routedComponents; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__telemetries_component__ = __webpack_require__("../../../../../src/app/pages/telemetries/telemetries.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -38,7 +38,7 @@ var TelemetriesRoutingModule = /** @class */ (function () {
 var routedComponents = [
     __WEBPACK_IMPORTED_MODULE_2__telemetries_component__["a" /* TelemetriesComponent */],
 ];
-//# sourceMappingURL=telemetries-routing.module.js.map
+
 
 /***/ }),
 
@@ -47,7 +47,7 @@ var routedComponents = [
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TelemetriesComponent; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -67,7 +67,7 @@ var TelemetriesComponent = /** @class */ (function () {
     return TelemetriesComponent;
 }());
 
-//# sourceMappingURL=telemetries.component.js.map
+
 
 /***/ }),
 
@@ -77,7 +77,7 @@ var TelemetriesComponent = /** @class */ (function () {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TelemetriesModule", function() { return TelemetriesModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ngx_echarts__ = __webpack_require__("../../../../ngx-echarts/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__swimlane_ngx_charts__ = __webpack_require__("../../../../@swimlane/ngx-charts/release/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__swimlane_ngx_charts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__swimlane_ngx_charts__);
@@ -110,7 +110,7 @@ var TelemetriesModule = /** @class */ (function () {
     return TelemetriesModule;
 }());
 
-//# sourceMappingURL=telemetries.module.js.map
+
 
 /***/ })
 

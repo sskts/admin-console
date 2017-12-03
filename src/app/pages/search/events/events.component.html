@@ -10,10 +10,21 @@
                             <option *ngFor="let movieTheater of movieTheaters" value="MovieTheater-{{movieTheater.branchCode}}">{{movieTheater.name.ja}}</option>
                         </select>
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label>When?</label>
-                        <input formControlName="startFrom" type="text" class="form-control" placeholder="購入番号" required>
-                    </div> -->
+                        <mat-form-field>
+                            <input formControlName="startFrom" matInput [matDatepicker]="pickerStartFrom" placeholder="いつから">
+                            <mat-datepicker-toggle matSuffix [for]="pickerStartFrom"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerStartFrom></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field>
+                            <input formControlName="startThrough" matInput [matDatepicker]="pickerStartThrough" placeholder="いつまで">
+                            <mat-datepicker-toggle matSuffix [for]="pickerStartThrough"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerStartThrough></mat-datepicker>
+                        </mat-form-field>
+
+                        <!-- <input formControlName="startFrom" type="text" class="form-control" placeholder="購入番号" required> -->
+                    </div>
 
                     <button type="submit" class="btn btn-primary">Search</button> &nbsp;
                 </form>
@@ -24,10 +35,11 @@
 
 <nb-card>
     <nb-card-header>
-        <span>Results</span>
+        <span *ngIf="searching">searching...</span>
+        <span *ngIf="!searching">Results: {{events.length}} events</span>
     </nb-card-header>
     <nb-card-body>
-        <table class="table">
+        <table class="table" *ngIf="!searching">
             <thead>
                 <tr>
                     <th>identifier</th>

@@ -72,6 +72,8 @@ import 'intl';  // Run `npm install --save intl`.
 import 'intl/locale-data/jsonp/en';
 import 'core-js/es7/array';
 
+import 'hammerjs';
+
 if (typeof SVGElement.prototype.contains === 'undefined') {
   SVGElement.prototype.contains = HTMLDivElement.prototype.contains;
 }
