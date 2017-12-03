@@ -3,11 +3,11 @@ import { ChartModule } from 'angular2-chartjs';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { SettingsRoutingModule, routedComponents } from './search-routing.module';
-import { ModalComponent } from './events/modal/modal.component';
+import { EventComponent } from './events/modal/event.component';
 
 const components = [
     routedComponents,
-    ModalComponent,
+    EventComponent,
 ];
 @NgModule({
     imports: [
@@ -21,7 +21,7 @@ const components = [
     providers: [
     ],
     entryComponents: [
-        ModalComponent,
+        EventComponent,
     ],
 })
 export class SearchModule { }

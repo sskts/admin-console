@@ -4,7 +4,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as io from 'socket.io-client';
 
-import { ModalComponent } from './modal/modal.component';
+import { EventComponent } from './modal/event.component';
 
 type IEvent = ssktsFactory.event.individualScreeningEvent.IEvent;
 type IMovieTheater = ssktsFactory.place.movieTheater.IPlace;
@@ -63,7 +63,7 @@ export class EventsComponent {
     }
 
     showLargeModal() {
-        const activeModal = this.modalService.open(ModalComponent, { size: 'lg', container: 'nb-layout' });
+        const activeModal = this.modalService.open(EventComponent, { size: 'lg', container: 'nb-layout' });
         activeModal.componentInstance.modalHeader = '上映イベント詳細';
         activeModal.componentInstance.event = this.selectedEvent;
     }

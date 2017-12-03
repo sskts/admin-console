@@ -1,6 +1,6 @@
 import { factory as ssktsFactory } from '@motionpicture/sskts-domain';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
 import { NbThemeService } from '@nebular/theme';
 import { NbJSThemeOptions } from '@nebular/theme/services/js-themes/theme.options';
@@ -25,13 +25,12 @@ interface IDataset {
 }
 
 @Component({
-    selector: 'sskts-search-event',
+    selector: 'sskts-search-event-modal',
     templateUrl: './event.component.html',
     styleUrls: ['./event.component.scss'],
 })
 export class EventComponent implements OnInit, OnDestroy {
-    identifier: string;
-    private sub: any;
+    modalHeader: string;
 
     socket = io();
     movieTheater: IMovieTheater;
@@ -47,14 +46,14 @@ export class EventComponent implements OnInit, OnDestroy {
     themeSubscription: any;
 
     constructor(
-        private fb: FormBuilder,
+        private activeModal: NgbActiveModal,
         private route: ActivatedRoute,
         private theme: NbThemeService,
     ) {
         this.themeSubscription = this.theme.getJsTheme().subscribe(config => {
             this.config = config;
 
-            this.event = null;
+            // this.event = null;
             this.transactions = [];
             this.datas = [];
 
@@ -69,15 +68,15 @@ export class EventComponent implements OnInit, OnDestroy {
         });
 
         // イベント照会結果
-        this.socket.on('event-found', (event: IEvent) => {
-            this.event = event;
+        // this.socket.on('event-found', (event: IEvent) => {
+        //     this.event = event;
 
-            // 劇場場所照会
-            this.socket.emit('finding-movieTheater-by-branchCode', this.event.superEvent.location.branchCode);
+        //     // 劇場場所照会
+        //     this.socket.emit('finding-movieTheater-by-branchCode', this.event.superEvent.location.branchCode);
 
-            // イベントに対する取引検索
-            this.socket.emit('searching-transactions-by-event', this.event.identifier);
-        });
+        //     // イベントに対する取引検索
+        //     this.socket.emit('searching-transactions-by-event', this.event.identifier);
+        // });
 
         // 取引検索結果
         this.socket.on('transactions-by-event-found', (transactions: ITransaction[]) => {
@@ -121,16 +120,15 @@ export class EventComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.sub = this.route.params.subscribe(params => {
-            this.identifier = params['identifier'];
+        // 劇場場所照会
+        this.socket.emit('finding-movieTheater-by-branchCode', this.event.superEvent.location.branchCode);
 
-            // イベント照会
-            this.socket.emit('finding-event', this.identifier);
-        });
+        // イベントに対する取引検索
+        this.socket.emit('searching-transactions-by-event', this.event.identifier);
     }
 
     ngOnDestroy() {
-        this.sub.unsubscribe();
+        // this.sub.unsubscribe();
         // this.themeSubscription.unsubscribe();
     }
 
@@ -232,5 +230,9 @@ export class EventComponent implements OnInit, OnDestroy {
                 };
             }),
         };
+    }
+
+    closeModal() {
+        this.activeModal.close();
     }
 }

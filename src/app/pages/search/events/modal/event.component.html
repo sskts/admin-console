@@ -1,6 +1,12 @@
-<nb-card>
+<div class="modal-header">
+    <span>{{ modalHeader }}</span>
+    <button class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
     <nb-tabset>
-        <nb-tab tabTitle="イベント情報">
+        <nb-tab tabTitle="Details">
             <table class="table" *ngIf="event && screeningRoom">
                 <tbody>
                     <tr>
@@ -64,4 +70,7 @@
             </table>
         </nb-tab>
     </nb-tabset>
-</nb-card>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-md btn-primary" (click)="closeModal()">Close</button>
+</div>
