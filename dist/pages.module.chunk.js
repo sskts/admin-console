@@ -1425,6 +1425,10 @@ var MENU_ITEMS = [
         icon: 'nb-search',
         children: [
             {
+                title: 'イベント検索',
+                link: '/pages/search/events',
+            },
+            {
                 title: '注文検索',
                 link: '/pages/search/orders',
             },

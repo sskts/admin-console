@@ -12,6 +12,13 @@ io.on('connection', (socket) => {
         socket.emit('movieTheaters-found', movieTheaters);
     });
 
+    // 劇場場所検索
+    socket.on('searching-movieTheaterPlaces', async (data) => {
+        const repo = new sskts.repository.Place(sskts.mongoose.connection);
+        const movieTheaters = await repo.searchMovieTheaters({});
+        socket.emit('movieTheaterPlaces-found', movieTheaters);
+    });
+
     // 注文検索
     socket.on('searching-orders', async (conditions) => {
         const repo = new sskts.repository.Order(sskts.mongoose.connection);
@@ -21,6 +28,15 @@ io.on('connection', (socket) => {
         }).limit(10).exec().then((docs) => docs.map((doc) => doc.toObject()));
         debug('orders found.', orders.length);
         socket.emit('orders-found', orders);
+    });
+
+    // 上映イベント検索
+    socket.on('searching-events', async (conditions) => {
+        debug(conditions);
+        const repo = new sskts.repository.Event(sskts.mongoose.connection);
+        const events = await repo.searchIndividualScreeningEvents(conditions);
+        debug('events found.', events.length);
+        socket.emit('events-found', events);
     });
 
     // イベント照会

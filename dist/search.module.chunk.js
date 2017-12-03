@@ -233,6 +233,154 @@ var EventComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/pages/search/events/events.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"row\">\n    <div class=\"col-md-12\">\n        <nb-card class=\"inline-form-card\">\n            <nb-card-header>上映イベント検索</nb-card-header>\n            <nb-card-body>\n                <form [formGroup]=\"conditionsForm\" (ngSubmit)=\"onSubmit()\">\n                    <div class=\"form-group\">\n                        <label>Where?</label>\n                        <select multiple class=\"form-control\" formControlName=\"superEventLocationIdentifiers\">\n                            <option *ngFor=\"let movieTheater of movieTheaters\" value=\"MovieTheater-{{movieTheater.branchCode}}\">{{movieTheater.name.ja}}</option>\n                        </select>\n                    </div>\n                    <!-- <div class=\"form-group\">\n                        <label>When?</label>\n                        <input formControlName=\"startFrom\" type=\"text\" class=\"form-control\" placeholder=\"購入番号\" required>\n                    </div> -->\n\n                    <button type=\"submit\" class=\"btn btn-primary\">Search</button> &nbsp;\n                </form>\n                <!-- <p>Form status: {{ conditionsForm.status | json }}</p> -->\n            </nb-card-body>\n        </nb-card>\n    </div>\n</div>\n\n<nb-card>\n    <nb-card-header>\n        <span>Results</span>\n    </nb-card-header>\n    <nb-card-body>\n        <table class=\"table\">\n            <thead>\n                <tr>\n                    <th>identifier</th>\n                    <th>name</th>\n                    <th>作品</th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr *ngFor=\"let event of events\">\n                    <th scope=\"row\" (click)=\"onSelect(event)\">{{event.identifier}}</th>\n                    <td>{{event.name.ja}}\n                        <br>{{event.name.en}}</td>\n                    <td>{{event.workPerformed.name}}\n                        <br>{{event.workPerformed.duration}}</td>\n                </tr>\n            </tbody>\n        </table>\n    </nb-card-body>\n</nb-card>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/events/events.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/events/events.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EventsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/@angular/forms.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_modal_component__ = __webpack_require__("../../../../../src/app/pages/search/events/modal/modal.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var EventsComponent = /** @class */ (function () {
+    function EventsComponent(modalService, fb) {
+        var _this = this;
+        this.modalService = modalService;
+        this.fb = fb;
+        this.socket = __WEBPACK_IMPORTED_MODULE_3_socket_io_client__();
+        // 劇場検索
+        this.socket.emit('searching-movieTheaterPlaces', {});
+        // 劇場検索結果
+        this.socket.on('movieTheaterPlaces-found', function (movieTheaters) {
+            console.log(movieTheaters);
+            _this.movieTheaters = movieTheaters;
+        });
+        // 注文検索結果
+        this.socket.on('events-found', function (events) {
+            _this.events = events;
+        });
+        this.conditionsForm = this.fb.group({
+            superEventLocationIdentifiers: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["h" /* Validators */].required],
+            startFrom: [''],
+            startThrough: [''],
+        });
+    }
+    EventsComponent.prototype.onSubmit = function () {
+        console.log(this.conditionsForm.value);
+        var conditions = {
+            superEventLocationIdentifiers: this.conditionsForm.value.superEventLocationIdentifiers,
+            startFrom: new Date('2017-11-30T00:00:00Z').toISOString(),
+            startThrough: new Date('2017-12-01T00:00:00Z').toISOString(),
+        };
+        this.socket.emit('searching-events', conditions);
+    };
+    EventsComponent.prototype.onSelect = function (event) {
+        this.selectedEvent = event;
+        this.showLargeModal();
+    };
+    EventsComponent.prototype.showLargeModal = function () {
+        var activeModal = this.modalService.open(__WEBPACK_IMPORTED_MODULE_4__modal_modal_component__["a" /* ModalComponent */], { size: 'lg', container: 'nb-layout' });
+        activeModal.componentInstance.modalHeader = '上映イベント詳細';
+        activeModal.componentInstance.event = this.selectedEvent;
+    };
+    EventsComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'sskts-search-events',
+            template: __webpack_require__("../../../../../src/app/pages/search/events/events.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/pages/search/events/events.component.scss")],
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormBuilder */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormBuilder */]) === "function" && _b || Object])
+    ], EventsComponent);
+    return EventsComponent;
+    var _a, _b;
+}());
+
+//# sourceMappingURL=events.component.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/events/modal/modal.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ModalComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ModalComponent = /** @class */ (function () {
+    function ModalComponent(activeModal) {
+        this.activeModal = activeModal;
+        this.modalContent = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy\n    nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis\n    nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.";
+    }
+    ModalComponent.prototype.closeModal = function () {
+        this.activeModal.close();
+    };
+    ModalComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'ngx-modal',
+            template: "\n    <div class=\"modal-header\">\n      <span>{{ modalHeader }}</span>\n      <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n      </button>\n    </div>\n    <div class=\"modal-body\">\n      {{ event | json }}\n    </div>\n    <div class=\"modal-footer\">\n      <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n    </div>\n  ",
+        }),
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["a" /* NgbActiveModal */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["a" /* NgbActiveModal */]) === "function" && _a || Object])
+    ], ModalComponent);
+    return ModalComponent;
+    var _a;
+}());
+
+//# sourceMappingURL=modal.component.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/pages/search/orders/orders.component.html":
 /***/ (function(module, exports) {
 
@@ -333,7 +481,8 @@ var OrdersComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_component__ = __webpack_require__("../../../../../src/app/pages/search/search.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__event_event_component__ = __webpack_require__("../../../../../src/app/pages/search/event/event.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__orders_orders_component__ = __webpack_require__("../../../../../src/app/pages/search/orders/orders.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__events_events_component__ = __webpack_require__("../../../../../src/app/pages/search/events/events.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__orders_orders_component__ = __webpack_require__("../../../../../src/app/pages/search/orders/orders.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -345,17 +494,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var routes = [{
         path: '',
         component: __WEBPACK_IMPORTED_MODULE_2__search_component__["a" /* SearchComponent */],
         children: [
+            {
+                path: 'events',
+                component: __WEBPACK_IMPORTED_MODULE_4__events_events_component__["a" /* EventsComponent */],
+            },
             {
                 path: 'event/:identifier',
                 component: __WEBPACK_IMPORTED_MODULE_3__event_event_component__["a" /* EventComponent */],
             },
             {
                 path: 'orders',
-                component: __WEBPACK_IMPORTED_MODULE_4__orders_orders_component__["a" /* OrdersComponent */],
+                component: __WEBPACK_IMPORTED_MODULE_5__orders_orders_component__["a" /* OrdersComponent */],
             },
         ],
     }];
@@ -374,7 +528,8 @@ var SettingsRoutingModule = /** @class */ (function () {
 var routedComponents = [
     __WEBPACK_IMPORTED_MODULE_2__search_component__["a" /* SearchComponent */],
     __WEBPACK_IMPORTED_MODULE_3__event_event_component__["a" /* EventComponent */],
-    __WEBPACK_IMPORTED_MODULE_4__orders_orders_component__["a" /* OrdersComponent */],
+    __WEBPACK_IMPORTED_MODULE_4__events_events_component__["a" /* EventsComponent */],
+    __WEBPACK_IMPORTED_MODULE_5__orders_orders_component__["a" /* OrdersComponent */],
 ];
 //# sourceMappingURL=search-routing.module.js.map
 
@@ -420,6 +575,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_chartjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular2_chartjs__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__theme_theme_module__ = __webpack_require__("../../../../../src/app/@theme/theme.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_routing_module__ = __webpack_require__("../../../../../src/app/pages/search/search-routing.module.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__events_modal_modal_component__ = __webpack_require__("../../../../../src/app/pages/search/events/modal/modal.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -430,6 +586,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+var components = [
+    __WEBPACK_IMPORTED_MODULE_3__search_routing_module__["b" /* routedComponents */],
+    __WEBPACK_IMPORTED_MODULE_4__events_modal_modal_component__["a" /* ModalComponent */],
+];
 var SearchModule = /** @class */ (function () {
     function SearchModule() {
     }
@@ -440,8 +601,11 @@ var SearchModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_3__search_routing_module__["a" /* SettingsRoutingModule */],
                 __WEBPACK_IMPORTED_MODULE_1_angular2_chartjs__["ChartModule"],
             ],
-            declarations: __WEBPACK_IMPORTED_MODULE_3__search_routing_module__["b" /* routedComponents */].slice(),
+            declarations: components.slice(),
             providers: [],
+            entryComponents: [
+                __WEBPACK_IMPORTED_MODULE_4__events_modal_modal_component__["a" /* ModalComponent */],
+            ],
         })
     ], SearchModule);
     return SearchModule;
