@@ -10,7 +10,7 @@ webpackJsonp(["common"],{
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(true)
-		module.exports = factory(__webpack_require__("../../../animations/@angular/animations.es5.js"), __webpack_require__("../../../common/@angular/common.es5.js"), __webpack_require__("../../../core/@angular/core.es5.js"), __webpack_require__("../../../platform-browser/@angular/platform-browser.es5.js"), __webpack_require__("../../../../d3-array/index.js"), __webpack_require__("../../../../d3-brush/index.js"), __webpack_require__("../../../../d3-color/index.js"), __webpack_require__("../../../../d3-force/index.js"), __webpack_require__("../../../../d3-format/index.js"), __webpack_require__("../../../../d3-hierarchy/index.js"), __webpack_require__("../../../../d3-interpolate/index.js"), __webpack_require__("../../../../d3-scale/index.js"), __webpack_require__("../../../../d3-selection/index.js"), __webpack_require__("../../../../d3-shape/index.js"), __webpack_require__("../../../../d3-time-format/index.js"), __webpack_require__("../../../../rxjs/_esm5/Observable.js"), __webpack_require__("../../../../rxjs/_esm5/add/observable/fromEvent.js"), __webpack_require__("../../../../rxjs/_esm5/add/operator/debounceTime.js"));
+		module.exports = factory(__webpack_require__("../../../animations/esm5/animations.js"), __webpack_require__("../../../common/esm5/common.js"), __webpack_require__("../../../core/esm5/core.js"), __webpack_require__("../../../platform-browser/esm5/platform-browser.js"), __webpack_require__("../../../../d3-array/index.js"), __webpack_require__("../../../../d3-brush/index.js"), __webpack_require__("../../../../d3-color/index.js"), __webpack_require__("../../../../d3-force/index.js"), __webpack_require__("../../../../d3-format/index.js"), __webpack_require__("../../../../d3-hierarchy/index.js"), __webpack_require__("../../../../d3-interpolate/index.js"), __webpack_require__("../../../../d3-scale/index.js"), __webpack_require__("../../../../d3-selection/index.js"), __webpack_require__("../../../../d3-shape/index.js"), __webpack_require__("../../../../d3-time-format/index.js"), __webpack_require__("../../../../rxjs/_esm5/Observable.js"), __webpack_require__("../../../../rxjs/_esm5/add/observable/fromEvent.js"), __webpack_require__("../../../../rxjs/_esm5/add/operator/debounceTime.js"));
 	else if(typeof define === 'function' && define.amd)
 		define("ngx-charts", ["@angular/animations", "@angular/common", "@angular/core", "@angular/platform-browser", "d3-array", "d3-brush", "d3-color", "d3-force", "d3-format", "d3-hierarchy", "d3-interpolate", "d3-scale", "d3-selection", "d3-shape", "d3-time-format", "rxjs/Observable", "rxjs/add/observable/fromEvent", "rxjs/add/operator/debounceTime"], factory);
 	else if(typeof exports === 'object')
@@ -17799,7 +17799,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var ChartComponent = (function () {
     function ChartComponent(elementRef) {
         this.elementRef = elementRef;
@@ -17874,7 +17874,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 if (typeof window === 'object') {
     __webpack_require__("../../../../chart.js/src/chart.js");
 }
-var core_1 = __webpack_require__("../../../core/@angular/core.es5.js");
+var core_1 = __webpack_require__("../../../core/esm5/core.js");
 var chart_component_1 = __webpack_require__("../../../../angular2-chartjs/dist/chart.component.js");
 var ChartModule = (function () {
     function ChartModule() {
@@ -63140,7 +63140,7 @@ function plural(ms, n, name) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AngularEchartsDirective; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 
 var AngularEchartsDirective = (function () {
     function AngularEchartsDirective(el, renderer) {
@@ -63308,7 +63308,7 @@ AngularEchartsDirective.propDecorators = {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AngularEchartsModule; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__directive_angular_echarts_directive__ = __webpack_require__("../../../../ngx-echarts/directive/angular-echarts.directive.js");
 /* unused harmony namespace reexport */
 
