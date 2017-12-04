@@ -102,9 +102,8 @@ export class EventComponent implements OnInit, OnDestroy {
             this.datasets[0].data = this.datas.reduce(
                 (a, b) => {
                     numberOfSeats -= b.seatReservationAuthorizeAction.seatNumbers.length;
-                    // 最初の座席仮予約からの時間
-                    const diff = moment(b.seatReservationAuthorizeAction.endDate)
-                        .diff(moment(this.reservationStartDate), 'minutes');
+                    // 予約開始からの時間
+                    const diff = moment(b.seatReservationAuthorizeAction.endDate).diff(moment(this.reservationStartDate), 'hours', true);
                     a.push({
                         x: diff,
                         y: numberOfSeats,
@@ -145,7 +144,7 @@ export class EventComponent implements OnInit, OnDestroy {
             colors.danger,
         ];
 
-        this.data = {};
+        // this.data = {};
 
         this.datasets = [{
             scope: 'seatReservationAuthorizeAction',
@@ -158,11 +157,8 @@ export class EventComponent implements OnInit, OnDestroy {
         const colors: any = this.config.variables;
         const chartjs: any = this.config.variables.chartjs;
 
-        const reservationPeriodInMinutes = moment(this.reservationEndDate).diff(moment(this.reservationStartDate), 'minutes');
-        const labels = [];
-        for (let i = 0; i < Math.floor(reservationPeriodInMinutes / 60) + 1; i++) {
-            labels.push(i * 60);
-        }
+        // 予約期間
+        const reservationPeriodInMinutes = moment(this.event.endDate).diff(moment(this.reservationStartDate), 'hours');
 
         this.options = {
             // elements: {

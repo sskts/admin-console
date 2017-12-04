@@ -1,5 +1,80 @@
 webpackJsonp(["search.module"],{
 
+/***/ "../../../../../src/app/pages/search/events/event-detail.component.html":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/events/event-detail.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EventDetailComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_event_component__ = __webpack_require__("../../../../../src/app/pages/search/events/modal/event.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var EventDetailComponent = /** @class */ (function () {
+    function EventDetailComponent(route, modalService) {
+        var _this = this;
+        this.route = route;
+        this.modalService = modalService;
+        this.socket = __WEBPACK_IMPORTED_MODULE_3_socket_io_client__();
+        // イベント照会結果
+        this.socket.on('event-found', function (event) {
+            _this.event = event;
+            _this.showEventModal();
+        });
+    }
+    EventDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.sub = this.route.params.subscribe(function (params) {
+            _this.identifier = params['identifier'];
+            // イベント照会
+            _this.socket.emit('finding-event', _this.identifier);
+        });
+    };
+    EventDetailComponent.prototype.ngOnDestroy = function () {
+        this.sub.unsubscribe();
+    };
+    EventDetailComponent.prototype.showEventModal = function () {
+        var activeModal = this.modalService.open(__WEBPACK_IMPORTED_MODULE_4__modal_event_component__["a" /* EventComponent */], { size: 'lg', container: 'nb-layout' });
+        activeModal.componentInstance.modalHeader = "\u4E0A\u6620\u30A4\u30D9\u30F3\u30C8 " + this.event.identifier;
+        activeModal.componentInstance.event = this.event;
+    };
+    EventDetailComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'sskts-search-event-detail',
+            template: __webpack_require__("../../../../../src/app/pages/search/events/event-detail.component.html"),
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+    ], EventDetailComponent);
+    return EventDetailComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/pages/search/events/events.component.html":
 /***/ (function(module, exports) {
 
@@ -116,7 +191,7 @@ var EventsComponent = /** @class */ (function () {
 /***/ "../../../../../src/app/pages/search/events/modal/event.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\n    <span>{{ modalHeader }}</span>\n    <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n</div>\n<div class=\"modal-body\">\n    <nb-tabset>\n        <nb-tab tabTitle=\"Details\">\n            <table class=\"table\" *ngIf=\"event && screeningRoom\">\n                <tbody>\n                    <tr>\n                        <th>identifier</th>\n                        <td>{{event.identifier}}</td>\n                    </tr>\n                    <tr>\n                        <th>name</th>\n                        <td>{{event.name.ja}}\n                            <br>{{event.name.en}}</td>\n                    </tr>\n                    <tr>\n                        <th>作品</th>\n                        <td>{{event.workPerformed.name}}\n                            <br>{{event.workPerformed.duration}}</td>\n                    </tr>\n                    <tr>\n                        <th>場所</th>\n                        <td>\n                            {{event.superEvent.location.branchCode}} {{event.location.branchCode}}\n                            <br>{{event.superEvent.location.name.ja}} {{event.location.name.ja}}\n                            <br> {{event.superEvent.location.name.en}} {{event.location.name.en}}\n                            <br>座席数:{{screeningRoom.containsPlace[0].containsPlace.length}}\n                        </td>\n                    </tr>\n                    <tr>\n                        <th>start - end</th>\n                        <td>{{event.startDate}} - {{event.endDate}}</td>\n                    </tr>\n                    <tr>\n                        <th>予約期間</th>\n                        <td>{{reservationStartDate}} - {{reservationEndDate}}</td>\n                    </tr>\n                    <tr>\n                        <th>coaInfo</th>\n                        <td>{{event.coaInfo|json}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n\n        <nb-tab tabTitle=\"残席数遷移\">\n            <chart type=\"line\" [data]=\"data\" [options]=\"options\"></chart>\n        </nb-tab>\n\n        <nb-tab tabTitle=\"取引履歴\">\n            <table class=\"table\">\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>startDate</th>\n                        <th>endDate</th>\n                        <th>seats</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let data of datas\">\n                        <th scope=\"row\">{{data.id}}</th>\n                        <td>{{data.startDate}}</td>\n                        <td>{{data.endDate}}</td>\n                        <td>{{data.seatReservationAuthorizeAction.seatNumbers|json}}\n                            <br>{{data.seatReservationAuthorizeAction.endDate}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n    </nb-tabset>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n</div>"
+module.exports = "<div class=\"modal-header\">\n    <span>{{ modalHeader }}</span>\n    <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n</div>\n<div class=\"modal-body\">\n    <nb-tabset>\n        <nb-tab tabTitle=\"Details\">\n            <table class=\"table\" *ngIf=\"event && screeningRoom\">\n                <tbody>\n                    <tr>\n                        <th>identifier</th>\n                        <td>{{event.identifier}}</td>\n                    </tr>\n                    <tr>\n                        <th>name</th>\n                        <td>{{event.name.ja}}\n                            <br>{{event.name.en}}</td>\n                    </tr>\n                    <tr>\n                        <th>作品</th>\n                        <td>{{event.workPerformed.name}}\n                            <br>{{event.workPerformed.duration}}</td>\n                    </tr>\n                    <tr>\n                        <th>場所</th>\n                        <td>\n                            {{event.superEvent.location.branchCode}} {{event.location.branchCode}}\n                            <br>{{event.superEvent.location.name.ja}} {{event.location.name.ja}}\n                            <br> {{event.superEvent.location.name.en}} {{event.location.name.en}}\n                            <br>座席数:{{screeningRoom.containsPlace[0].containsPlace.length}}\n                        </td>\n                    </tr>\n                    <tr>\n                        <th>start - end</th>\n                        <td>{{event.startDate}} - {{event.endDate}}</td>\n                    </tr>\n                    <tr>\n                        <th>予約期間</th>\n                        <td>{{reservationStartDate}} - {{reservationEndDate}}</td>\n                    </tr>\n                    <tr>\n                        <th>coaInfo</th>\n                        <td>{{event.coaInfo|json}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n\n        <nb-tab tabTitle=\"残席数遷移\">\n            <chart *ngIf=\"data\" type=\"line\" [data]=\"data\" [options]=\"options\"></chart>\n        </nb-tab>\n\n        <nb-tab tabTitle=\"取引履歴\">\n            <table class=\"table\">\n                <thead>\n                    <tr>\n                        <th>id</th>\n                        <th>startDate</th>\n                        <th>endDate</th>\n                        <th>seats</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let data of datas\">\n                        <th scope=\"row\">{{data.id}}</th>\n                        <td>{{data.startDate}}</td>\n                        <td>{{data.endDate}}</td>\n                        <td>{{data.seatReservationAuthorizeAction.seatNumbers|json}}\n                            <br>{{data.seatReservationAuthorizeAction.endDate}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n    </nb-tabset>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n</div>"
 
 /***/ }),
 
@@ -213,9 +288,8 @@ var EventComponent = /** @class */ (function () {
             var numberOfSeats = _this.screeningRoom.containsPlace[0].containsPlace.length;
             _this.datasets[0].data = _this.datas.reduce(function (a, b) {
                 numberOfSeats -= b.seatReservationAuthorizeAction.seatNumbers.length;
-                // 最初の座席仮予約からの時間
-                var diff = __WEBPACK_IMPORTED_MODULE_4_moment__(b.seatReservationAuthorizeAction.endDate)
-                    .diff(__WEBPACK_IMPORTED_MODULE_4_moment__(_this.reservationStartDate), 'minutes');
+                // 予約開始からの時間
+                var diff = __WEBPACK_IMPORTED_MODULE_4_moment__(b.seatReservationAuthorizeAction.endDate).diff(__WEBPACK_IMPORTED_MODULE_4_moment__(_this.reservationStartDate), 'hours', true);
                 a.push({
                     x: diff,
                     y: numberOfSeats,
@@ -246,7 +320,7 @@ var EventComponent = /** @class */ (function () {
             colors.warning,
             colors.danger,
         ];
-        this.data = {};
+        // this.data = {};
         this.datasets = [{
                 scope: 'seatReservationAuthorizeAction',
                 data: [],
@@ -256,11 +330,8 @@ var EventComponent = /** @class */ (function () {
     EventComponent.prototype.updateChart = function () {
         var colors = this.config.variables;
         var chartjs = this.config.variables.chartjs;
-        var reservationPeriodInMinutes = __WEBPACK_IMPORTED_MODULE_4_moment__(this.reservationEndDate).diff(__WEBPACK_IMPORTED_MODULE_4_moment__(this.reservationStartDate), 'minutes');
-        var labels = [];
-        for (var i = 0; i < Math.floor(reservationPeriodInMinutes / 60) + 1; i++) {
-            labels.push(i * 60);
-        }
+        // 予約期間
+        var reservationPeriodInMinutes = __WEBPACK_IMPORTED_MODULE_4_moment__(this.event.endDate).diff(__WEBPACK_IMPORTED_MODULE_4_moment__(this.reservationStartDate), 'hours');
         this.options = {
             // elements: {
             //     line: {
@@ -457,8 +528,9 @@ var OrdersComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_component__ = __webpack_require__("../../../../../src/app/pages/search/search.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events_events_component__ = __webpack_require__("../../../../../src/app/pages/search/events/events.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__orders_orders_component__ = __webpack_require__("../../../../../src/app/pages/search/orders/orders.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events_event_detail_component__ = __webpack_require__("../../../../../src/app/pages/search/events/event-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__events_events_component__ = __webpack_require__("../../../../../src/app/pages/search/events/events.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__orders_orders_component__ = __webpack_require__("../../../../../src/app/pages/search/orders/orders.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -470,17 +542,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var routes = [{
         path: '',
         component: __WEBPACK_IMPORTED_MODULE_2__search_component__["a" /* SearchComponent */],
         children: [
             {
+                path: 'events/:identifier',
+                component: __WEBPACK_IMPORTED_MODULE_3__events_event_detail_component__["a" /* EventDetailComponent */],
+            },
+            {
                 path: 'events',
-                component: __WEBPACK_IMPORTED_MODULE_3__events_events_component__["a" /* EventsComponent */],
+                component: __WEBPACK_IMPORTED_MODULE_4__events_events_component__["a" /* EventsComponent */],
             },
             {
                 path: 'orders',
-                component: __WEBPACK_IMPORTED_MODULE_4__orders_orders_component__["a" /* OrdersComponent */],
+                component: __WEBPACK_IMPORTED_MODULE_5__orders_orders_component__["a" /* OrdersComponent */],
             },
         ],
     }];
@@ -498,8 +575,9 @@ var SettingsRoutingModule = /** @class */ (function () {
 
 var routedComponents = [
     __WEBPACK_IMPORTED_MODULE_2__search_component__["a" /* SearchComponent */],
-    __WEBPACK_IMPORTED_MODULE_3__events_events_component__["a" /* EventsComponent */],
-    __WEBPACK_IMPORTED_MODULE_4__orders_orders_component__["a" /* OrdersComponent */],
+    __WEBPACK_IMPORTED_MODULE_4__events_events_component__["a" /* EventsComponent */],
+    __WEBPACK_IMPORTED_MODULE_3__events_event_detail_component__["a" /* EventDetailComponent */],
+    __WEBPACK_IMPORTED_MODULE_5__orders_orders_component__["a" /* OrdersComponent */],
 ];
 
 
