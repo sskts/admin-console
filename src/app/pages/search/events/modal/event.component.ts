@@ -39,7 +39,7 @@ export class EventComponent implements OnInit, OnDestroy {
     reservationStartDate: Date;
     reservationEndDate: Date;
     transactions: ITransaction[] = [];
-    datas: any[] = [];
+    datas: any[];
 
     config: NbJSThemeOptions;
     datasets: IDataset[];
@@ -188,7 +188,7 @@ export class EventComponent implements OnInit, OnDestroy {
                         display: true,
                         scaleLabel: {
                             display: true,
-                            labelString: '経過時間',
+                            labelString: '経過時間(時間)',
                         },
                         gridLines: {
                             display: true,

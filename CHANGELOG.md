@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - 注文検索ページを追加。
 - 上映イベント検索ページを追加。
 - イベント情報ページを追加。(残席数遷移、取引履歴)。
+- 取引検索ページを追加。
 
 ### Changed
 

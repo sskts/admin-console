@@ -1,0 +1,43 @@
+<div class="modal-header">
+    <span>{{ modalHeader }}</span>
+    <button class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <nb-tabset>
+        <nb-tab tabTitle="Details">
+            <span>
+                --------------------
+                <br> 注文取引概要
+                <br> --------------------
+                <br> 取引ステータス: {{transaction.status}}
+                <br> 予約番号: {{transaction.result.order.confirmationNumber}}
+                <br> 劇場: {{transaction.seller.name}}
+                <br> --------------------
+                <br> 注文取引状況
+                <br> --------------------
+                <br> {{transaction.startDate}} 開始
+                <br> {{transaction.endDate}} 成立
+                <br> --------------------
+                <br> 購入者情報
+                <br> --------------------
+                <br> {{transaction.object.customerContact.givenName}} {{transaction.object.customerContact.familyName}}
+                <br> {{transaction.object.customerContact.telephone}}
+                <br> {{transaction.object.customerContact.email}}
+                <br>
+            </span>>
+            <table class="table" *ngIf="transaction">
+                <tbody>
+                    <tr>
+                        <th>id</th>
+                        <td>{{transaction.id}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </nb-tab>
+    </nb-tabset>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-md btn-primary" (click)="closeModal()">Close</button>
+</div>

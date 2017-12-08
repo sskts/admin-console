@@ -113,6 +113,19 @@ io.on('connection', (socket) => {
         }
     });
 
+    // 取引検索
+    socket.on('searching-placeOrderTransactions', async (conditions) => {
+        debug(conditions);
+        const repo = new sskts.repository.Transaction(sskts.mongoose.connection);
+        const transactions = await repo.transactionModel.find({
+            typeOf: sskts.factory.transactionType.PlaceOrder,
+            'result.order.orderInquiryKey.confirmationNumber': parseInt(conditions.confirmationNumber, 10),
+            'result.order.orderInquiryKey.theaterCode': { $in: conditions.sellerBranchCodes }
+        }).sort('endDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
+        debug('transactions found.', transactions);
+        socket.emit('placeOrderTransactions-found', transactions);
+    });
+
     // イベントで取引検索
     socket.on('searching-transactions-by-event', async (eventIdentifier) => {
         const repo = new sskts.repository.Transaction(sskts.mongoose.connection);
@@ -128,6 +141,20 @@ io.on('connection', (socket) => {
             debug(error);
         }
     });
+
+    // 取引→レポート
+    socket.on('coverting-transaction-to-report', async (transaction) => {
+        try {
+            debug('converting...', transaction);
+            const report = sskts.service.transaction.placeOrder.transaction2report(transaction);
+            debug('report:', report);
+            socket.emit('transaction-report-created', report);
+        } catch (error) {
+            debug(error);
+        }
+    });
+
+
 
     // socket.on('save-message', async function (data) {
     //     console.log(data);
