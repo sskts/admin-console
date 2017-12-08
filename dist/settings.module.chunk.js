@@ -3,7 +3,7 @@ webpackJsonp(["settings.module"],{
 /***/ "../../../../../src/app/pages/settings/movieTheaters/movieTheaters.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<nb-card>\n  <nb-card-header>劇場設定</nb-card-header>\n  <nb-card-body>\n    <table class=\"table\">\n      <thead>\n        <tr>\n          <th>ID</th>\n          <th>identifier</th>\n          <th>名称</th>\n          <th>URL</th>\n          <th>場所枝番号</th>\n          <th>ショップID</th>\n        </tr>\n      </thead>\n      <tbody>\n        <tr *ngFor=\"let movieTheater of movieTheaters\">\n          <th scope=\"row\">{{movieTheater.id}}</th>\n          <td>{{movieTheater.identifier}}</td>\n          <td>{{movieTheater.name.ja}}\n            <br>{{movieTheater.name.en}}</td>\n          <td>{{movieTheater.url}}</td>\n          <td>{{movieTheater.location.branchCode}}</td>\n          <td>{{movieTheater.gmoInfo.shopId}}</td>\n        </tr>\n      </tbody>\n    </table>\n  </nb-card-body>\n</nb-card>"
+module.exports = "<nb-card>\n  <nb-card-header>\n    劇場設定\n  </nb-card-header>\n\n  <nb-card-body>\n    <ng2-smart-table [settings]=\"settings\" [source]=\"source\" (deleteConfirm)=\"onDeleteConfirm($event)\">\n    </ng2-smart-table>\n  </nb-card-body>\n</nb-card>"
 
 /***/ }),
 
@@ -15,6 +15,8 @@ module.exports = "<nb-card>\n  <nb-card-header>劇場設定</nb-card-header>\n  
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng2_smart_table__ = __webpack_require__("../../../../ng2-smart-table/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_data_smart_table_service__ = __webpack_require__("../../../../../src/app/@core/data/smart-table.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -26,23 +28,125 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
+
 var MovieTheatersComponent = /** @class */ (function () {
-    function MovieTheatersComponent() {
+    function MovieTheatersComponent(service) {
         var _this = this;
+        this.service = service;
         this.socket = __WEBPACK_IMPORTED_MODULE_1_socket_io_client__();
+        this.settings = {
+            mode: 'inline',
+            editable: false,
+            add: {
+                addButtonContent: '<i class="nb-plus"></i>',
+                createButtonContent: '<i class="nb-checkmark"></i>',
+                cancelButtonContent: '<i class="nb-close"></i>',
+            },
+            edit: {
+                editButtonContent: '<i class="nb-edit"></i>',
+                saveButtonContent: '<i class="nb-checkmark"></i>',
+                cancelButtonContent: '<i class="nb-close"></i>',
+            },
+            delete: {
+                deleteButtonContent: '<i class="nb-trash"></i>',
+                confirmDelete: true,
+            },
+            columns: {
+                id: {
+                    title: 'ID',
+                    type: 'string',
+                    filter: false,
+                    editable: false,
+                },
+                identifier: {
+                    title: 'identifier',
+                    type: 'string',
+                    filter: false,
+                    editable: false,
+                },
+                nameJa: {
+                    title: 'nameJa',
+                    type: 'string',
+                    filter: false,
+                },
+                nameEn: {
+                    title: 'nameEn',
+                    type: 'string',
+                    filter: false,
+                },
+                url: {
+                    title: 'url',
+                    type: 'string',
+                    filter: false,
+                },
+                locationBranchCode: {
+                    title: 'locationBranchCode',
+                    type: 'string',
+                    filter: false,
+                    editable: false,
+                },
+                shopId: {
+                    title: 'shopId',
+                    type: 'string',
+                    filter: false,
+                },
+                shopPass: {
+                    title: 'shopPass',
+                    type: 'string',
+                    filter: false,
+                },
+            },
+        };
+        this.source = new __WEBPACK_IMPORTED_MODULE_2_ng2_smart_table__["a" /* LocalDataSource */]();
+        var data = this.service.getData();
         this.socket.emit('searching-movieTheaters', {});
         // 劇場検索結果
         this.socket.on('movieTheaters-found', function (movieTheaters) {
+            _this.source.load(movieTheaters.map(function (movieTheater) {
+                return {
+                    id: movieTheater.id,
+                    identifier: movieTheater.identifier,
+                    nameJa: movieTheater.name.ja,
+                    nameEn: movieTheater.name.en,
+                    url: movieTheater.url,
+                    locationBranchCode: movieTheater.location.branchCode,
+                    shopId: movieTheater.gmoInfo.shopId,
+                    shopPass: '********',
+                };
+            }));
             _this.movieTheaters = movieTheaters;
         });
+        this.socket.on('movieTheater-created', function (movieTheater) {
+        });
+        this.socket.on('movieTheater-deleted', function (organizationId) {
+        });
+        this.source.onAdded().subscribe(function (object) {
+            _this.socket.emit('creating-movieTheater', object);
+        });
+        this.source.onRemoved().subscribe(function (object) {
+            _this.socket.emit('deleting-movieTheater', object.id);
+        });
+        this.source.onUpdated().subscribe(function (event) {
+        });
+        this.source.onChanged().subscribe(function (object) {
+        });
     }
+    MovieTheatersComponent.prototype.onDeleteConfirm = function (event) {
+        if (window.confirm('Are you sure you want to delete?')) {
+            event.confirm.resolve();
+        }
+        else {
+            event.confirm.reject();
+        }
+    };
     MovieTheatersComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
             selector: 'sskts-settings-movie-theaters',
             template: __webpack_require__("../../../../../src/app/pages/settings/movieTheaters/movieTheaters.component.html"),
             styles: ["\n    nb-card {\n      transform: translate3d(0, 0, 0);\n    }\n  "],
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_3__core_data_smart_table_service__["a" /* SmartTableService */]])
     ], MovieTheatersComponent);
     return MovieTheatersComponent;
 }());
@@ -158,7 +262,7 @@ var SettingsModule = /** @class */ (function () {
             imports: [
                 __WEBPACK_IMPORTED_MODULE_2__theme_theme_module__["a" /* ThemeModule */],
                 __WEBPACK_IMPORTED_MODULE_3__settings_routing_module__["a" /* SettingsRoutingModule */],
-                __WEBPACK_IMPORTED_MODULE_1_ng2_smart_table__["a" /* Ng2SmartTableModule */],
+                __WEBPACK_IMPORTED_MODULE_1_ng2_smart_table__["b" /* Ng2SmartTableModule */],
             ],
             declarations: __WEBPACK_IMPORTED_MODULE_3__settings_routing_module__["b" /* routedComponents */].slice(),
             providers: [],
@@ -21436,13 +21540,13 @@ THeadModule = __decorate([
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ng2_smart_table_module__ = __webpack_require__("../../../../ng2-smart-table/ng2-smart-table.module.js");
-/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_0__ng2_smart_table_module__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_0__ng2_smart_table_module__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_cell_cell_editors_default_editor__ = __webpack_require__("../../../../ng2-smart-table/components/cell/cell-editors/default-editor.js");
 /* unused harmony reexport DefaultEditor */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__lib_data_set_cell__ = __webpack_require__("../../../../ng2-smart-table/lib/data-set/cell.js");
 /* unused harmony reexport Cell */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__lib_data_source_local_local_data_source__ = __webpack_require__("../../../../ng2-smart-table/lib/data-source/local/local.data-source.js");
-/* unused harmony reexport LocalDataSource */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_3__lib_data_source_local_local_data_source__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__lib_data_source_server_server_data_source__ = __webpack_require__("../../../../ng2-smart-table/lib/data-source/server/server.data-source.js");
 /* unused harmony reexport ServerDataSource */
 

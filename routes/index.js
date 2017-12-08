@@ -5,6 +5,56 @@ const debug = require('debug')('sskts-console:router:index');
 const io = require('../io');
 
 io.on('connection', (socket) => {
+    // 劇場組織作成(ショップオープン)
+    socket.on('creating-movieTheater', async (data) => {
+        const organizationRepo = new sskts.repository.Organization(sskts.mongoose.connection);
+        const movieTheater = sskts.factory.organization.movieTheater.create({
+            name: {
+                en: data.nameEn,
+                ja: data.nameJa
+            },
+            branchCode: data.locationBranchCode,
+            gmoInfo: {
+                shopPass: data.shopPass,
+                shopId: data.shopId,
+                siteId: process.env.GMO_SITE_ID
+            },
+            parentOrganization: {
+                typeOf: sskts.factory.organizationType.Corporation,
+                identifier: sskts.factory.organizationIdentifier.corporation.SasakiKogyo,
+                name: {
+                    en: 'Cinema Sunshine Co., Ltd.',
+                    ja: '佐々木興業株式会社'
+                }
+            },
+            location: {
+                typeOf: 'MovieTheater',
+                branchCode: data.locationBranchCode,
+                name: {
+                    en: data.nameEn,
+                    ja: data.nameJa
+                }
+            },
+            // tslint:disable-next-line:no-http-string
+            url: data.url
+        });
+        debug('creating movieTheater...', movieTheater);
+        await organizationRepo.openMovieTheaterShop(movieTheater);
+        socket.emit('movieTheater-created', movieTheater);
+    });
+
+    // 劇場組織削除
+    socket.on('deleting-movieTheater', async (data) => {
+        try {
+            const organizationRepo = new sskts.repository.Organization(sskts.mongoose.connection);
+            debug('deleting movieTheater...', data);
+            await organizationRepo.organizationModel.findByIdAndRemove(data).exec();
+            socket.emit('movieTheater-deleted', data);
+        } catch (error) {
+            debug(error);
+        }
+    });
+
     // 劇場組織検索
     socket.on('searching-movieTheaters', async (data) => {
         const repo = new sskts.repository.Organization(sskts.mongoose.connection);
