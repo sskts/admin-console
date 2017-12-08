@@ -49,11 +49,14 @@
         </nb-tab>
 
         <nb-tab tabTitle="残席数遷移">
+            <span *ngIf="!data">searching...</span>
             <chart *ngIf="data" type="line" [data]="data" [options]="options"></chart>
         </nb-tab>
 
         <nb-tab tabTitle="取引履歴">
-            <table class="table">
+            <span *ngIf="!datas">searching...</span>
+            <span *ngIf="datas">Results: {{datas.length}} transactions</span>
+            <table *ngIf="datas" class="table">
                 <thead>
                     <tr>
                         <th>id</th>
