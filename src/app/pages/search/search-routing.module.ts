@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { SearchComponent } from './search.component';
 import { EventDetailComponent } from './events/event-detail.component';
 import { EventsComponent } from './events/events.component';
+import { TransactionDetailComponent } from './transactions/transaction-detail.component';
+import { TransactionsComponent } from './transactions/transactions.component';
 import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [{
@@ -17,6 +19,14 @@ const routes: Routes = [{
         {
             path: 'events',
             component: EventsComponent,
+        },
+        {
+            path: 'transactions/:id',
+            component: TransactionDetailComponent,
+        },
+        {
+            path: 'transactions',
+            component: TransactionsComponent,
         },
         {
             path: 'orders',
@@ -36,4 +46,6 @@ export const routedComponents = [
     EventsComponent,
     EventDetailComponent,
     OrdersComponent,
+    TransactionDetailComponent,
+    TransactionsComponent,
 ];

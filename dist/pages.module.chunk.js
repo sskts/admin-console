@@ -1426,6 +1426,10 @@ var MENU_ITEMS = [
                 title: '注文検索',
                 link: '/pages/search/orders',
             },
+            {
+                title: '取引検索',
+                link: '/pages/search/transactions',
+            },
         ],
     },
     {
