@@ -32,6 +32,14 @@
                             <br> {{transaction.object.customerContact.email}}
                         </td>
                     </tr>
+                    <tr *ngIf="transaction.result">
+                        <th>order</th>
+                        <td>
+                            {{transaction.result.order.orderNumber}}<br>
+                            {{transaction.result.order.acceptedOffers[0].itemOffered.reservationFor.identifier}}<br>
+                            {{transaction.result.order.acceptedOffers[0].itemOffered.reservationFor.name.ja}}<br>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </nb-tab>

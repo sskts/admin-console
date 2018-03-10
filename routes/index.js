@@ -107,7 +107,7 @@ io.on('connection', (socket) => {
         const repo = new sskts.repository.Place(sskts.mongoose.connection);
         try {
             const place = await repo.findMovieTheaterByBranchCode(branchCode);
-            debug('place found.', place);
+            debug('place found.');
             socket.emit('movieTheaterPlace-found', place);
         } catch (error) {
             debug(error);
@@ -131,12 +131,16 @@ io.on('connection', (socket) => {
     socket.on('searching-transactions-by-event', async (eventIdentifier) => {
         const repo = new sskts.repository.Transaction(sskts.mongoose.connection);
         try {
+            debug('searching transaction by event...', eventIdentifier);
             const transactions = await repo.transactionModel.find({
                 typeOf: sskts.factory.transactionType.PlaceOrder,
                 status: sskts.factory.transactionStatusType.Confirmed,
-                'object.authorizeActions.object.individualScreeningEvent.identifier': eventIdentifier
+                'result.order.acceptedOffers.itemOffered.reservationFor.identifier': {
+                    $exists: true,
+                    $eq: eventIdentifier
+                }
             }).sort('endDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
-            debug('transactions found.', transactions.length);
+            debug(transactions.length, 'transactions found.');
             socket.emit('transactions-by-event-found', transactions);
         } catch (error) {
             debug(error);
