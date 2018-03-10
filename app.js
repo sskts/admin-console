@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
-sskts.mongoose.connect(process.env.MONGOLAB_URI, mongooseConnectionOptions);
+sskts.mongoose.connect(process.env.MONGOLAB_URI, mongooseConnectionOptions).then().catch(console.error);
 
 app.use('/', routes);
 

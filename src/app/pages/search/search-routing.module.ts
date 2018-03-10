@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SearchComponent } from './search.component';
 import { EventDetailComponent } from './events/event-detail.component';
+import { MovieTheaterDetailComponent } from './movieTheaters/movieTheater-detail.component';
 import { EventsComponent } from './events/events.component';
 import { TransactionDetailComponent } from './transactions/transaction-detail.component';
 import { TransactionsComponent } from './transactions/transactions.component';
@@ -12,6 +13,10 @@ const routes: Routes = [{
     path: '',
     component: SearchComponent,
     children: [
+        {
+            path: 'movieTheaters/:identifier',
+            component: MovieTheaterDetailComponent,
+        },
         {
             path: 'events/:identifier',
             component: EventDetailComponent,
@@ -45,6 +50,7 @@ export const routedComponents = [
     SearchComponent,
     EventsComponent,
     EventDetailComponent,
+    MovieTheaterDetailComponent,
     OrdersComponent,
     TransactionDetailComponent,
     TransactionsComponent,

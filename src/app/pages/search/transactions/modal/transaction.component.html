@@ -7,31 +7,30 @@
 <div class="modal-body">
     <nb-tabset>
         <nb-tab tabTitle="Details">
-            <span>
-                --------------------
-                <br> 注文取引概要
-                <br> --------------------
-                <br> 取引ステータス: {{transaction.status}}
-                <br> 予約番号: {{transaction.result.order.confirmationNumber}}
-                <br> 劇場: {{transaction.seller.name}}
-                <br> --------------------
-                <br> 注文取引状況
-                <br> --------------------
-                <br> {{transaction.startDate}} 開始
-                <br> {{transaction.endDate}} 成立
-                <br> --------------------
-                <br> 購入者情報
-                <br> --------------------
-                <br> {{transaction.object.customerContact.givenName}} {{transaction.object.customerContact.familyName}}
-                <br> {{transaction.object.customerContact.telephone}}
-                <br> {{transaction.object.customerContact.email}}
-                <br>
-            </span>>
             <table class="table" *ngIf="transaction">
                 <tbody>
                     <tr>
                         <th>id</th>
                         <td>{{transaction.id}}</td>
+                    </tr>
+                    <tr>
+                        <th>status</th>
+                        <td>{{transaction.status}}</td>
+                    </tr>
+                    <tr>
+                        <th>date</th>
+                        <td>
+                            {{transaction.startDate}} 開始
+                            <br> {{transaction.endDate}} 成立
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>customer</th>
+                        <td>
+                            {{transaction.object.customerContact.givenName}} {{transaction.object.customerContact.familyName}}
+                            <br> {{transaction.object.customerContact.telephone}}
+                            <br> {{transaction.object.customerContact.email}}
+                        </td>
                     </tr>
                 </tbody>
             </table>

@@ -4,6 +4,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as moment from 'moment';
 import * as io from 'socket.io-client';
+import { TransactionsService } from '../../../@core/data/transactions.service';
 
 import { TransactionComponent } from './modal/transaction.component';
 
@@ -27,6 +28,7 @@ export class TransactionsComponent {
     constructor(
         private modalService: NgbModal,
         private fb: FormBuilder,
+        private transactionsService: TransactionsService,
     ) {
         // 劇場検索
         this.socket.emit('searching-movieTheaterPlaces', {});
@@ -36,12 +38,6 @@ export class TransactionsComponent {
             this.movieTheaters = movieTheaters;
         });
 
-        // 注文検索結果
-        this.socket.on('placeOrderTransactions-found', (transactions: ITransaction[]) => {
-            this.transactions = transactions;
-            this.searching = false;
-        });
-
         this.conditionsForm = this.fb.group({
             sellerBranchCodes: ['', Validators.required],
             confirmationNumber: ['', Validators.required],
@@ -49,12 +45,21 @@ export class TransactionsComponent {
     }
 
     onSubmit() {
-        const conditions = {
+        this.searching = true;
+
+        this.transactionsService.searchPlaceOrder({
             sellerBranchCodes: this.conditionsForm.value.sellerBranchCodes,
             confirmationNumber: this.conditionsForm.value.confirmationNumber,
-        };
-        this.socket.emit('searching-placeOrderTransactions', conditions);
-        this.searching = true;
+        }).subscribe(
+            (transactions) => {
+                this.transactions = transactions;
+                this.searching = false;
+            },
+            (err) => {
+                console.error(err);
+                this.searching = false;
+            },
+        );
     }
 
     onSelect(transaction: ITransaction): void {

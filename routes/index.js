@@ -1,5 +1,6 @@
 const sskts = require('@motionpicture/sskts-domain');
 const express = require('express');
+const moment = require('moment');
 const router = express.Router();
 const debug = require('debug')('sskts-console:router:index');
 const io = require('../io');
@@ -154,6 +155,114 @@ io.on('connection', (socket) => {
         }
     });
 
+    // スクリーンの座席スコア集計
+    socket.on('aggregating-seatReservationOfferAvailableRate', async (movieTheaterBranchCode, screeningRoomBranchCode) => {
+        try {
+            debug('aggregating...', movieTheaterBranchCode, screeningRoomBranchCode);
+            // ここ1ヵ月の座席に対する上映イベントリストを取得
+            const placeRepo = new sskts.repository.Place(sskts.mongoose.connection);
+            const eventRepo = new sskts.repository.Event(sskts.mongoose.connection);
+            const orderRepo = new sskts.repository.Order(sskts.mongoose.connection);
+
+            const movieTheater = await placeRepo.findMovieTheaterByBranchCode(movieTheaterBranchCode);
+            const screeningRoom = movieTheater.containsPlace.find((p) => p.branchCode === screeningRoomBranchCode);
+            if (screeningRoom === undefined) {
+                throw new Error('screeningRoom not found.');
+            }
+            const screeningRoomSections = screeningRoom.containsPlace;
+            if (screeningRoomSections === undefined) {
+                throw new Error('screeningRoomSection not found.');
+            }
+            const screeningRoomSection = screeningRoomSections[0];
+            const seats = screeningRoomSection.containsPlace;
+            if (seats === undefined) {
+                throw new Error('seats not found.');
+            }
+
+            let events = await eventRepo.eventModel.find(
+                {
+                    typeOf: sskts.factory.eventType.IndividualScreeningEvent,
+                    // tslint:disable-next-line:no-magic-numbers
+                    startDate: { $gte: moment().add(-1, 'months').toDate() },
+                    'location.branchCode': screeningRoomBranchCode,
+                    'superEvent.location.branchCode': movieTheaterBranchCode
+                },
+                'identifier name startDate coaInfo.rsvStartDate'
+            ).exec().then((docs) => docs
+                .map((doc) => doc.toObject())
+                .map((e) => {
+                    return {
+                        identifier: e.identifier,
+                        startDate: e.startDate,
+                        reserveStartDate: moment(`${e.coaInfo.rsvStartDate} 00:00:00+09:00`, 'YYYYMMDD HH:mm:ssZ').toDate(),
+                        firstOrderDate: null
+                    };
+                }));
+            debug(events.length, 'events found.');
+
+            // イベントに対する注文を取得
+            const orders = await orderRepo.orderModel.find(
+                { 'acceptedOffers.itemOffered.reservationFor.identifier': { $in: events.map((e) => e.identifier) } },
+                'acceptedOffers orderDate'
+            ).exec().then((docs) => docs.map((doc) => doc.toObject()));
+            debug(orders.length, 'orders found.');
+
+            // 最初の注文をイベントごとに取り出す
+            events = events.map((e) => {
+                const ordersOnEvent = orders
+                    .filter((o) => o.acceptedOffers[0].itemOffered.reservationFor.identifier === e.identifier)
+                    .sort((a, b) => (a.orderDate < b.orderDate) ? -1 : 1);
+
+                return {
+                    ...e,
+                    firstOrderDate: (ordersOnEvent.length > 0) ? ordersOnEvent[0].orderDate : null
+                };
+            });
+
+            // 注文がないイベントは集計から除外
+            events = events.filter((e) => e.firstOrderDate !== null);
+
+            const aggregations = seats.map((seat) => {
+                // 各上映イベントにおける、注文日時、予約開始日時、上映開始日時と比較する
+                // 供給時間sum
+                const offeredHours = events.reduce(
+                    (a, b) => a + moment(b.startDate).diff(moment(b.firstOrderDate), 'hours'),
+                    0
+                );
+
+                // 空席時間sum
+                const availableHours = events.reduce(
+                    (a, b) => {
+                        const order = orders.find((o) => {
+                            return o.acceptedOffers[0].itemOffered.reservationFor.identifier === b.identifier
+                                && o.acceptedOffers[0].itemOffered.reservedTicket.ticketedSeat.seatNumber === seat.branchCode;
+                        });
+                        if (order === undefined) {
+                            return a + moment(b.startDate).diff(moment(b.firstOrderDate), 'hours');
+                        } else {
+                            // 注文が入っていれば、最初の予約から自分の予約までの時間
+                            return a + moment(order.orderDate).diff(moment(b.firstOrderDate), 'hours');
+                        }
+                    },
+                    0
+                );
+
+                return {
+                    seatNumber: seat.branchCode,
+                    offeredHours: offeredHours,
+                    availableHours: availableHours,
+                    // tslint:disable-next-line:no-magic-numbers
+                    availableRate: Math.floor(availableHours * 100 / offeredHours)
+                };
+            });
+            debug(aggregations.length, 'aggregations emitting...');
+
+            socket.emit('aggregated', aggregations);
+        } catch (error) {
+            debug(error);
+        }
+    });
+
 
 
     // socket.on('save-message', async function (data) {
@@ -165,6 +274,33 @@ io.on('connection', (socket) => {
     //     socket.emit('new-message', { message: data });
     //     // io.emit('new-message', { message: data });
     // });
+});
+
+router.get('/api/transactions/placeOrder', async (req, res, next) => {
+    const transactionRepo = new sskts.repository.Transaction(sskts.mongoose.connection);
+    const sellerBranchCodes = Array.isArray(req.query.sellerBranchCodes) ? req.query.sellerBranchCodes : [req.query.sellerBranchCodes];
+    const searchConditions = {
+        'result.order.orderInquiryKey.confirmationNumber': parseInt(req.query.confirmationNumber, 10),
+        'result.order.orderInquiryKey.theaterCode': { $in: sellerBranchCodes }
+    }
+
+    const transactions = await transactionRepo.transactionModel.find(searchConditions).exec().then((docs) => docs.map((doc) => doc.toObject()));
+    res.json(transactions);
+});
+
+router.get('/api/transactions/placeOrder/:id', async (req, res, next) => {
+    const transactionRepo = new sskts.repository.Transaction(sskts.mongoose.connection);
+    await transactionRepo.transactionModel.findOne({
+        typeOf: sskts.factory.transactionType.PlaceOrder,
+        _id: req.params.id
+    }).exec()
+        .then((doc) => {
+            if (doc === null) {
+                res.status(404).json(null);
+            } else {
+                res.json(doc.toObject());
+            }
+        });
 });
 
 /* GET home page. */

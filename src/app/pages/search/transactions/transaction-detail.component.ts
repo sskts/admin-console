@@ -1,14 +1,17 @@
+// tslint:disable:curly
+
 import { factory as ssktsFactory } from '@motionpicture/sskts-domain';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ActivatedRoute } from '@angular/router';
+import { TransactionsService } from '../../../@core/data/transactions.service';
 
 import * as moment from 'moment';
-import * as io from 'socket.io-client';
 
 import { TransactionComponent } from './modal/transaction.component';
+import { initDomAdapter } from '@angular/platform-browser/src/browser';
 
-type IEvent = ssktsFactory.event.individualScreeningEvent.IEvent;
+type ITransaction = ssktsFactory.transaction.placeOrder.ITransaction;
 type IMovieTheater = ssktsFactory.place.movieTheater.IPlace;
 type IOrder = ssktsFactory.order.IOrder;
 
@@ -19,26 +22,26 @@ type IOrder = ssktsFactory.order.IOrder;
 export class TransactionDetailComponent implements OnInit, OnDestroy {
     identifier: string;
     sub: any;
-    socket = io();
-    event: IEvent;
+    transaction: ITransaction;
+    myDiagram: any;
 
     constructor(
         private route: ActivatedRoute,
         private modalService: NgbModal,
+        private transactionsService: TransactionsService,
     ) {
-        // イベント照会結果
-        this.socket.on('event-found', (event: IEvent) => {
-            this.event = event;
-            this.showEventModal();
-        });
     }
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
-            this.identifier = params['identifier'];
+            this.identifier = params['id'];
 
-            // イベント照会
-            this.socket.emit('finding-event', this.identifier);
+            // 取引照会
+            this.transactionsService.findPlaceOrderById(this.identifier)
+                .subscribe((transaction) => {
+                    this.transaction = transaction;
+                    this.showModal();
+                });
         });
     }
 
@@ -46,9 +49,9 @@ export class TransactionDetailComponent implements OnInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
-    showEventModal() {
+    showModal() {
         const activeModal = this.modalService.open(TransactionComponent, { size: 'lg', container: 'nb-layout' });
-        activeModal.componentInstance.modalHeader = `上映イベント ${this.event.identifier}`;
-        activeModal.componentInstance.event = this.event;
+        activeModal.componentInstance.modalHeader = `注文取引 ${this.transaction.id}`;
+        activeModal.componentInstance.transaction = this.transaction;
     }
 }

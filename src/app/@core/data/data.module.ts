@@ -1,6 +1,7 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { TransactionsService } from './transactions.service';
 import { RulesService } from './rules.service';
 import { PassportsService } from './passports.service';
 import { UserService } from './users.service';
@@ -10,6 +11,7 @@ import { SmartTableService } from './smart-table.service';
 import { PlayerService } from './player.service';
 
 const SERVICES = [
+  TransactionsService,
   RulesService,
   PassportsService,
   UserService,

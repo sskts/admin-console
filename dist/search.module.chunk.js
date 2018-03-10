@@ -429,6 +429,283 @@ var EventComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "../../../../../src/app/pages/search/movieTheaters/modal/movieTheater.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-header\">\n    <span>{{ modalHeader }}</span>\n    <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n</div>\n<div class=\"modal-body\">\n    <nb-tabset>\n        <nb-tab tabTitle=\"ScreeningRooms\">\n            <table *ngIf=\"screeningRooms\" class=\"table\">\n                <thead>\n                    <tr>\n                        <th>branchCode</th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr *ngFor=\"let screeningRoom of screeningRooms\">\n                        <th scope=\"row\" (click)=\"onSelectScreeningRoom(screeningRoom)\">{{screeningRoom.branchCode}}</th>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n    </nb-tabset>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/movieTheaters/modal/movieTheater.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This is a starting point where we declare the maps of themes and globally available functions/mixins\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n:host-context(.nb-theme-default) /deep/ chart {\n  display: block;\n  height: 100%;\n  width: 100%; }\n\n:host-context(.nb-theme-default) nb-tabset {\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n:host-context(.nb-theme-default) nb-tab {\n  height: 576px;\n  padding: 1.25rem; }\n\n:host-context(.nb-theme-cosmic) /deep/ chart {\n  display: block;\n  height: 100%;\n  width: 100%; }\n\n:host-context(.nb-theme-cosmic) nb-tabset {\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n:host-context(.nb-theme-cosmic) nb-tab {\n  height: 576px;\n  padding: 1.25rem; }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/movieTheaters/modal/movieTheater.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MovieTheaterComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__nebular_theme__ = __webpack_require__("../../../../@nebular/theme/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__screeningRoom_component__ = __webpack_require__("../../../../../src/app/pages/search/movieTheaters/modal/screeningRoom.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+
+
+var MovieTheaterComponent = /** @class */ (function () {
+    function MovieTheaterComponent(activeModal, route, theme, modalService) {
+        var _this = this;
+        this.activeModal = activeModal;
+        this.route = route;
+        this.theme = theme;
+        this.modalService = modalService;
+        this.socket = __WEBPACK_IMPORTED_MODULE_4_socket_io_client__();
+        this.transactions = [];
+        this.themeSubscription = this.theme.getJsTheme().subscribe(function (config) {
+            _this.config = config;
+        });
+        // 劇場場所照会結果
+        this.socket.on('movieTheaterPlace-found', function (movieTheater) {
+            _this.movieTheater = movieTheater;
+        });
+    }
+    MovieTheaterComponent.prototype.ngOnInit = function () {
+        this.screeningRooms = this.movieTheater.containsPlace;
+    };
+    MovieTheaterComponent.prototype.ngOnDestroy = function () {
+        // this.sub.unsubscribe();
+        // this.themeSubscription.unsubscribe();
+    };
+    MovieTheaterComponent.prototype.closeModal = function () {
+        this.activeModal.close();
+    };
+    MovieTheaterComponent.prototype.onSelectScreeningRoom = function (screeningRoom) {
+        this.screeningRoom = screeningRoom;
+        this.showScreeningRoomModal();
+    };
+    MovieTheaterComponent.prototype.showScreeningRoomModal = function () {
+        var activeModal = this.modalService.open(__WEBPACK_IMPORTED_MODULE_5__screeningRoom_component__["a" /* ScreeningRoomComponent */], { size: 'lg', container: 'nb-layout' });
+        activeModal.componentInstance.modalHeader = "\u4E0A\u6620\u30EB\u30FC\u30E0 " + this.screeningRoom.branchCode;
+        activeModal.componentInstance.movieTheater = this.movieTheater;
+        activeModal.componentInstance.screeningRoom = this.screeningRoom;
+    };
+    MovieTheaterComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'sskts-search-movie-theater-modal',
+            template: __webpack_require__("../../../../../src/app/pages/search/movieTheaters/modal/movieTheater.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/pages/search/movieTheaters/modal/movieTheater.component.scss")],
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["a" /* NgbActiveModal */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_3__nebular_theme__["n" /* NbThemeService */],
+            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+    ], MovieTheaterComponent);
+    return MovieTheaterComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/movieTheaters/modal/screeningRoom.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal-header\">\n    <span>{{ modalHeader }}</span>\n    <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n</div>\n<div class=\"modal-body\">\n    <!-- <iframe id=\"screen\" width=\"0\" height=\"0\" src=\"https://sskts-frontend-development.azurewebsites.net/screen/?theaterCode=101&dateJouei=20180127&titleCode=99100&titleBranchNum=0&timeBegin=1310&screenCode=35&width=300\"\n        frameborder=\"0\"></iframe> -->\n\n    <nb-tabset>\n        <nb-tab *ngIf=\"aggregations\" tabTitle=\"集計\">\n            <p>{{ aggregations | json }}</p>\n\n        </nb-tab>\n    </nb-tabset>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/movieTheaters/modal/screeningRoom.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This is a starting point where we declare the maps of themes and globally available functions/mixins\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * @license\n * Copyright Akveo. All Rights Reserved.\n * Licensed under the MIT License. See License.txt in the project root for license information.\n */\n/**\n * This mixin generates keyfames.\n * Because of all keyframes can't be scoped,\n * we need to puts unique name in each btn-pulse call.\n */\n:host-context(.nb-theme-default) /deep/ chart {\n  display: block;\n  height: 100%;\n  width: 100%; }\n\n:host-context(.nb-theme-default) nb-tabset {\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n:host-context(.nb-theme-default) nb-tab {\n  height: 576px;\n  padding: 1.25rem; }\n\n:host-context(.nb-theme-cosmic) /deep/ chart {\n  display: block;\n  height: 100%;\n  width: 100%; }\n\n:host-context(.nb-theme-cosmic) nb-tabset {\n  height: 100%;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n      -ms-flex-direction: column;\n          flex-direction: column; }\n\n:host-context(.nb-theme-cosmic) nb-tab {\n  height: 576px;\n  padding: 1.25rem; }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/movieTheaters/modal/screeningRoom.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ScreeningRoomComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__nebular_theme__ = __webpack_require__("../../../../@nebular/theme/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_socket_io_client__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var ScreeningRoomComponent = /** @class */ (function () {
+    function ScreeningRoomComponent(activeModal, route, theme) {
+        var _this = this;
+        this.activeModal = activeModal;
+        this.route = route;
+        this.theme = theme;
+        this.socket = __WEBPACK_IMPORTED_MODULE_4_socket_io_client__();
+        this.themeSubscription = this.theme.getJsTheme().subscribe(function (config) {
+            _this.config = config;
+        });
+        this.socket.on('aggregated', function (aggregations) {
+            console.log(aggregations);
+            _this.aggregations = aggregations;
+        });
+    }
+    ScreeningRoomComponent.prototype.ngOnInit = function () {
+        // this.screeningRooms = this.movieTheater.containsPlace;
+        // スクリーンの座席スコア集計
+        this.socket.emit('aggregating-seatReservationOfferAvailableRate', this.movieTheater.branchCode, this.screeningRoom.branchCode);
+    };
+    ScreeningRoomComponent.prototype.ngOnDestroy = function () {
+        // this.sub.unsubscribe();
+        // this.themeSubscription.unsubscribe();
+    };
+    ScreeningRoomComponent.prototype.closeModal = function () {
+        this.activeModal.close();
+    };
+    ScreeningRoomComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'sskts-search-screening-room-modal',
+            template: __webpack_require__("../../../../../src/app/pages/search/movieTheaters/modal/screeningRoom.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/pages/search/movieTheaters/modal/screeningRoom.component.scss")],
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["a" /* NgbActiveModal */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_3__nebular_theme__["n" /* NbThemeService */]])
+    ], ScreeningRoomComponent);
+    return ScreeningRoomComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/movieTheaters/movieTheater-detail.component.html":
+/***/ (function(module, exports) {
+
+module.exports = ""
+
+/***/ }),
+
+/***/ "../../../../../src/app/pages/search/movieTheaters/movieTheater-detail.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MovieTheaterDetailComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_movieTheater_component__ = __webpack_require__("../../../../../src/app/pages/search/movieTheaters/modal/movieTheater.component.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var MovieTheaterDetailComponent = /** @class */ (function () {
+    function MovieTheaterDetailComponent(route, modalService) {
+        var _this = this;
+        this.route = route;
+        this.modalService = modalService;
+        this.socket = __WEBPACK_IMPORTED_MODULE_3_socket_io_client__();
+        // 劇場照会結果
+        this.socket.on('movieTheaterPlace-found', function (movieTheater) {
+            _this.movieTheater = movieTheater;
+            _this.showEventModal();
+        });
+    }
+    MovieTheaterDetailComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.sub = this.route.params.subscribe(function (params) {
+            _this.identifier = params['identifier'];
+            // 劇場照会
+            _this.socket.emit('finding-movieTheater-by-branchCode', _this.identifier);
+        });
+    };
+    MovieTheaterDetailComponent.prototype.ngOnDestroy = function () {
+        this.sub.unsubscribe();
+    };
+    MovieTheaterDetailComponent.prototype.showEventModal = function () {
+        var activeModal = this.modalService.open(__WEBPACK_IMPORTED_MODULE_4__modal_movieTheater_component__["a" /* MovieTheaterComponent */], { size: 'lg', container: 'nb-layout' });
+        activeModal.componentInstance.modalHeader = "\u5287\u5834 " + this.movieTheater.identifier;
+        activeModal.componentInstance.movieTheater = this.movieTheater;
+    };
+    MovieTheaterDetailComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
+            selector: 'sskts-search-movie-theater-detail',
+            template: __webpack_require__("../../../../../src/app/pages/search/movieTheaters/movieTheater-detail.component.html"),
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
+            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+    ], MovieTheaterDetailComponent);
+    return MovieTheaterDetailComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "../../../../../src/app/pages/search/orders/orders.component.html":
 /***/ (function(module, exports) {
 
@@ -528,10 +805,11 @@ var OrdersComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__search_component__ = __webpack_require__("../../../../../src/app/pages/search/search.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events_event_detail_component__ = __webpack_require__("../../../../../src/app/pages/search/events/event-detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__events_events_component__ = __webpack_require__("../../../../../src/app/pages/search/events/events.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__transactions_transaction_detail_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/transaction-detail.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__transactions_transactions_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/transactions.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__orders_orders_component__ = __webpack_require__("../../../../../src/app/pages/search/orders/orders.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__movieTheaters_movieTheater_detail_component__ = __webpack_require__("../../../../../src/app/pages/search/movieTheaters/movieTheater-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__events_events_component__ = __webpack_require__("../../../../../src/app/pages/search/events/events.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__transactions_transaction_detail_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/transaction-detail.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__transactions_transactions_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/transactions.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__orders_orders_component__ = __webpack_require__("../../../../../src/app/pages/search/orders/orders.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -546,29 +824,34 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
 var routes = [{
         path: '',
         component: __WEBPACK_IMPORTED_MODULE_2__search_component__["a" /* SearchComponent */],
         children: [
+            {
+                path: 'movieTheaters/:identifier',
+                component: __WEBPACK_IMPORTED_MODULE_4__movieTheaters_movieTheater_detail_component__["a" /* MovieTheaterDetailComponent */],
+            },
             {
                 path: 'events/:identifier',
                 component: __WEBPACK_IMPORTED_MODULE_3__events_event_detail_component__["a" /* EventDetailComponent */],
             },
             {
                 path: 'events',
-                component: __WEBPACK_IMPORTED_MODULE_4__events_events_component__["a" /* EventsComponent */],
+                component: __WEBPACK_IMPORTED_MODULE_5__events_events_component__["a" /* EventsComponent */],
             },
             {
                 path: 'transactions/:id',
-                component: __WEBPACK_IMPORTED_MODULE_5__transactions_transaction_detail_component__["a" /* TransactionDetailComponent */],
+                component: __WEBPACK_IMPORTED_MODULE_6__transactions_transaction_detail_component__["a" /* TransactionDetailComponent */],
             },
             {
                 path: 'transactions',
-                component: __WEBPACK_IMPORTED_MODULE_6__transactions_transactions_component__["a" /* TransactionsComponent */],
+                component: __WEBPACK_IMPORTED_MODULE_7__transactions_transactions_component__["a" /* TransactionsComponent */],
             },
             {
                 path: 'orders',
-                component: __WEBPACK_IMPORTED_MODULE_7__orders_orders_component__["a" /* OrdersComponent */],
+                component: __WEBPACK_IMPORTED_MODULE_8__orders_orders_component__["a" /* OrdersComponent */],
             },
         ],
     }];
@@ -586,11 +869,12 @@ var SettingsRoutingModule = /** @class */ (function () {
 
 var routedComponents = [
     __WEBPACK_IMPORTED_MODULE_2__search_component__["a" /* SearchComponent */],
-    __WEBPACK_IMPORTED_MODULE_4__events_events_component__["a" /* EventsComponent */],
+    __WEBPACK_IMPORTED_MODULE_5__events_events_component__["a" /* EventsComponent */],
     __WEBPACK_IMPORTED_MODULE_3__events_event_detail_component__["a" /* EventDetailComponent */],
-    __WEBPACK_IMPORTED_MODULE_7__orders_orders_component__["a" /* OrdersComponent */],
-    __WEBPACK_IMPORTED_MODULE_5__transactions_transaction_detail_component__["a" /* TransactionDetailComponent */],
-    __WEBPACK_IMPORTED_MODULE_6__transactions_transactions_component__["a" /* TransactionsComponent */],
+    __WEBPACK_IMPORTED_MODULE_4__movieTheaters_movieTheater_detail_component__["a" /* MovieTheaterDetailComponent */],
+    __WEBPACK_IMPORTED_MODULE_8__orders_orders_component__["a" /* OrdersComponent */],
+    __WEBPACK_IMPORTED_MODULE_6__transactions_transaction_detail_component__["a" /* TransactionDetailComponent */],
+    __WEBPACK_IMPORTED_MODULE_7__transactions_transactions_component__["a" /* TransactionsComponent */],
 ];
 
 
@@ -637,7 +921,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__theme_theme_module__ = __webpack_require__("../../../../../src/app/@theme/theme.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__search_routing_module__ = __webpack_require__("../../../../../src/app/pages/search/search-routing.module.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__events_modal_event_component__ = __webpack_require__("../../../../../src/app/pages/search/events/modal/event.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__transactions_modal_transaction_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/modal/transaction.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__movieTheaters_modal_movieTheater_component__ = __webpack_require__("../../../../../src/app/pages/search/movieTheaters/modal/movieTheater.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__movieTheaters_modal_screeningRoom_component__ = __webpack_require__("../../../../../src/app/pages/search/movieTheaters/modal/screeningRoom.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__transactions_modal_transaction_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/modal/transaction.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -650,10 +936,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
+
+
 var components = [
     __WEBPACK_IMPORTED_MODULE_3__search_routing_module__["b" /* routedComponents */],
     __WEBPACK_IMPORTED_MODULE_4__events_modal_event_component__["a" /* EventComponent */],
-    __WEBPACK_IMPORTED_MODULE_5__transactions_modal_transaction_component__["a" /* TransactionComponent */],
+    __WEBPACK_IMPORTED_MODULE_5__movieTheaters_modal_movieTheater_component__["a" /* MovieTheaterComponent */],
+    __WEBPACK_IMPORTED_MODULE_6__movieTheaters_modal_screeningRoom_component__["a" /* ScreeningRoomComponent */],
+    __WEBPACK_IMPORTED_MODULE_7__transactions_modal_transaction_component__["a" /* TransactionComponent */],
 ];
 var SearchModule = /** @class */ (function () {
     function SearchModule() {
@@ -669,7 +959,9 @@ var SearchModule = /** @class */ (function () {
             providers: [],
             entryComponents: [
                 __WEBPACK_IMPORTED_MODULE_4__events_modal_event_component__["a" /* EventComponent */],
-                __WEBPACK_IMPORTED_MODULE_5__transactions_modal_transaction_component__["a" /* TransactionComponent */],
+                __WEBPACK_IMPORTED_MODULE_5__movieTheaters_modal_movieTheater_component__["a" /* MovieTheaterComponent */],
+                __WEBPACK_IMPORTED_MODULE_6__movieTheaters_modal_screeningRoom_component__["a" /* ScreeningRoomComponent */],
+                __WEBPACK_IMPORTED_MODULE_7__transactions_modal_transaction_component__["a" /* TransactionComponent */],
             ],
         })
     ], SearchModule);
@@ -683,7 +975,7 @@ var SearchModule = /** @class */ (function () {
 /***/ "../../../../../src/app/pages/search/transactions/modal/transaction.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal-header\">\n    <span>{{ modalHeader }}</span>\n    <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n</div>\n<div class=\"modal-body\">\n    <nb-tabset>\n        <nb-tab tabTitle=\"Details\">\n            <span>\n                --------------------\n                <br> 注文取引概要\n                <br> --------------------\n                <br> 取引ステータス: {{transaction.status}}\n                <br> 予約番号: {{transaction.result.order.confirmationNumber}}\n                <br> 劇場: {{transaction.seller.name}}\n                <br> --------------------\n                <br> 注文取引状況\n                <br> --------------------\n                <br> {{transaction.startDate}} 開始\n                <br> {{transaction.endDate}} 成立\n                <br> --------------------\n                <br> 購入者情報\n                <br> --------------------\n                <br> {{transaction.object.customerContact.givenName}} {{transaction.object.customerContact.familyName}}\n                <br> {{transaction.object.customerContact.telephone}}\n                <br> {{transaction.object.customerContact.email}}\n                <br>\n            </span>>\n            <table class=\"table\" *ngIf=\"transaction\">\n                <tbody>\n                    <tr>\n                        <th>id</th>\n                        <td>{{transaction.id}}</td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n    </nb-tabset>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n</div>"
+module.exports = "<div class=\"modal-header\">\n    <span>{{ modalHeader }}</span>\n    <button class=\"close\" aria-label=\"Close\" (click)=\"closeModal()\">\n        <span aria-hidden=\"true\">&times;</span>\n    </button>\n</div>\n<div class=\"modal-body\">\n    <nb-tabset>\n        <nb-tab tabTitle=\"Details\">\n            <table class=\"table\" *ngIf=\"transaction\">\n                <tbody>\n                    <tr>\n                        <th>id</th>\n                        <td>{{transaction.id}}</td>\n                    </tr>\n                    <tr>\n                        <th>status</th>\n                        <td>{{transaction.status}}</td>\n                    </tr>\n                    <tr>\n                        <th>date</th>\n                        <td>\n                            {{transaction.startDate}} 開始\n                            <br> {{transaction.endDate}} 成立\n                        </td>\n                    </tr>\n                    <tr>\n                        <th>customer</th>\n                        <td>\n                            {{transaction.object.customerContact.givenName}} {{transaction.object.customerContact.familyName}}\n                            <br> {{transaction.object.customerContact.telephone}}\n                            <br> {{transaction.object.customerContact.email}}\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n        </nb-tab>\n    </nb-tabset>\n</div>\n<div class=\"modal-footer\">\n    <button class=\"btn btn-md btn-primary\" (click)=\"closeModal()\">Close</button>\n</div>"
 
 /***/ }),
 
@@ -790,9 +1082,9 @@ module.exports = ""
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_socket_io_client__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__core_data_transactions_service__ = __webpack_require__("../../../../../src/app/@core/data/transactions.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_transaction_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/modal/transaction.component.ts");
+// tslint:disable:curly
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -808,32 +1100,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var TransactionDetailComponent = /** @class */ (function () {
-    function TransactionDetailComponent(route, modalService) {
-        var _this = this;
+    function TransactionDetailComponent(route, modalService, transactionsService) {
         this.route = route;
         this.modalService = modalService;
-        this.socket = __WEBPACK_IMPORTED_MODULE_3_socket_io_client__();
-        // イベント照会結果
-        this.socket.on('event-found', function (event) {
-            _this.event = event;
-            _this.showEventModal();
-        });
+        this.transactionsService = transactionsService;
     }
     TransactionDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.sub = this.route.params.subscribe(function (params) {
-            _this.identifier = params['identifier'];
-            // イベント照会
-            _this.socket.emit('finding-event', _this.identifier);
+            _this.identifier = params['id'];
+            // 取引照会
+            _this.transactionsService.findPlaceOrderById(_this.identifier)
+                .subscribe(function (transaction) {
+                _this.transaction = transaction;
+                _this.showModal();
+            });
         });
     };
     TransactionDetailComponent.prototype.ngOnDestroy = function () {
         this.sub.unsubscribe();
     };
-    TransactionDetailComponent.prototype.showEventModal = function () {
+    TransactionDetailComponent.prototype.showModal = function () {
         var activeModal = this.modalService.open(__WEBPACK_IMPORTED_MODULE_4__modal_transaction_component__["a" /* TransactionComponent */], { size: 'lg', container: 'nb-layout' });
-        activeModal.componentInstance.modalHeader = "\u4E0A\u6620\u30A4\u30D9\u30F3\u30C8 " + this.event.identifier;
-        activeModal.componentInstance.event = this.event;
+        activeModal.componentInstance.modalHeader = "\u6CE8\u6587\u53D6\u5F15 " + this.transaction.id;
+        activeModal.componentInstance.transaction = this.transaction;
     };
     TransactionDetailComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
@@ -841,7 +1131,8 @@ var TransactionDetailComponent = /** @class */ (function () {
             template: __webpack_require__("../../../../../src/app/pages/search/transactions/transaction-detail.component.html"),
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__angular_router__["a" /* ActivatedRoute */],
-            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */]])
+            __WEBPACK_IMPORTED_MODULE_1__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
+            __WEBPACK_IMPORTED_MODULE_3__core_data_transactions_service__["a" /* TransactionsService */]])
     ], TransactionDetailComponent);
     return TransactionDetailComponent;
 }());
@@ -885,7 +1176,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__ = __webpack_require__("../../../../@ng-bootstrap/ng-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client__ = __webpack_require__("../../../../socket.io-client/lib/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_socket_io_client___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_socket_io_client__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modal_transaction_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/modal/transaction.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__core_data_transactions_service__ = __webpack_require__("../../../../../src/app/@core/data/transactions.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modal_transaction_component__ = __webpack_require__("../../../../../src/app/pages/search/transactions/modal/transaction.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -900,11 +1192,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var TransactionsComponent = /** @class */ (function () {
-    function TransactionsComponent(modalService, fb) {
+    function TransactionsComponent(modalService, fb, transactionsService) {
         var _this = this;
         this.modalService = modalService;
         this.fb = fb;
+        this.transactionsService = transactionsService;
         this.searching = false;
         this.socket = __WEBPACK_IMPORTED_MODULE_3_socket_io_client__();
         this.transactions = [];
@@ -914,30 +1208,31 @@ var TransactionsComponent = /** @class */ (function () {
         this.socket.on('movieTheaterPlaces-found', function (movieTheaters) {
             _this.movieTheaters = movieTheaters;
         });
-        // 注文検索結果
-        this.socket.on('placeOrderTransactions-found', function (transactions) {
-            _this.transactions = transactions;
-            _this.searching = false;
-        });
         this.conditionsForm = this.fb.group({
             sellerBranchCodes: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required],
             confirmationNumber: ['', __WEBPACK_IMPORTED_MODULE_1__angular_forms__["l" /* Validators */].required],
         });
     }
     TransactionsComponent.prototype.onSubmit = function () {
-        var conditions = {
+        var _this = this;
+        this.searching = true;
+        this.transactionsService.searchPlaceOrder({
             sellerBranchCodes: this.conditionsForm.value.sellerBranchCodes,
             confirmationNumber: this.conditionsForm.value.confirmationNumber,
-        };
-        this.socket.emit('searching-placeOrderTransactions', conditions);
-        this.searching = true;
+        }).subscribe(function (transactions) {
+            _this.transactions = transactions;
+            _this.searching = false;
+        }, function (err) {
+            console.error(err);
+            _this.searching = false;
+        });
     };
     TransactionsComponent.prototype.onSelect = function (transaction) {
         this.selectedTransaction = transaction;
         this.showEventModal();
     };
     TransactionsComponent.prototype.showEventModal = function () {
-        var activeModal = this.modalService.open(__WEBPACK_IMPORTED_MODULE_4__modal_transaction_component__["a" /* TransactionComponent */], { size: 'lg', container: 'nb-layout' });
+        var activeModal = this.modalService.open(__WEBPACK_IMPORTED_MODULE_5__modal_transaction_component__["a" /* TransactionComponent */], { size: 'lg', container: 'nb-layout' });
         activeModal.componentInstance.modalHeader = "\u6CE8\u6587\u53D6\u5F15 " + this.selectedTransaction.id;
         activeModal.componentInstance.transaction = this.selectedTransaction;
     };
@@ -948,7 +1243,8 @@ var TransactionsComponent = /** @class */ (function () {
             styles: [__webpack_require__("../../../../../src/app/pages/search/transactions/transactions.component.scss")],
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__ng_bootstrap_ng_bootstrap__["b" /* NgbModal */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */]])
+            __WEBPACK_IMPORTED_MODULE_1__angular_forms__["b" /* FormBuilder */],
+            __WEBPACK_IMPORTED_MODULE_4__core_data_transactions_service__["a" /* TransactionsService */]])
     ], TransactionsComponent);
     return TransactionsComponent;
 }());
