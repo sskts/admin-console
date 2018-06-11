@@ -57,9 +57,10 @@
                             </div> -->
                         </div>
                         <!-- /.card-body -->
-
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">検索</button>
+                        <div class="card-footer clearfix">
+                            <button type="button" class="btn btn-primary" onclick="location.href='/organizations/movieTheater/new'">
+                                <i class="fa fa-plus"></i> 劇場追加</button>
+                            <button type="submit" class="btn btn-secondary float-right">検索</button>
                         </div>
                     </form>
                 </div>
@@ -136,7 +137,7 @@
                                         <td>
                                             <ul class="list-unstyled">
                                                 <li>
-                                                    <a href="/organizations/movieTheater/<%= movieTheater.id %>/edit">編集</a>
+                                                    <a href="/organizations/movieTheater/<%= movieTheater.id %>">編集</a>
                                                 </li>
                                             </ul>
 
