@@ -1,38 +1,19 @@
-# compiled output
-#/dist
-/tmp
-/out-tsc
-
-# dependencies
-/node_modules
-
-# IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# IDE - VSCode
-.vscode/*
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-testem.log
-/typings
-/docs
+node_modules/
+iisnode/
+npm-debug.log*
+.vscode/
 .env*
+app.yaml*
+**/*.log
+coverage/
+.nyc_output/
 
-# e2e
-/e2e/*.js
-/e2e/*.map
+.googleappengine/*
 
-# System Files
-.DS_Store
-Thumbs.db
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+!.gitignore
+!.gitkeep
