@@ -7,6 +7,7 @@ import authentication from '../middlewares/authentication';
 
 import accountsRouter from './accounts';
 import authRouter from './auth';
+import eventsRouter from './events';
 import homeRouter from './home';
 import organizationsRouter from './organizations';
 import transactionsRouter from './transactions';
@@ -24,6 +25,7 @@ router.use(authRouter);
 router.use(authentication);
 router.use(homeRouter);
 router.use('/accounts', accountsRouter);
+router.use('/events', eventsRouter);
 router.use('/organizations', organizationsRouter);
 router.use('/transactions', transactionsRouter);
 
