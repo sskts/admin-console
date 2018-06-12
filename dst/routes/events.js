@@ -36,16 +36,7 @@ eventsRouter.get('/individualScreeningEvent', (req, res, next) => __awaiter(this
         const movieTheaters = yield organizationService.searchMovieTheaters({});
         const searchConditions = Object.assign({ superEventLocationIdentifiers: movieTheaters.map((m) => m.identifier), startFrom: (req.query.startRange !== undefined) ? req.query.startRange.split(' - ')[0] : new Date(), startThrough: (req.query.startRange !== undefined) ? req.query.startRange.split(' - ')[1] : moment().add(1, 'day').toDate() }, req.query);
         debug('searching events...', searchConditions);
-        const events = yield eventService.searchIndividualScreeningEvent(searchConditions
-        // name?: string;
-        // startFrom?: Date;
-        // startThrough?: Date;
-        // endFrom?: Date;
-        // endThrough?: Date;
-        // eventStatuses?: EventStatusType[];
-        // superEventLocationIdentifiers?: string[];
-        // workPerformedIdentifiers?: string[];
-        );
+        const events = yield eventService.searchIndividualScreeningEvent(searchConditions);
         debug(events.length, 'events found.', events);
         res.render('events/individualScreeningEvent/index', {
             movieTheaters: movieTheaters,
@@ -71,12 +62,21 @@ eventsRouter.get('/individualScreeningEvent/:identifier', (req, res, next) => __
             endpoint: process.env.API_ENDPOINT,
             auth: req.user.authClient
         });
+        const placeService = new ssktsapi.service.Place({
+            endpoint: process.env.API_ENDPOINT,
+            auth: req.user.authClient
+        });
         const movieTheaters = yield organizationService.searchMovieTheaters({});
         debug('searching events...');
         const event = yield eventService.findIndividualScreeningEvent({
             identifier: req.params.identifier
         });
         debug('events found.', event);
+        // イベント開催の劇場取得
+        const movieTheater = yield placeService.findMovieTheater({
+            branchCode: event.superEvent.location.branchCode
+        });
+        const screeningRoom = movieTheater.containsPlace.find((p) => p.branchCode === event.location.branchCode);
         const transactionRepo = new sskts.repository.Transaction(sskts.mongoose.connection);
         debug('searching transaction by event...');
         const transactions = yield transactionRepo.transactionModel.find({
@@ -94,11 +94,19 @@ eventsRouter.get('/individualScreeningEvent/:identifier', (req, res, next) => __
             orderNumber: { $in: transactions.map((t) => t.result.order.orderNumber) }
         }).sort('orderDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
         debug(orders.length, 'orders found.');
+        const seatReservationAuthorizeActions = transactions.map((transaction) => {
+            return transaction.object.authorizeActions
+                .filter((a) => a.actionStatus === sskts.factory.actionStatusType.CompletedActionStatus)
+                .find((a) => a.object.typeOf === sskts.factory.action.authorize.offer.seatReservation.ObjectType.SeatReservation);
+        });
         res.render('events/individualScreeningEvent/show', {
             moment: moment,
+            movieTheater: movieTheater,
+            screeningRoom: screeningRoom,
             movieTheaters: movieTheaters,
             event: event,
             transactions: transactions,
+            seatReservationAuthorizeActions: seatReservationAuthorizeActions,
             orders: orders
         });
     }

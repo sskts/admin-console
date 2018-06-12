@@ -38,16 +38,7 @@ eventsRouter.get(
             };
 
             debug('searching events...', searchConditions);
-            const events = await eventService.searchIndividualScreeningEvent(searchConditions
-                // name?: string;
-                // startFrom?: Date;
-                // startThrough?: Date;
-                // endFrom?: Date;
-                // endThrough?: Date;
-                // eventStatuses?: EventStatusType[];
-                // superEventLocationIdentifiers?: string[];
-                // workPerformedIdentifiers?: string[];
-            );
+            const events = await eventService.searchIndividualScreeningEvent(searchConditions);
             debug(events.length, 'events found.', events);
             res.render('events/individualScreeningEvent/index', {
                 movieTheaters: movieTheaters,
@@ -75,6 +66,10 @@ eventsRouter.get(
                 endpoint: <string>process.env.API_ENDPOINT,
                 auth: req.user.authClient
             });
+            const placeService = new ssktsapi.service.Place({
+                endpoint: <string>process.env.API_ENDPOINT,
+                auth: req.user.authClient
+            });
             const movieTheaters = await organizationService.searchMovieTheaters({});
 
             debug('searching events...');
@@ -82,6 +77,12 @@ eventsRouter.get(
                 identifier: req.params.identifier
             });
             debug('events found.', event);
+
+            // イベント開催の劇場取得
+            const movieTheater = await placeService.findMovieTheater({
+                branchCode: event.superEvent.location.branchCode
+            });
+            const screeningRoom = movieTheater.containsPlace.find((p) => p.branchCode === event.location.branchCode);
 
             const transactionRepo = new sskts.repository.Transaction(sskts.mongoose.connection);
             debug('searching transaction by event...');
@@ -92,21 +93,30 @@ eventsRouter.get(
                     $exists: true,
                     $eq: event.identifier
                 }
-            }).sort('endDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
+            }).sort('endDate').exec().then((docs) => docs.map((doc) => <sskts.factory.transaction.placeOrder.ITransaction>doc.toObject()));
             debug(transactions.length, 'transactions found.');
 
             const orderRepo = new sskts.repository.Order(sskts.mongoose.connection);
             debug('searching orders by event...');
             const orders = await orderRepo.orderModel.find({
-                orderNumber: { $in: transactions.map((t) => t.result.order.orderNumber) }
+                orderNumber: { $in: transactions.map((t) => (<sskts.factory.transaction.placeOrder.IResult>t.result).order.orderNumber) }
             }).sort('orderDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
             debug(orders.length, 'orders found.');
 
+            const seatReservationAuthorizeActions = transactions.map((transaction) => {
+                return transaction.object.authorizeActions
+                    .filter((a) => a.actionStatus === sskts.factory.actionStatusType.CompletedActionStatus)
+                    .find((a) => a.object.typeOf === sskts.factory.action.authorize.offer.seatReservation.ObjectType.SeatReservation);
+            });
+
             res.render('events/individualScreeningEvent/show', {
                 moment: moment,
+                movieTheater: movieTheater,
+                screeningRoom: screeningRoom,
                 movieTheaters: movieTheaters,
                 event: event,
                 transactions: transactions,
+                seatReservationAuthorizeActions: seatReservationAuthorizeActions,
                 orders: orders
             });
         } catch (error) {
