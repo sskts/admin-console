@@ -59,4 +59,59 @@ eventsRouter.get(
         }
     });
 
+/**
+ * 上映イベント詳細
+ */
+eventsRouter.get(
+    '/individualScreeningEvent/:identifier',
+    async (req, res, next) => {
+        try {
+            debug('req.query:', req.query);
+            const eventService = new ssktsapi.service.Event({
+                endpoint: <string>process.env.API_ENDPOINT,
+                auth: req.user.authClient
+            });
+            const organizationService = new ssktsapi.service.Organization({
+                endpoint: <string>process.env.API_ENDPOINT,
+                auth: req.user.authClient
+            });
+            const movieTheaters = await organizationService.searchMovieTheaters({});
+
+            debug('searching events...');
+            const event = await eventService.findIndividualScreeningEvent({
+                identifier: req.params.identifier
+            });
+            debug('events found.', event);
+
+            const transactionRepo = new sskts.repository.Transaction(sskts.mongoose.connection);
+            debug('searching transaction by event...');
+            const transactions = await transactionRepo.transactionModel.find({
+                typeOf: sskts.factory.transactionType.PlaceOrder,
+                status: sskts.factory.transactionStatusType.Confirmed,
+                'result.order.acceptedOffers.itemOffered.reservationFor.identifier': {
+                    $exists: true,
+                    $eq: event.identifier
+                }
+            }).sort('endDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
+            debug(transactions.length, 'transactions found.');
+
+            const orderRepo = new sskts.repository.Order(sskts.mongoose.connection);
+            debug('searching orders by event...');
+            const orders = await orderRepo.orderModel.find({
+                orderNumber: { $in: transactions.map((t) => t.result.order.orderNumber) }
+            }).sort('orderDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
+            debug(orders.length, 'orders found.');
+
+            res.render('events/individualScreeningEvent/show', {
+                moment: moment,
+                movieTheaters: movieTheaters,
+                event: event,
+                transactions: transactions,
+                orders: orders
+            });
+        } catch (error) {
+            next(error);
+        }
+    });
+
 export default eventsRouter;

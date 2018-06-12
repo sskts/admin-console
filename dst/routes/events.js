@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * イベントルーター
  */
 const ssktsapi = require("@motionpicture/sskts-api-nodejs-client");
+const sskts = require("@motionpicture/sskts-domain");
 const createDebug = require("debug");
 const express = require("express");
 const moment = require("moment");
@@ -50,6 +51,55 @@ eventsRouter.get('/individualScreeningEvent', (req, res, next) => __awaiter(this
             movieTheaters: movieTheaters,
             searchConditions: searchConditions,
             events: events
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+/**
+ * 上映イベント詳細
+ */
+eventsRouter.get('/individualScreeningEvent/:identifier', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+    try {
+        debug('req.query:', req.query);
+        const eventService = new ssktsapi.service.Event({
+            endpoint: process.env.API_ENDPOINT,
+            auth: req.user.authClient
+        });
+        const organizationService = new ssktsapi.service.Organization({
+            endpoint: process.env.API_ENDPOINT,
+            auth: req.user.authClient
+        });
+        const movieTheaters = yield organizationService.searchMovieTheaters({});
+        debug('searching events...');
+        const event = yield eventService.findIndividualScreeningEvent({
+            identifier: req.params.identifier
+        });
+        debug('events found.', event);
+        const transactionRepo = new sskts.repository.Transaction(sskts.mongoose.connection);
+        debug('searching transaction by event...');
+        const transactions = yield transactionRepo.transactionModel.find({
+            typeOf: sskts.factory.transactionType.PlaceOrder,
+            status: sskts.factory.transactionStatusType.Confirmed,
+            'result.order.acceptedOffers.itemOffered.reservationFor.identifier': {
+                $exists: true,
+                $eq: event.identifier
+            }
+        }).sort('endDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
+        debug(transactions.length, 'transactions found.');
+        const orderRepo = new sskts.repository.Order(sskts.mongoose.connection);
+        debug('searching orders by event...');
+        const orders = yield orderRepo.orderModel.find({
+            orderNumber: { $in: transactions.map((t) => t.result.order.orderNumber) }
+        }).sort('orderDate').exec().then((docs) => docs.map((doc) => doc.toObject()));
+        debug(orders.length, 'orders found.');
+        res.render('events/individualScreeningEvent/show', {
+            moment: moment,
+            movieTheaters: movieTheaters,
+            event: event,
+            transactions: transactions,
+            orders: orders
         });
     }
     catch (error) {

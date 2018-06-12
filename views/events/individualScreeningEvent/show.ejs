@@ -1,0 +1,206 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0 text-dark">上映イベント
+                    <%= event.name.ja %> の詳細</h1>
+            </div>
+            <!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item">
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/events/individualScreeningEvent">上映イベント検索</a>
+                    </li>
+                    <li class="breadcrumb-item active">上映イベント詳細</li>
+                </ol>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fa fa-text-width"></i>
+                            Details
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <dl>
+                            <dt>ID</dt>
+                            <dd>
+                                <%= event.identifier %>
+                            </dd>
+                            <dt>name</dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <%= event.superEvent.name.ja %>
+                                    </li>
+                                    <li>
+                                        <%= event.superEvent.alternativeHeadline %>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dd>
+                                <%= event.name.ja %>
+                            </dd>
+                            <dt>作品</dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <%= event.workPerformed.name %>
+                                    </li>
+                                    <li>
+                                        <%= event.workPerformed.alternativeHeadline %>
+                                    </li>
+                                    <li>
+                                        <%= event.workPerformed.duration %>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dt>場所</dt>
+                            <dd>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <%= event.superEvent.location.name.ja %>
+                                    </li>
+                                    <li>
+                                        <%= event.location.name.ja %>
+                                    </li>
+                                </ul>
+                            </dd>
+                            <dt>期間</dt>
+                            <dd>
+                                <%= `${event.startDate}-${event.endDate}` %>
+                            </dd>
+                        </dl>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- ./col -->
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="fa fa-text-width"></i>
+                            COA情報
+                        </h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="form-group">
+                            <textarea class="form-control" rows="20" placeholder="" disabled=""><%= JSON.stringify(event.coaInfo, null, '\t') %></textarea>
+                        </div>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- ./col -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <div class="col-md-6">
+                <!-- TABLE: LATEST ORDERS -->
+                <div class="card">
+                    <div class="card-header border-transparent">
+                        <h3 class="card-title">注文履歴</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <!-- <button type="button" class="btn btn-tool" data-widget="remove">
+                                <i class="fa fa-times"></i>
+                            </button> -->
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table m-0">
+                                <thead>
+                                    <tr>
+                                        <th>Order Number</th>
+                                        <th>Order Date</th>
+                                        <th>Item</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% orders.forEach(function (order) { %>
+                                        <tr>
+                                            <td>
+                                                <a href="#">
+                                                    <%= order.orderNumber %>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <%= moment(order.orderDate).format('YY-MM-DD hh:mm:ss') %>
+                                            </td>
+                                            <td>
+                                                <%= order.acceptedOffers.map((o)=>o.itemOffered.reservedTicket.ticketedSeat.seatNumber).join(',') %>
+                                            </td>
+                                            <td>
+                                                <%
+                                                let badge='badge-info';
+                                                switch (order.orderStatus) {
+                                                    case 'OrderDelivered':
+                                                        badge = 'badge-danger';
+                                                        break;
+                                                    default:
+                                                }
+                                                %>
+                                                    <span class="badge <%= badge %>">
+                                                        <%= order.orderStatus %>
+                                                    </span>
+                                            </td>
+                                        </tr>
+                                        <% })  %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer clearfix">
+                        <!-- <a href="javascript:void(0)" class="btn btn-sm btn-info float-left">Place New Order</a>
+                        <a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a> -->
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+<!-- DataTables -->
+<link rel="stylesheet" href="/node_modules/admin-lte/plugins/datatables/dataTables.bootstrap4.css">
+
+<!-- page script -->
+<script>
+    $(function () {
+    });
+</script>

@@ -92,6 +92,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>イベント</th>
+                                    <th>場所</th>
                                     <th>作品</th>
                                     <th></th>
                                 </tr>
@@ -109,20 +110,26 @@
                                         <td>
                                             <ul class="list-unstyled">
                                                 <li>
-                                                    <%= event.name.ja %>
+                                                    <%= event.superEvent.name.ja %>
                                                 </li>
                                                 <li>
                                                     <%= event.superEvent.alternativeHeadline %>
                                                 </li>
                                                 <li>
+                                                    <%= event.name.ja %>
+                                                </li>
+                                                <li>
+                                                    <%= `${event.startDate}-${event.endDate}` %>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        <td>
+                                            <ul class="list-unstyled">
+                                                <li>
                                                     <%= event.superEvent.location.name.ja %>
                                                 </li>
                                                 <li>
                                                     <%= event.location.name.ja %>
-                                                </li>
-                                                <li>
-                                                    <%= event.startDate %>-
-                                                        <%= event.endDate %>
                                                 </li>
                                             </ul>
                                         </td>
@@ -153,6 +160,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>イベント</th>
+                                    <th>場所</th>
                                     <th>作品</th>
                                     <th></th>
                                 </tr>
