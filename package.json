@@ -6,6 +6,10 @@
     {
       "name": "Tetsu Yamazaki",
       "email": "yamazaki@motionpicture.jp"
+    },
+    {
+      "name": "Akito Hataguchi",
+      "email": "hataguchi@motionpicture.jp"
     }
   ],
   "config": {},
@@ -33,7 +37,7 @@
     "request": "^2.87.0",
     "request-promise-native": "^1.0.5"
   },
-  "description": "sskts-console",
+  "description": "sskts-admin-console",
   "devDependencies": {
     "@types/body-parser": "^1.17.0",
     "@types/connect-redis": "0.0.7",
@@ -71,19 +75,19 @@
   },
   "keywords": [],
   "license": "UNLICENSED",
-  "name": "sskts-console",
+  "name": "sskts-admin-console",
   "private": true,
   "repository": {},
   "scripts": {
     "build": "tsc",
     "check": "npm run tslint && nsp check",
-    "clean": "rimraf ./dst ./docs ./coverage \"npm-debug.log*\" ./.nyc_output",
+    "clean": "rimraf ./dist ./docs ./coverage \"npm-debug.log*\" ./.nyc_output",
     "doc": "echo \"implementing...\" && exit 0",
     "mocha": "mocha",
     "nyc": "nyc mocha",
     "coverage": "npm run nyc -- \"src/**/*.spec.ts\"",
-    "start": "node ./dst/bin/www",
-    "start:development": "node ./dst/bin/ssl",
+    "start": "node ./dist/bin/www",
+    "start:development": "node ./dist/bin/ssl",
     "test": "npm run check && npm run coverage",
     "tslint": "tslint --project tsconfig.json -c tslint.json src/**/*.ts --exclude **/*.spec.ts",
     "preversion": "npm run clean && npm run build && npm test && npm run doc",
