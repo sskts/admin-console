@@ -4,7 +4,6 @@
 import * as middlewares from '@motionpicture/express-middleware';
 import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
-import * as createDebug from 'debug';
 import * as express from 'express';
 import * as expressLayouts from 'express-ejs-layouts';
 // tslint:disable-next-line:no-require-imports no-var-requires
@@ -12,10 +11,6 @@ const flash = require('express-flash');
 import errorHandler from './middlewares/errorHandler';
 import notFoundHandler from './middlewares/notFoundHandler';
 import session from './middlewares/session';
-
-import mongooseConnectionOptions from './mongooseConnectionOptions';
-
-const debug = createDebug('sskts-admin-console:*');
 
 const app = express();
 

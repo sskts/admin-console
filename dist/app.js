@@ -5,7 +5,6 @@
 const middlewares = require("@motionpicture/express-middleware");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const createDebug = require("debug");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 // tslint:disable-next-line:no-require-imports no-var-requires
@@ -13,7 +12,6 @@ const flash = require('express-flash');
 const errorHandler_1 = require("./middlewares/errorHandler");
 const notFoundHandler_1 = require("./middlewares/notFoundHandler");
 const session_1 = require("./middlewares/session");
-const debug = createDebug('sskts-admin-console:*');
 const app = express();
 app.use(middlewares.basicAuth({
     name: process.env.BASIC_AUTH_NAME,
