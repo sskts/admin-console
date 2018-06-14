@@ -1,0 +1,23 @@
+<div class="col-12 col-md-3 col-xl-2 sidebar px-0 bg-secondary text-light">
+
+    <nav class="collapse" id="nav">
+        <ul>
+            <li class="py-3 px-4 border-bottom">
+                <%= user.profile.given_name %> <%= user.profile.family_name %>さん
+            </li>
+            <li>
+                <a href="/account/deposit" class="d-block py-3 pl-4 text-light position-relative">
+                    <i class="fas fa-exchange-alt mr-2"></i>ポイント付与
+                    <i class="fas fa-chevron-right arrow-right"></i>
+                </a>
+            </li>
+            <li>
+                <a href="<%= user.generateLogoutUrl() %>" class="d-block py-3 pl-4 text-light position-relative">
+                    <i class="fas fa-sign-out-alt mr-2"></i>ログアウト
+                    <i class="fas fa-chevron-right arrow-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>

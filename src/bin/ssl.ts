@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import * as https from 'https';
 import * as app from '../app';
 
-const debug = createDebug('sskts-console:server');
+const debug = createDebug('sskts-admin-console:server');
 
 /**
  * Get port from environment and store in Express.

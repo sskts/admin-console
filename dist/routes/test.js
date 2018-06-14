@@ -9,24 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * 取引ルーター
+ * テストルーター
  */
 // import * as ssktsapi from '@motionpicture/sskts-api-nodejs-client';
 const createDebug = require("debug");
 const express = require("express");
 // import * as moment from 'moment';
-const debug = createDebug('sskts-admin-console:routes:account');
-const transactionsRouter = express.Router();
+const debug = createDebug('sskts-admin-console:routes:test');
+const testRouter = express.Router();
 /**
- * 取引検索
+ * TEST
  */
-transactionsRouter.get('/', (req, _, next) => __awaiter(this, void 0, void 0, function* () {
+testRouter.get('/', (req, res, next) => __awaiter(this, void 0, void 0, function* () {
     try {
-        debug('searching transactions...', req.query);
-        throw new Error('Not implemented');
+        debug('req.query', req.query);
+        res.render('test', {
+            layout: false
+        });
     }
     catch (error) {
         next(error);
     }
 }));
-exports.default = transactionsRouter;
+exports.default = testRouter;
