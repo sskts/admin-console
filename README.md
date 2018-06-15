@@ -16,7 +16,6 @@
 | `NPM_TOKEN`                        | true     |                 | NPM auth token         |
 | `BASIC_AUTH_NAME`                  | false    |                 | Basic Authentication   |
 | `BASIC_AUTH_PASS`                  | false    |                 | Basic Authentication   |
-| `MONGOLAB_URI`                     | true     |                 | MongoDB connection URI |
 | `REDIS_HOST`                       | true     |                 | COA API refresh token  |
 | `REDIS_PORT`                       | true     |                 | COA API refresh token  |
 | `REDIS_KEY`                        | true     |                 | COA API refresh token  |
