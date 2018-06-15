@@ -2,7 +2,7 @@ import * as ssktsapi from '@motionpicture/sskts-api-nodejs-client';
 import * as createDebug from 'debug';
 import * as jwt from 'jsonwebtoken';
 
-const debug = createDebug('sskts-console:user');
+const debug = createDebug('sskts-admin-console:user');
 
 /**
  * ユーザー設定インターフェース

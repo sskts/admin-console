@@ -17,7 +17,7 @@ const createDebug = require("debug");
 const express = require("express");
 const moment = require("moment");
 // import redisClient from '../redis';
-const debug = createDebug('sskts-console:routes:events');
+const debug = createDebug('sskts-admin-console:routes:events');
 const eventsRouter = express.Router();
 /**
  * 上映イベント検索

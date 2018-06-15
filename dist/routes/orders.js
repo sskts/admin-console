@@ -17,7 +17,7 @@ const createDebug = require("debug");
 const express = require("express");
 const moment = require("moment");
 // import redisClient from '../redis';
-const debug = createDebug('sskts-console:routes:orders');
+const debug = createDebug('sskts-admin-console:routes:orders');
 const ordersRouter = express.Router();
 /**
  * 注文検索

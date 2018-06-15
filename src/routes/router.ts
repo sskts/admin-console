@@ -2,16 +2,10 @@
  * ルーター
  */
 import * as express from 'express';
-
 import authentication from '../middlewares/authentication';
-
-import accountsRouter from './accounts';
+import accountRouter from './account';
 import authRouter from './auth';
-import eventsRouter from './events';
-import homeRouter from './home';
-import ordersRouter from './orders';
-import organizationsRouter from './organizations';
-import transactionsRouter from './transactions';
+import indexRouter from './index';
 
 const router = express.Router();
 
@@ -24,11 +18,7 @@ const router = express.Router();
 router.use(authRouter);
 
 router.use(authentication);
-router.use(homeRouter);
-router.use('/accounts', accountsRouter);
-router.use('/events', eventsRouter);
-router.use('/orders', ordersRouter);
-router.use('/organizations', organizationsRouter);
-router.use('/transactions', transactionsRouter);
+router.use(indexRouter);
+router.use('/account', accountRouter);
 
 export default router;

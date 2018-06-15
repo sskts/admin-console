@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const createDebug = require("debug");
 const http = require("http");
 const app = require("../app");
-const debug = createDebug('sskts-console:server');
+const debug = createDebug('sskts-admin-console:server');
 /**
  * Get port from environment and store in Express.
  */

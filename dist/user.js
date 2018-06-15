@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const ssktsapi = require("@motionpicture/sskts-api-nodejs-client");
 const createDebug = require("debug");
 const jwt = require("jsonwebtoken");
-const debug = createDebug('sskts-console:user');
+const debug = createDebug('sskts-admin-console:user');
 /**
  * リクエストユーザー
  */

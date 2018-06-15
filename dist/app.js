@@ -3,19 +3,16 @@
  * Expressアプリケーション
  */
 const middlewares = require("@motionpicture/express-middleware");
-const sskts = require("@motionpicture/sskts-domain");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const createDebug = require("debug");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+const expressValidator = require("express-validator");
 // tslint:disable-next-line:no-require-imports no-var-requires
 const flash = require('express-flash');
 const errorHandler_1 = require("./middlewares/errorHandler");
 const notFoundHandler_1 = require("./middlewares/notFoundHandler");
 const session_1 = require("./middlewares/session");
-const mongooseConnectionOptions_1 = require("./mongooseConnectionOptions");
-const debug = createDebug('sskts-console:*');
 const app = express();
 app.use(middlewares.basicAuth({
     name: process.env.BASIC_AUTH_NAME,
@@ -28,11 +25,11 @@ app.use(middlewares.basicAuth({
 app.set('trust proxy', 1); // trust first proxy
 app.use(session_1.default);
 app.use(flash());
+app.use(expressValidator());
 // view engine setup
 app.set('views', `${__dirname}/../views`);
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
-app.set('layout extractScripts', true);
 app.use(bodyParser.json());
 // The extended option allows to choose between parsing the URL-encoded data
 // with the querystring library (when false) or the qs library (when true).
@@ -41,9 +38,6 @@ app.use(cookieParser());
 // 静的ファイル
 app.use(express.static(`${__dirname}/../public`));
 app.use('/node_modules', express.static(`${__dirname}/../node_modules`));
-sskts.mongoose.connect(process.env.MONGOLAB_URI, mongooseConnectionOptions_1.default)
-    .then(() => { debug('MongoDB connected.'); })
-    .catch(console.error);
 // routers
 const router_1 = require("./routes/router");
 app.use('/', router_1.default);

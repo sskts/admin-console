@@ -1,0 +1,12 @@
+<%- contentFor('script') %>
+<script src="/js/account/deposit.js"></script>
+<%- contentFor('body') %>
+<form>
+    <input type="text" name="recipientId" placeholder="入金受取人情報 id">
+    <input type="text" name="recipientName" placeholder="入金受取人情報 name">
+    <input type="text" name="recipientUrl" placeholder="入金受取人情報 url">
+    <input type="text" name="toAccountNumber" placeholder="入金先口座番号">
+    <input type="text" name="amount" placeholder="入金金額">
+    <input type="text" name="notes" placeholder="入金説明">
+    <button type="submit" class="submit">決定</button>
+</form>

@@ -16,7 +16,7 @@ const sskts = require("@motionpicture/sskts-domain");
 const createDebug = require("debug");
 const express = require("express");
 const redis_1 = require("../redis");
-const debug = createDebug('sskts-console:routes:organizations');
+const debug = createDebug('sskts-admin-console:routes:organizations');
 const organizationsRouter = express.Router();
 const pecorinoAuthClient = new sskts.pecorinoapi.auth.ClientCredentials({
     domain: process.env.PECORINO_AUTHORIZE_SERVER_DOMAIN,
