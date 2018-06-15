@@ -29,6 +29,7 @@ export async function deposit(req: Request, res: Response) {
         endpoint: <string>process.env.API_ENDPOINT,
         auth: req.user.authClient
     });
+    debug(req.body);
     try {
         depositValidation(req);
         const validationResult = await req.getValidationResult();
@@ -52,7 +53,6 @@ export async function deposit(req: Request, res: Response) {
             amount: Number(req.body.amount),
             notes: req.body.notes
         };
-        debug(args);
         await accountService.deposit(args);
         res.json({});
     } catch (err) {
@@ -68,11 +68,11 @@ export async function deposit(req: Request, res: Response) {
  */
 function depositValidation(req: Request) {
     // 入金受取人情報 id
-    req.checkBody('recipientId', '入金受取人情報 idは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
+    req.checkBody('recipient.id', '入金受取人情報 idは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
     // 入金受取人情報 name
-    req.checkBody('recipientName', '入金受取人情報 nameが未入力です').notEmpty();
+    req.checkBody('recipient.name', '入金受取人情報 nameが未入力です').notEmpty();
     // 入金受取人情報 url
-    req.checkBody('recipientUrl', '入金受取人情報 urlは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
+    req.checkBody('recipient.url', '入金受取人情報 urlは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
     // 入金先口座番号
     req.checkBody('toAccountNumber', '入金金額は数字で入力してください').notEmpty();
     req.checkBody('toAccountNumber', '入金先口座番号は数字で入力してください').matches(/^[0-9]*$/);
