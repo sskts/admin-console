@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
+const expressValidator = require("express-validator");
 // tslint:disable-next-line:no-require-imports no-var-requires
 const flash = require('express-flash');
 const errorHandler_1 = require("./middlewares/errorHandler");
@@ -24,6 +25,7 @@ app.use(middlewares.basicAuth({
 app.set('trust proxy', 1); // trust first proxy
 app.use(session_1.default);
 app.use(flash());
+app.use(expressValidator());
 // view engine setup
 app.set('views', `${__dirname}/../views`);
 app.set('view engine', 'ejs');

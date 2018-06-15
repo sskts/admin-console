@@ -12,6 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * 口座controller
  */
 const ssktsapi = require("@motionpicture/sskts-api-nodejs-client");
+const createDebug = require("debug");
+const http_status_1 = require("http-status");
+const debug = createDebug('sskts-admin-console:*');
 /**
  * ポイント付与レンダリング
  */
@@ -37,6 +40,17 @@ function deposit(req, res) {
             auth: req.user.authClient
         });
         try {
+            depositValidation(req);
+            const validationResult = yield req.getValidationResult();
+            debug(validationResult.mapped());
+            if (!validationResult.isEmpty()) {
+                res.status(http_status_1.BAD_REQUEST);
+                res.json({
+                    validation: validationResult.mapped(),
+                    error: new Error('validationResult is not empty').message
+                });
+                return;
+            }
             const args = {
                 recipient: {
                     id: req.body.recipient.id,
@@ -47,15 +61,33 @@ function deposit(req, res) {
                 amount: Number(req.body.amount),
                 notes: req.body.notes
             };
+            debug(args);
             yield accountService.deposit(args);
-            res.json();
+            res.json({});
         }
         catch (err) {
             res.json({
-                message: err.message,
-                error: JSON.stringify(err)
+                validation: null,
+                error: err.message
             });
         }
     });
 }
 exports.deposit = deposit;
+/**
+ * 入金検証
+ */
+function depositValidation(req) {
+    // 入金受取人情報 id
+    req.checkBody('recipientId', '入金受取人情報 idは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
+    // 入金受取人情報 name
+    req.checkBody('recipientName', '入金受取人情報 nameが未入力です').notEmpty();
+    // 入金受取人情報 url
+    req.checkBody('recipientUrl', '入金受取人情報 urlは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
+    // 入金先口座番号
+    req.checkBody('toAccountNumber', '入金金額は数字で入力してください').notEmpty();
+    req.checkBody('toAccountNumber', '入金先口座番号は数字で入力してください').matches(/^[0-9]*$/);
+    // 入金金額
+    req.checkBody('amount', '入金金額は数字で入力してください').notEmpty();
+    req.checkBody('amount', '入金金額は数字で入力してください').matches(/^[0-9]*$/);
+}

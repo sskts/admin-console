@@ -6,6 +6,7 @@ import * as bodyParser from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import * as expressLayouts from 'express-ejs-layouts';
+import * as expressValidator from 'express-validator';
 // tslint:disable-next-line:no-require-imports no-var-requires
 const flash = require('express-flash');
 import errorHandler from './middlewares/errorHandler';
@@ -26,6 +27,8 @@ app.use(middlewares.basicAuth({ // ベーシック認証
 app.set('trust proxy', 1); // trust first proxy
 app.use(session);
 app.use(flash());
+
+app.use(expressValidator());
 
 // view engine setup
 app.set('views', `${__dirname}/../views`);

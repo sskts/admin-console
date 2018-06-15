@@ -16,8 +16,8 @@ function depositProcess(event) {
         data: {
             recipient: {
                 id: $('input[name=recipientId]').val(),
-                name: $('input[name=recipientId]').val(),
-                url: $('input[name=recipientId]').val()
+                name: $('input[name=recipientName]').val(),
+                url: $('input[name=recipientUrl]').val()
             },
             toAccountNumber: $('input[name=toAccountNumber]').val(),
             amount: $('input[name=amount]').val(),
@@ -28,7 +28,7 @@ function depositProcess(event) {
         console.log(data);
     };
     var fail = function (jqXhr, textStatus, errorThrown) {
-        console.log(jqXhr, textStatus, errorThrown);
+        console.log(jqXhr.responseJSON);
     }
     $.ajax(options).done(done).fail(fail);
 }
