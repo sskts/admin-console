@@ -17,13 +17,13 @@
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label">姓</label>
                             <div class="col-sm-11">
-                                <input type="text" class="form-control" name="recipientName" placeholder="入金受取人情報 name">
+                                <input type="text" class="form-control" name="recipientFamilyName" placeholder="入金受取人情報 name">
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label">名</label>
                             <div class="col-sm-11">
-                                <input type="text" class="form-control" name="recipientName" placeholder="入金受取人情報 name">
+                                <input type="text" class="form-control" name="recipientGivenName" placeholder="入金受取人情報 name">
                             </div>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                     <label class="col-sm-3 col-form-label">加算・減算ポイント</label>
                     <div class="col-sm-9">
                         <input type="text" class="form-control mb-3" name="amount" placeholder="入金金額">
-                        <P data-toggle="modal" data-target="#pointConversionTable">ポイント換算表はこちら</P>
+                        <P>ポイント換算表は<a href='' data-toggle="modal" data-target="#pointConversionTable">こちら</a></P>
                     </div>
                 </div>
                 <div class="form-group row mb-4">
@@ -121,3 +121,20 @@
       </div>
     </div>
   </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="grantingPointsDone" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">ポイント付与完了</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+            </div>
+          </div>
+        </div>
+      </div>
