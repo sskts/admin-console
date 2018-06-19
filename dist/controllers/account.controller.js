@@ -39,7 +39,7 @@ function deposit(req, res) {
             endpoint: process.env.API_ENDPOINT,
             auth: req.user.authClient
         });
-        debug(req.body);
+        // debug(req.body);
         try {
             depositValidation(req);
             const validationResult = yield req.getValidationResult();
@@ -81,13 +81,13 @@ function depositValidation(req) {
     // 入金受取人情報 id
     req.checkBody('recipient.id', '入金受取人IDは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
     // 入金受取人情報 name
-    req.checkBody('recipient.name', '入金受取人名が未入力です').notEmpty();
+    req.checkBody('recipient.name', '入金受取人名が未入力です').trim().notEmpty();
     // 入金受取人情報 url
-    req.checkBody('recipient.url', '入金受取人URLは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
+    req.checkBody('recipient.url', '入金受取人URLは英数字で入力してください').trim().matches(/^[A-Za-z0-9]*$/);
     // 入金先口座番号
-    req.checkBody('toAccountNumber', '入金先口座番号が未入力です').notEmpty();
+    req.checkBody('toAccountNumber', '入金先口座番号が未入力です').trim().notEmpty();
     req.checkBody('toAccountNumber', '入金先口座番号は数字で入力してください').matches(/^[0-9]*$/);
     // 入金金額
-    req.checkBody('amount', '入金金額が未入力です').notEmpty();
-    req.checkBody('amount', '入金金額は数字で入力してください').matches(/^[0-9]*$/);
+    req.checkBody('amount', '入金金額が未入力です').trim().notEmpty();
+    req.checkBody('amount', '入金金額は数字で入力してください').matches(/^[-]?[0-9]*$/);
 }
