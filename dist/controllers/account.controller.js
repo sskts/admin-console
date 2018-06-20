@@ -63,7 +63,9 @@ function deposit(req, res) {
                 notes: req.body.notes
             };
             yield accountService.deposit(args);
-            res.json({});
+            res.json({
+                error: null
+            });
         }
         catch (err) {
             res.json({

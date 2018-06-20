@@ -54,7 +54,9 @@ export async function deposit(req: Request, res: Response) {
             notes: req.body.notes
         };
         await accountService.deposit(args);
-        res.json({});
+        res.json({
+            error: null
+        });
     } catch (err) {
         res.json({
             validation: null,
