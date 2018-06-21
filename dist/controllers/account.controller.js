@@ -63,11 +63,13 @@ function deposit(req, res) {
                 notes: req.body.notes
             };
             yield accountService.deposit(args);
+            debug('resolve');
             res.json({
                 error: null
             });
         }
         catch (err) {
+            debug('reject', err);
             res.json({
                 validation: null,
                 error: err.message

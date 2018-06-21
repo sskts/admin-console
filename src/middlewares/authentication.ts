@@ -21,6 +21,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
 
         await req.user.retrieveProfile();
         res.locals.user = req.user;
+        res.locals.ENDPOINT = process.env.API_ENDPOINT;
         next();
     } catch (error) {
         next(error);

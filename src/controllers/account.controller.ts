@@ -54,10 +54,12 @@ export async function deposit(req: Request, res: Response) {
             notes: req.body.notes
         };
         await accountService.deposit(args);
+        debug('resolve');
         res.json({
             error: null
         });
     } catch (err) {
+        debug('reject', err);
         res.json({
             validation: null,
             error: err.message
