@@ -53,6 +53,10 @@ function depositProcess(event) {
     $('.errors').css('display', 'none');
     // 入力チェック
     var validation = false;
+    if ($('input[name=recipientId]').val() === '') {
+        $('.errors').append('受取人idが未入力です' + '<br>');
+        validation = true;
+    }
     if ($('input[name=recipientFamilyName]').val() === '') {
         $('.errors').append('姓が未入力です' + '<br>');
         validation = true;
@@ -117,7 +121,7 @@ function depositProcess(event) {
             if (res.code === 404) {
                 $('.errors').text('口座が見つかりません');
             } else {
-                $('.errors').text('エラーが発生しました<br>[' + res.message + ']');
+                $('.errors').html('エラーが発生しました<br>[' + res.message + ']');
             }
             $('.errors').css('display', 'block');
             // ボタンを押せるようにする処理
