@@ -1,3 +1,27 @@
+body {
+    overflow: hidden;
+}
+main {
+    overflow-y: auto;
+    height: calc(100vh - 46px);
+}
+
+@media (max-width: 767.98px) {
+    body {
+        overflow: visible;
+    }
+    main {
+        overflow-y: visible;
+        height: auto;
+    }
+}
+
 .bg-primary {
     background-color: #066592!important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #066592;
+    border-color: #066592;
 }

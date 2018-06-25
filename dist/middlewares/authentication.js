@@ -22,6 +22,7 @@ exports.default = (req, res, next) => __awaiter(this, void 0, void 0, function* 
         }
         yield req.user.retrieveProfile();
         res.locals.user = req.user;
+        res.locals.ENDPOINT = process.env.API_ENDPOINT;
         next();
     }
     catch (error) {
