@@ -1,6 +1,23 @@
 $(function () {
     // 読み込んだときの処理
     $('.submit').on('click', depositProcess);
+    $('.conversion').click(function (event) {
+        event.preventDefault();
+        var point = $('.nowpoint').val();
+        var newMemberPoint = Number(point) / 250;
+        newMemberPoint = Math.floor(newMemberPoint);
+        $('.grantPoint').text(newMemberPoint);
+    });
+    $('.reflect').click(function(){
+        var reflectionPoint = $('.grantPoint').text();
+        $('.additionPoints').val(reflectionPoint);
+        $('.nowpoint').val('');
+        $('.grantPoint').text('0');
+    });
+    $('.closeUp').click(function(){
+        $('.nowpoint').val('');
+        $('.grantPoint').text('0');
+    });
 });
 
 /**
@@ -58,19 +75,19 @@ function depositProcess(event) {
         validation = true;
     }
     if ($('input[name=recipientFamilyName]').val() === '') {
-        $('.errors').append('姓が未入力です' + '<br>');
+        $('.errors').append('セイが未入力です' + '<br>');
         validation = true;
     }
     if ($('input[name=recipientGivenName]').val() === '') {
-        $('.errors').append('名が未入力です' + '<br>');
+        $('.errors').append('メイが未入力です' + '<br>');
         validation = true;
     }
     if ($('input[name=toAccountNumber]').val() === '') {
-        $('.errors').append('口座番号が未入力です' + '<br>');
+        $('.errors').append('会員コードが未入力です' + '<br>');
         validation = true;
     }
     if ($('input[name=amount]').val() === '') {
-        $('.errors').append('加算・減算ポイントが未入力です' + '<br>');
+        $('.errors').append('加算ポイントが未入力です' + '<br>');
         validation = true;
     }
     if (validation) {
@@ -95,7 +112,7 @@ function depositProcess(event) {
         // 送信データ生成
         var data = {
             recipient: {
-                id: $('input[name=recipientId]').val(),
+                id: $('input[name=toAccountNumber]').val(),
                 name: $('input[name=recipientFamilyName]').val() + ' ' + $('input[name=recipientGivenName]').val(),
                 url: $('input[name=recipientUrl]').val()
             },
@@ -105,7 +122,7 @@ function depositProcess(event) {
         };
         // 接続先を取得
         var endpoint = $('input[name=endpoint]').val();
-        var depositDone = function(res) {
+        var depositDone = function (res) {
             // 通信成功の処理
             console.log('通信成功の処理', res);
             // ボタンを押せるようにする処理
@@ -115,11 +132,11 @@ function depositProcess(event) {
             // 入力リセット
             $('.form-control').val('');
         };
-        var depositFail = function(res) {
+        var depositFail = function (res) {
             // 通信失敗の処理
             console.log('通信失敗の処理', res);
             if (res.code === 404) {
-                $('.errors').text('口座が見つかりません');
+                $('.errors').text('会員コードが見つかりません');
             } else {
                 $('.errors').html('エラーが発生しました<br>[' + res.message + ']');
             }
@@ -134,3 +151,4 @@ function depositProcess(event) {
         }).deposit(data).then(depositDone).catch(depositFail);
     });
 }
+
