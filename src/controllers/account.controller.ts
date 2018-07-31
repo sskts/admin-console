@@ -6,7 +6,7 @@ import * as createDebug from 'debug';
 import { Request, Response } from 'express';
 import { BAD_REQUEST } from 'http-status';
 
-const debug = createDebug('sskts-admin-console:*');
+const debug = createDebug('sskts-admin-console:');
 
 /**
  * ポイント付与レンダリング

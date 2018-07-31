@@ -1,0 +1,13 @@
+<%- contentFor('script') %>
+<script src="/js/member/search.js"></script>
+<%- contentFor('style') %>
+<link href="/css/member/search.css" rel="stylesheet">
+<%- contentFor('body') %>
+<h1 class="h2 mb-4">会員数検索</h1>
+<form>
+    <ul>
+        <% for(let theater of movieTheaters) {%>
+            <li><%= theater.name.ja %></li>
+        <% } %>
+    </ul>
+</form>

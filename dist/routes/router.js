@@ -9,6 +9,7 @@ const account_1 = require("./account");
 const auth_1 = require("./auth");
 const authorize_1 = require("./authorize");
 const index_1 = require("./index");
+const member_1 = require("./member");
 const router = express.Router();
 // middleware that is specific to this router
 // router.use((req, res, next) => {
@@ -20,4 +21,5 @@ router.use(authentication_1.default);
 router.use(index_1.default);
 router.use('/api/authorize', authorize_1.default);
 router.use('/account', account_1.default);
+router.use('/member', member_1.default);
 exports.default = router;
