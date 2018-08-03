@@ -17,6 +17,6 @@ export async function memberSearchRender(req: Request, res: Response) {
         auth: req.user.authClient
     });
     const movieTheaters = await organizationService.searchMovieTheaters();
-    res.locals.movieTheaters = movieTheaters;
+    res.locals.movieTheaters = movieTheaters[0];
     res.render('member/search');
 }

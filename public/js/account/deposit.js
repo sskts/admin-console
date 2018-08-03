@@ -90,6 +90,7 @@ function depositProcess(event) {
         $('.errors').append('加算ポイントが未入力です' + '<br>');
         validation = true;
     }
+    
     if (validation) {
         // 入力チェックに当てはまったときの処理
         $('.errors').css('display', 'block');

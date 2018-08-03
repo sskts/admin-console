@@ -3,11 +3,74 @@
 <%- contentFor('style') %>
 <link href="/css/member/search.css" rel="stylesheet">
 <%- contentFor('body') %>
-<h1 class="h2 mb-4">会員数検索</h1>
-<form>
+<h1 class="h2 mb-4"><i class="fas fa-user-friends mr-2"></i>会員数検索</h1>
+<p class="border border-danger text-danger col-md-6 p-2 mb-4 errors"></p> 
+<div class="form-group row mb-5" id="datepicker-default">
+    <div class="col-md-3 control-label mt-md-4 mb-md-4 mb-0 py-2">
+        <label>会員登録期間</label>
+    </div>
+    <div class="col-md-9">
+        <div class="d-md-flex">
+            <div class="mr-md-5">
+                <div class="py-md-0 py-3 mb-md-2 small">開始日</div>
+                <div class="mb-2 mb-md-0">
+                    <div class="input-group date">
+                        <input type="text" class="form-control" value="20170621">
+                        <div class="input-group-addon bg-secondary text-white">
+                            <i class="far fa-calendar-alt p-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="py-md-0 py-3 mb-md-2 small">終了日</div>
+                <div>
+                    <div class="input-group date">
+                        <input type="text" class="form-control" value="20170621">
+                        <div class="input-group-addon bg-secondary text-white">
+                            <i class="far fa-calendar-alt p-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="form-group row mb-md-5 mb-3" id="datepicker-default">
+    <div class="col-md-3 control-label mb-md-4 mb-0 py-2">
+        <label>劇場</label>
+    </div>
+    <div class="col-md-9 d-flex flex-column py-md-0 py-3">
+        <% for(let theater of movieTheaters) { %>
+        <div class="form-check form-check-inline mb-3">
+            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="<%= theater.location.branchCode %>">
+            <label class="form-check-label" for="inlineCheckbox1"><%= theater.name.ja %></label>
+        </div>
+        <% } %>
+    </div>
+</div>
+<div class="form-group row mb-5">
+    <button type="submit" class="submit btn btn-primary btn-lg mx-auto px-5">検索</button>
+</div>
+<div class="membership text-center mb-5 mb-md-0"> 
+<P>新規会員数　<span class="font-weight-bold number">15</span>　人</P>
+</div>
+
+
+
+
+
+
+
+
+
+
+  
+<!-- <form>
     <ul>
         <% for(let theater of movieTheaters) {%>
             <li><%= theater.name.ja %></li>
         <% } %>
     </ul>
-</form>
+</form> -->
