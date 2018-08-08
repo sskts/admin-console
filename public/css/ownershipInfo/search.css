@@ -5,15 +5,19 @@
 /* .membership {
     display: none;
 } */
-.number {
+.count {
     font-size: 3em;
 }
-
 .errors {
     display: none;
     line-height: 1.5;
 }
-
 .membership {
     display: none;
 }
+.datepicker td, .datepicker th {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}
+

@@ -19,6 +19,7 @@ $(function () {
 function searchProcess(event) {
     event.preventDefault();
     // エラー文言を消す
+    $('.cover').css('display', 'flex');
     $('.errors').text('');
     $('.errors').css('display', 'none');
     // 入力チェック
@@ -47,6 +48,7 @@ function searchProcess(event) {
     if (validation) {
         // 入力チェックに当てはまったときの処理
         $('.errors').css('display', 'block');
+        $('.cover').css('display', 'none');
         return;
     }
 
@@ -60,13 +62,14 @@ function searchProcess(event) {
             // エラー
             $('.errors').text('エラーが発生しました');
             $('.errors').css('display', 'block');
+            $('.cover').css('display', 'none');
             // ボタンを押せるようにする処理
             $('.submit').prop('disabled', false);
             return;
         }
         // 送信データ生成
         var fromDate = $('input[name=fromDate]').attr('data-value');
-        var toDate = $('input[name=toDate]').attr('data-value'); 
+        var toDate = $('input[name=toDate]').attr('data-value');
         var data = {
             fromDate: moment(fromDate).toDate(),
             toDate: moment(toDate).toDate(),
@@ -77,7 +80,10 @@ function searchProcess(event) {
         var done = function (res) {
             // 通信成功の処理
             console.log('通信成功の処理', res);
+            var count = res.count;
+            $('.count').text(count);
             $('.membership').css('display', 'block');
+            $('.cover').css('display', 'none');
             // ボタンを押せるようにする処理
             $('.submit').prop('disabled', false);
         };
@@ -90,6 +96,7 @@ function searchProcess(event) {
                 $('.errors').html('エラーが発生しました<br>[' + res.message + ']');
             }
             $('.errors').css('display', 'block');
+            $('.cover').css('display', 'none');
             // ボタンを押せるようにする処理
             $('.submit').prop('disabled', false);
         };
