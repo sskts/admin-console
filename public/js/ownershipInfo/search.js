@@ -65,9 +65,11 @@ function searchProcess(event) {
             return;
         }
         // 送信データ生成
+        var fromDate = $('input[name=fromDate]').attr('data-value');
+        var toDate = $('input[name=toDate]').attr('data-value'); 
         var data = {
-            fromDate: $('input[name=fromDate]').attr('data-value'),
-            toDate: $('input[name=toDate]').attr('data-value'),
+            fromDate: moment(fromDate).toDate(),
+            toDate: moment(toDate).toDate(),
             theaterIds: theaterCodeList
         };
         // 接続先を取得

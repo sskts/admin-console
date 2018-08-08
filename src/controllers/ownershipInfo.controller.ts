@@ -10,13 +10,14 @@ const debug = createDebug('sskts-admin-console:');
 /**
  * 会員検索レンダリング
  */
-export async function memberSearchRender(req: Request, res: Response) {
-    debug('memberSearchRender');
+export async function ownershipInfoSearchRender(req: Request, res: Response) {
+    debug('ownershipInfoSearchRender');
     const organizationService = new ssktsapi.service.Organization({
         endpoint: <string>process.env.API_ENDPOINT,
         auth: req.user.authClient
     });
+
     const movieTheaters = await organizationService.searchMovieTheaters();
-    res.locals.movieTheaters = movieTheaters[0];
-    res.render('member/search');
+    res.locals.movieTheaters = movieTheaters;
+    res.render('ownershipInfo/search');
 }

@@ -17,16 +17,16 @@ const debug = createDebug('sskts-admin-console:');
 /**
  * 会員検索レンダリング
  */
-function memberSearchRender(req, res) {
+function ownershipInfoSearchRender(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        debug('memberSearchRender');
+        debug('ownershipInfoSearchRender');
         const organizationService = new ssktsapi.service.Organization({
             endpoint: process.env.API_ENDPOINT,
             auth: req.user.authClient
         });
         const movieTheaters = yield organizationService.searchMovieTheaters();
         res.locals.movieTheaters = movieTheaters;
-        res.render('member/search');
+        res.render('ownershipInfo/search');
     });
 }
-exports.memberSearchRender = memberSearchRender;
+exports.ownershipInfoSearchRender = ownershipInfoSearchRender;

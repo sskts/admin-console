@@ -2,12 +2,12 @@
  * ルーター
  */
 import * as express from 'express';
+import indexRouter from '.';
 import authentication from '../middlewares/authentication';
 import accountRouter from './account';
 import authRouter from './auth';
 import authorizeRouter from './authorize';
-import indexRouter from './index';
-import memberRouter from './member';
+import ownershipInfoRouter from './ownershipInfo';
 
 const router = express.Router();
 
@@ -23,6 +23,6 @@ router.use(authentication);
 router.use(indexRouter);
 router.use('/api/authorize', authorizeRouter);
 router.use('/account', accountRouter);
-router.use('/member', memberRouter);
+router.use('/ownershipInfo', ownershipInfoRouter);
 
 export default router;
