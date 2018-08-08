@@ -93,7 +93,7 @@ function searchProcess(event) {
             // ボタンを押せるようにする処理
             $('.submit').prop('disabled', false);
         };
-        console.log(sasaki.service);
+        console.log(data);
         // 通信開始
         new sasaki.service.OwnershipInfo({
             endpoint: endpoint,
