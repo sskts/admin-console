@@ -10,6 +10,7 @@ $(function () {
         var target = $(this).find('input');
         target.attr('data-value', value);
     });
+    // 初期設定
     initDatepicker();
     $('.submit').on('click', searchProcess);
     $('#all').on('change', function () {
