@@ -1,16 +1,43 @@
 $(function () {
     //Default
-    $('#datepicker-default .date').datepicker({
+    var date = $('#datepicker-default .date').datepicker({
         format: "yyyy年mm月dd日",
         language: 'ja',
         autoclose: true,
     }).on('changeDate', function (event) {
+        console.log(event)
         var value = moment(event.date).format('YYYYMMDD');
         var target = $(this).find('input');
         target.attr('data-value', value);
     });
+    initDatepicker();
     $('.submit').on('click', searchProcess);
+    $('#all').on('change', function () {
+        if ($(this).prop('checked')) {
+            $('input[name=theaterCode]').prop('checked', true);
+        } else {
+            $('input[name=theaterCode]').prop('checked', false);
+        }
+    });
+    $('input[name=theaterCode]').on('change', function () {
+        var count = $('input[name=theaterCode]').length;
+        var checkCount = $('input[name=theaterCode]:checked').length;
+        if (count === checkCount) {
+            $('#all').prop('checked', true);
+        } else {
+            $('#all').prop('checked', false);
+        }
+    });
 });
+
+function initDatepicker() {
+    var datepickerDom = $('#datepicker-default .date');
+    var today = moment();
+    datepickerDom.datepicker('update', today.toDate());
+    var value = today.format('YYYYMMDD');
+    var target = datepickerDom.find('input');
+    target.attr('data-value', value);
+}
 
 /**
  * 検索処理
@@ -40,7 +67,7 @@ function searchProcess(event) {
     $('input[name=theaterCode]:checked').each(function () {
         var value = $(this).val();
         theaterCodeList.push(value);
-    })
+    });
     if (theaterCodeList.length === 0) {
         $('.errors').append('劇場が未選択です' + '<br>');
         validation = true;
