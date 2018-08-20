@@ -11,10 +11,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 口座controller
  */
-const ssktsapi = require("@motionpicture/sskts-api-nodejs-client");
+const ssktsapi = require("@motionpicture/sskts-api-javascript-client");
 const createDebug = require("debug");
 const http_status_1 = require("http-status");
-const debug = createDebug('sskts-admin-console:*');
+const debug = createDebug('sskts-admin-console:');
 /**
  * ポイント付与レンダリング
  */
