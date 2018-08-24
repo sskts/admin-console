@@ -18,6 +18,6 @@ export async function ownershipInfoSearchRender(req: Request, res: Response) {
     });
 
     const movieTheaters = await organizationService.searchMovieTheaters();
-    res.locals.movieTheaters = movieTheaters[0];
+    res.locals.movieTheaters = movieTheaters;
     res.render('ownershipInfo/search');
 }

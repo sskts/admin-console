@@ -8,6 +8,7 @@ import { NextFunction, Request, Response } from 'express';
 import { BAD_REQUEST, INTERNAL_SERVER_ERROR } from 'http-status';
 
 export default (err: any, __: Request, res: Response, next: NextFunction) => {
+    // tslint:disable-next-line:no-console
     console.error('sskts-api:middleware:errorHandler', err);
 
     if (res.headersSent) {
