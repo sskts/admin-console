@@ -1,0 +1,26 @@
+
+.errors {
+    display: none;
+    line-height: 1.5;
+}
+.form-inline .point .form-control {
+    width: 120px;
+}
+.newMember {
+    display: flex;
+}
+.grantPoint {
+    display:inline-block;
+    margin-left: 96px;
+}
+.nowpoint {
+    text-align: right;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"]{
+    -moz-appearance:textfield;
+}

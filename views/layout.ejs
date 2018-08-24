@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <%- include parts/head %>
+<body>
+    <%- include parts/header %>
+
+    <div class="container-fluid">
+        <div class="row flex-xl-nowrap">
+            <%- include parts/navigation %>
+            <main class="col-12 col-md-9 col-xl-10 py-3 pl-md-5" role="main">
+                <!-- Content Wrapper. Contains page content -->
+                <div class="content-wrapper col-xl-10">
+                    <%- body %>
+                </div>
+                <!-- /.content-wrapper -->
+            </main>
+        </div>
+    </div>
+    <div class="cover justify-content-center align-items-center"> 
+        <div class="loader">Loading...</div>
+    </div>
+    <input type="hidden" name="endpoint" value="<%= ENDPOINT %>">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript" src="/js/locales/bootstrap-datepicker.ja.min.js"></script>
+    <script type="text/javascript" src="/node_modules/@motionpicture/sskts-api-javascript-client/lib/browser.js"></script>
+    <script type="text/javascript" src="/js/moment.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <%- defineContent('script') %>
+</body>
+
+</html>

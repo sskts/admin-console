@@ -1,0 +1,117 @@
+<%- contentFor('script') %>
+    <script src="/js/account/deposit.js"></script>
+    <%- contentFor('style') %>
+        <link href="/css/account/deposit.css" rel="stylesheet">
+        <%- contentFor('body') %>
+        <h1 class="h2 mb-4"><i class="fas fa-exchange-alt mr-2"></i>ポイント付与</h1>
+        <p class="border border-danger text-danger col-md-6 p-2 mb-4 errors"></p>    
+        <form>
+            <!-- <div class="form-group row">
+                <label class="col-md-4 col-form-label">受取人id <span class="badge badge-danger align-text-bottom">必須</span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="recipientId" placeholder="入金受取人情報 id">
+                </div>
+            </div> -->
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label">受取人名　<span class="badge badge-danger align-text-bottom">必須</span></label>
+                <div class="col-md-8">
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">セイ</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="recipientFamilyName">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">メイ</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" name="recipientGivenName">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="form-group row">
+                <label class="col-md-4 col-form-label">受取人url</label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="recipientUrl" placeholder="入金受取人情報 url">
+                </div>
+            </div> -->
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label">会員コード　<span class="badge badge-danger align-text-bottom">必須</span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="toAccountNumber">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-4 col-form-label">加算ポイント　<span class="badge badge-danger align-text-bottom">必須</span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control mb-3 additionPoints" name="amount">
+                    <P>ポイント換算は<a href='' data-toggle="modal" data-target="#pointConversionTable">こちら</a></P>
+                </div>
+            </div>
+            <div class="form-group row mb-4">
+                <label class="col-md-4 col-form-label">備考</label>
+                <div class="col-md-8">
+                    <select name="notes" class="custom-select">
+                        <option value="カードポイント振替">カードポイント振替</option>
+                        <option value="その他">その他</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row mb-4">
+                <button type="submit" class="submit btn btn-primary btn-lg mx-auto">ポイント付与</button>
+            </div>
+        </form>
+
+
+
+
+  
+  <!-- Modal -->
+<div class="modal fade" id="pointConversionTable" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ポイント換算</h5>
+                <button type="button" class="close" data-dimdiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div>
+                <form class="form-inline ml-4">
+                    <div class="mt-1">現状ポイント</div>
+                    <div class="form-group mx-3 mb-4 mt-4 point">
+                      <input type="number" class="form-control nowpoint">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-4 mt-4 conversion">変換</button>
+                </form>
+            </div>
+            <div class="newMember">
+            <div class="ml-4 mb-4 mb-4 mt-3">新会員ポイント</div>
+            <div class="mb-4 mt-3 grantPoint">0</div>
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-danger clear">クリア</button> -->
+                <button type="button" class="btn btn-primary reflect" data-dimdiss="modal">反映</button>
+                <button type="button" class="btn btn-secondary closeUp" data-dimdiss="modal">閉じる</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="grantingPointsDone" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">ポイント付与完了</h5>
+                <button type="button" class="close" data-dimdiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dimdiss="modal">閉じる</button>
+            </div>
+        </div>
+    </div>
+</div>
