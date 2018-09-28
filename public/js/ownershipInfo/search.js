@@ -5,7 +5,7 @@ $(function () {
         language: 'ja',
         autoclose: true,
     }).on('changeDate', function (event) {
-        console.log(event)
+        // console.log(event)
         var value = moment(event.date).format('YYYYMMDD');
         var target = $(this).find('input');
         target.attr('data-value', value);
@@ -85,7 +85,7 @@ function searchProcess(event) {
     // 認証情報取得
     getCredentials(function (auth) {
         // 認証情報取得後の処理
-        console.log(auth);
+        // console.log(auth);
         if (auth === null) {
             // エラー
             $('.errors').text('エラーが発生しました');
@@ -100,14 +100,14 @@ function searchProcess(event) {
         var toDate = $('input[name=toDate]').attr('data-value');
         var data = {
             fromDate: moment(fromDate).toDate(),
-            toDate: moment(toDate).toDate(),
+            toDate: moment(toDate).add(24, 'hours').toDate(),
             theaterIds: theaterCodeList
         };
         // 接続先を取得
         var endpoint = $('input[name=endpoint]').val();
         var done = function (res) {
             // 通信成功の処理
-            console.log('通信成功の処理', res);
+            // console.log('通信成功の処理', res);
             var count = res.count;
             $('.count').text(count);
             $('.membership').css('display', 'block');
@@ -117,7 +117,7 @@ function searchProcess(event) {
         };
         var fail = function (res) {
             // 通信失敗の処理
-            console.log('通信失敗の処理', res);
+            console.error('通信失敗の処理', res);
             if (res.code === 404) {
                 $('.errors').text('エラーが発生しました');
             } else {
@@ -128,7 +128,6 @@ function searchProcess(event) {
             // ボタンを押せるようにする処理
             $('.submit').prop('disabled', false);
         };
-        console.log(data);
         // 通信開始
         new sasaki.service.OwnershipInfo({
             endpoint: endpoint,
