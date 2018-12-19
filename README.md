@@ -13,7 +13,6 @@
 | Name                               | Required | Value           | Purpose                |
 |------------------------------------|----------|-----------------|------------------------|
 | `DEBUG`                            | false    | sskts-console:* | Debug                  |
-| `NPM_TOKEN`                        | true     |                 | NPM auth token         |
 | `BASIC_AUTH_NAME`                  | false    |                 | Basic Authentication   |
 | `BASIC_AUTH_PASS`                  | false    |                 | Basic Authentication   |
 | `REDIS_HOST`                       | true     |                 | COA API refresh token  |

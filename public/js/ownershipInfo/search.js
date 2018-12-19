@@ -88,11 +88,7 @@ function searchProcess(event) {
         // console.log(auth);
         if (auth === null) {
             // エラー
-            $('.errors').text('エラーが発生しました');
-            $('.errors').css('display', 'block');
-            $('.cover').css('display', 'none');
-            // ボタンを押せるようにする処理
-            $('.submit').prop('disabled', false);
+            location.reload();
             return;
         }
         // 送信データ生成
