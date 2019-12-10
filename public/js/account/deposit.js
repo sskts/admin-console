@@ -71,14 +71,16 @@ function depositProcess(event) {
         }
         // 送信データ生成
         var data = {
+            object: {
+                amount: Number($('input[name=amount]').val()),
+                toLocation: { accountNumber: $('input[name=toAccountNumber]').val() },
+                description: $('select[name=notes]').val()
+            },
             recipient: {
                 id: $('input[name=toAccountNumber]').val(),
                 name: $('input[name=recipientFamilyName]').val() + ' ' + $('input[name=recipientGivenName]').val(),
                 url: $('input[name=recipientUrl]').val()
-            },
-            toAccountNumber: $('input[name=toAccountNumber]').val(),
-            amount: Number($('input[name=amount]').val()),
-            notes: $('input[name=notes]').val()
+            }
         };
         // 接続先を取得
         var endpoint = $('input[name=endpoint]').val();
@@ -105,10 +107,10 @@ function depositProcess(event) {
             $('.submit').prop('disabled', false);
         };
         // 通信開始
-        new sasaki.service.Account({
+        new cinerino.service.Account({
             endpoint: endpoint,
             auth: auth
-        }).deposit(data).then(depositDone).catch(depositFail);
+        }).deposit4sskts(data).then(depositDone).catch(depositFail);
     });
 }
 

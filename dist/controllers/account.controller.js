@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 口座controller
  */
-const ssktsapi = require("@motionpicture/sskts-api-javascript-client");
+const cinerino = require("@cinerino/api-nodejs-client");
 const createDebug = require("debug");
 const http_status_1 = require("http-status");
 const debug = createDebug('sskts-admin-console:');
@@ -20,12 +20,12 @@ const debug = createDebug('sskts-admin-console:');
  */
 function depositRender(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const organizationService = new ssktsapi.service.Organization({
+        const sellerService = new cinerino.service.Seller({
             endpoint: process.env.API_ENDPOINT,
             auth: req.user.authClient
         });
-        const movieTheaters = yield organizationService.searchMovieTheaters();
-        res.locals.movieTheaters = movieTheaters;
+        const sellers = yield sellerService.search({});
+        res.locals.sellers = sellers;
         res.render('account/deposit');
     });
 }
@@ -35,7 +35,7 @@ exports.depositRender = depositRender;
  */
 function deposit(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const accountService = new ssktsapi.service.Account({
+        const accountService = new cinerino.service.Account({
             endpoint: process.env.API_ENDPOINT,
             auth: req.user.authClient
         });
@@ -62,7 +62,7 @@ function deposit(req, res) {
                 amount: Number(req.body.amount),
                 notes: req.body.notes
             };
-            yield accountService.deposit(args);
+            yield accountService.deposit4sskts(args);
             debug('resolve');
             res.json({
                 error: null

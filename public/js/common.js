@@ -25,7 +25,7 @@ function getCredentials(cb) {
             nonce: null,
             tokenIssuer: ''
         };
-        var auth = sasaki.createAuthInstance(option);
+        var auth = cinerino.createAuthInstance(option);
         auth.setCredentials(data);
         cb(auth);
     };

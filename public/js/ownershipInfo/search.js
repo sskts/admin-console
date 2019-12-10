@@ -125,7 +125,7 @@ function searchProcess(event) {
             $('.submit').prop('disabled', false);
         };
         // 通信開始
-        new sasaki.service.OwnershipInfo({
+        new cinerino.service.OwnershipInfo({
             endpoint: endpoint,
             auth: auth
         }).countByRegisterDateAndTheater(data).then(done).catch(fail);

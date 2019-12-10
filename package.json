@@ -10,10 +10,9 @@
   ],
   "config": {},
   "dependencies": {
+    "@cinerino/api-javascript-client": "^2.0.0-alpha.45",
+    "@cinerino/api-nodejs-client": "^2.0.0-alpha.47",
     "@motionpicture/express-middleware": "^0.1.0",
-    "@motionpicture/sskts-api-javascript-client": "^4.0.0",
-    "@motionpicture/sskts-api-nodejs-client": "^4.0.0",
-    "aws-sdk": "^2.283.1",
     "body-parser": "^1.18.3",
     "connect-redis": "^3.3.3",
     "cookie-parser": "^1.4.3",
