@@ -1,4 +1,4 @@
-import * as ssktsapi from '@motionpicture/sskts-api-nodejs-client';
+import * as cinerino from '@cinerino/api-nodejs-client';
 import * as createDebug from 'debug';
 import * as jwt from 'jsonwebtoken';
 
@@ -30,14 +30,14 @@ export default class User {
     public host: string;
     public session: Express.Session;
     public state: string;
-    public authClient: ssktsapi.auth.OAuth2;
+    public authClient: cinerino.auth.OAuth2;
     public profile: IProfile;
 
     constructor(configurations: IConfigurations) {
         this.host = configurations.host;
         this.session = configurations.session;
 
-        this.authClient = new ssktsapi.auth.OAuth2({
+        this.authClient = new cinerino.auth.OAuth2({
             domain: <string>process.env.API_AUTHORIZE_SERVER_DOMAIN,
             clientId: <string>process.env.API_CLIENT_ID,
             clientSecret: <string>process.env.API_CLIENT_SECRET,
