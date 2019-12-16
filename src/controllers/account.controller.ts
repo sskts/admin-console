@@ -1,7 +1,7 @@
 /**
  * 口座controller
  */
-import * as ssktsapi from '@motionpicture/sskts-api-javascript-client';
+import * as cinerino from '@cinerino/api-nodejs-client';
 import * as createDebug from 'debug';
 import { Request, Response } from 'express';
 import { BAD_REQUEST } from 'http-status';
@@ -12,12 +12,12 @@ const debug = createDebug('sskts-admin-console:');
  * ポイント付与レンダリング
  */
 export async function depositRender(req: Request, res: Response) {
-    const organizationService = new ssktsapi.service.Organization({
+    const sellerService = new cinerino.service.Seller({
         endpoint: <string>process.env.API_ENDPOINT,
         auth: req.user.authClient
     });
-    const movieTheaters = await organizationService.searchMovieTheaters();
-    res.locals.movieTheaters = movieTheaters;
+    const sellers = await sellerService.search({});
+    res.locals.sellers = sellers;
     res.render('account/deposit');
 }
 
@@ -25,7 +25,7 @@ export async function depositRender(req: Request, res: Response) {
  * ポイント付与
  */
 export async function deposit(req: Request, res: Response) {
-    const accountService = new ssktsapi.service.Account({
+    const accountService = new cinerino.service.Account({
         endpoint: <string>process.env.API_ENDPOINT,
         auth: req.user.authClient
     });
@@ -53,7 +53,7 @@ export async function deposit(req: Request, res: Response) {
             amount: Number(req.body.amount),
             notes: req.body.notes
         };
-        await accountService.deposit(args);
+        await accountService.deposit4sskts(args);
         debug('resolve');
         res.json({
             error: null

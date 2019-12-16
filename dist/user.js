@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ssktsapi = require("@motionpicture/sskts-api-nodejs-client");
+const cinerino = require("@cinerino/api-nodejs-client");
 const createDebug = require("debug");
 const jwt = require("jsonwebtoken");
 const debug = createDebug('sskts-admin-console:user');
@@ -19,7 +19,7 @@ class User {
     constructor(configurations) {
         this.host = configurations.host;
         this.session = configurations.session;
-        this.authClient = new ssktsapi.auth.OAuth2({
+        this.authClient = new cinerino.auth.OAuth2({
             domain: process.env.API_AUTHORIZE_SERVER_DOMAIN,
             clientId: process.env.API_CLIENT_ID,
             clientSecret: process.env.API_CLIENT_SECRET,

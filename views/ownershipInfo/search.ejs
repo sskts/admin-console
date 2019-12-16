@@ -46,11 +46,13 @@
             <input class="form-check-input" type="checkbox" id="all" name="all">
             <label class="form-check-label" for="all">全劇場選択</label>
         </div>
-        <% for(let theater of movieTheaters) { %>
-        <div class="form-check form-check-inline mb-3">
-            <input class="form-check-input" type="checkbox" id="theaterCode<%= theater.location.branchCode %>" name="theaterCode" value="<%= theater.id %>">
-            <label class="form-check-label" for="theaterCode<%= theater.location.branchCode %>"><%= theater.name.ja %></label>
-        </div>
+        <% for(let seller of sellers) { %>
+            <% if (seller.location !== undefined && seller.location !== null && seller.location.branchCode !== undefined) { %>
+            <div class="form-check form-check-inline mb-3">
+                <input class="form-check-input" type="checkbox" id="theaterCode<%= seller.location.branchCode %>" name="theaterCode" value="<%= seller.id %>">
+                <label class="form-check-label" for="theaterCode<%= seller.location.branchCode %>"><%= seller.name.ja %></label>
+            </div>
+            <% } %>
         <% } %>
     </div>
 </div>
@@ -60,7 +62,7 @@
 </div>
 </form>
 <div class="membership text-center mb-5 mb-md-0"> 
-<P>新規会員数　<span class="font-weight-bold count">15</span>　人</P>
+<P>新規会員数　<span class="font-weight-bold count">0</span>　人</P>
 </div>
 
 
@@ -77,7 +79,7 @@
   
 <!-- <form>
     <ul>
-        <% for(let theater of movieTheaters) {%>
+        <% for(let theater of sellers) {%>
             <li><%= theater.name.ja %></li>
         <% } %>
     </ul>

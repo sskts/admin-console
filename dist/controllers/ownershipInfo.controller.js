@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 会員controller
  */
-const ssktsapi = require("@motionpicture/sskts-api-nodejs-client");
+const cinerino = require("@cinerino/api-nodejs-client");
 const createDebug = require("debug");
 const debug = createDebug('sskts-admin-console:');
 /**
@@ -20,12 +20,12 @@ const debug = createDebug('sskts-admin-console:');
 function ownershipInfoSearchRender(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         debug('ownershipInfoSearchRender');
-        const organizationService = new ssktsapi.service.Organization({
+        const sellerService = new cinerino.service.Seller({
             endpoint: process.env.API_ENDPOINT,
             auth: req.user.authClient
         });
-        const movieTheaters = yield organizationService.searchMovieTheaters();
-        res.locals.movieTheaters = movieTheaters;
+        const searchResult = yield sellerService.search({});
+        res.locals.sellers = searchResult.data;
         res.render('ownershipInfo/search');
     });
 }

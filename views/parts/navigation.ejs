@@ -3,7 +3,7 @@
     <nav class="collapse" id="nav">
         <ul>
             <li class="py-3 px-4 border-bottom">
-                <i class="fas fa-user-circle mr-2"></i><%= user.profile.given_name %> <%= user.profile.family_name %>さん
+                <i class="fas fa-user-circle mr-2"></i><%= user.profile['cognito:username'] %>さん
             </li>
             <li>
                 <a href="/account/deposit" class="d-block py-3 pl-4 text-light position-relative">
