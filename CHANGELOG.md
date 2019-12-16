@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.1.0 - 2019-12-16
+### Changed
+ - SDKをcinerinoへ変更
+
 ## 1.0.2 - 2018-12-19
 ### Fixed
 - 認証情報取得エラー時にリロードするように修正
