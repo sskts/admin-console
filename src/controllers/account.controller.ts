@@ -14,7 +14,8 @@ const debug = createDebug('sskts-admin-console:');
 export async function depositRender(req: Request, res: Response) {
     const sellerService = new cinerino.service.Seller({
         endpoint: <string>process.env.API_ENDPOINT,
-        auth: req.user.authClient
+        auth: req.user.authClient,
+        project: { id: <string>process.env.PROJECT_ID }
     });
     const sellers = await sellerService.search({});
     res.locals.sellers = sellers;

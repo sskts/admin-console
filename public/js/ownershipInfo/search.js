@@ -101,6 +101,7 @@ function searchProcess(event) {
         };
         // 接続先を取得
         var endpoint = $('input[name=endpoint]').val();
+        var projectId = $('input[name=projectId]').val();
         var done = function (res) {
             // 通信成功の処理
             // console.log('通信成功の処理', res);
@@ -127,7 +128,8 @@ function searchProcess(event) {
         // 通信開始
         new cinerino.service.OwnershipInfo({
             endpoint: endpoint,
-            auth: auth
+            auth: auth,
+            project: { id: projectId }
         }).countByRegisterDateAndTheater(data).then(done).catch(fail);
     });
 }

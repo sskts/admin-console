@@ -84,6 +84,7 @@ function depositProcess(event) {
         };
         // 接続先を取得
         var endpoint = $('input[name=endpoint]').val();
+        var projectId = $('input[name=projectId]').val();
         var depositDone = function (res) {
             // 通信成功の処理
             console.log('通信成功の処理', res);
@@ -109,7 +110,8 @@ function depositProcess(event) {
         // 通信開始
         new cinerino.service.Account({
             endpoint: endpoint,
-            auth: auth
+            auth: auth,
+            project: { id: projectId }
         }).deposit4sskts(data).then(depositDone).catch(depositFail);
     });
 }

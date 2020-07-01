@@ -14,7 +14,8 @@ export async function ownershipInfoSearchRender(req: Request, res: Response) {
     debug('ownershipInfoSearchRender');
     const sellerService = new cinerino.service.Seller({
         endpoint: <string>process.env.API_ENDPOINT,
-        auth: req.user.authClient
+        auth: req.user.authClient,
+        project: { id: <string>process.env.PROJECT_ID }
     });
 
     const searchResult = await sellerService.search({});
