@@ -27,3 +27,4 @@
 | `API_CODE_VERIFIER`                | true     |                 | SSKTSAPIコード検証鍵         |
 | `USER_EXPIRES_IN_SECONDS`          | true     |                 | ログインユーザーセッション保持期間      |
 | `COGNITO_USER_POOL_ID`             | true     |                 |                        |
+| `PROJECT_ID`                       | true     |                 | プロジェクトID                       |
