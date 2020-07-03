@@ -10,8 +10,8 @@
   ],
   "config": {},
   "dependencies": {
-    "@cinerino/api-javascript-client": "^2.0.0-alpha.45",
-    "@cinerino/api-nodejs-client": "^2.0.0-alpha.47",
+    "@cinerino/api-javascript-client": "^2.0.0-alpha.75",
+    "@cinerino/api-nodejs-client": "^2.0.0-alpha.75",
     "@motionpicture/express-middleware": "^0.1.0",
     "body-parser": "^1.18.3",
     "connect-redis": "^3.3.3",
@@ -88,5 +88,5 @@
     "version": "git add -A",
     "postversion": "git push origin --tags"
   },
-  "version": "1.1.0"
+  "version": "1.1.1"
 }

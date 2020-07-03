@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+## 1.1.1 - 2019-07-03
+### Changed
+ - Cinerino SDKでサービスインスタンス生成時にプロジェクト指定へ変更
+
 ## 1.1.0 - 2019-12-16
 ### Changed
  - SDKをcinerinoへ変更

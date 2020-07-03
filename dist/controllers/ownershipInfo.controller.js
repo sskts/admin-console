@@ -22,7 +22,8 @@ function ownershipInfoSearchRender(req, res) {
         debug('ownershipInfoSearchRender');
         const sellerService = new cinerino.service.Seller({
             endpoint: process.env.API_ENDPOINT,
-            auth: req.user.authClient
+            auth: req.user.authClient,
+            project: { id: process.env.PROJECT_ID }
         });
         const searchResult = yield sellerService.search({});
         res.locals.sellers = searchResult.data;

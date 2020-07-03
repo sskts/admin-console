@@ -22,7 +22,8 @@ function depositRender(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const sellerService = new cinerino.service.Seller({
             endpoint: process.env.API_ENDPOINT,
-            auth: req.user.authClient
+            auth: req.user.authClient,
+            project: { id: process.env.PROJECT_ID }
         });
         const sellers = yield sellerService.search({});
         res.locals.sellers = sellers;
