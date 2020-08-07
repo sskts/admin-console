@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 会員controller
  */
-const cinerino = require("@cinerino/api-nodejs-client");
+const cinerino = require("@cinerino/sdk");
 const createDebug = require("debug");
 const debug = createDebug('sskts-admin-console:');
 /**

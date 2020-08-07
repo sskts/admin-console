@@ -1,7 +1,7 @@
 /**
  * 口座controller
  */
-import * as cinerino from '@cinerino/api-nodejs-client';
+import * as cinerino from '@cinerino/sdk';
 import * as createDebug from 'debug';
 import { Request, Response } from 'express';
 import { BAD_REQUEST } from 'http-status';
@@ -28,7 +28,8 @@ export async function depositRender(req: Request, res: Response) {
 export async function deposit(req: Request, res: Response) {
     const accountService = new cinerino.service.Account({
         endpoint: <string>process.env.API_ENDPOINT,
-        auth: req.user.authClient
+        auth: req.user.authClient,
+        project: { id: <string>process.env.PROJECT_ID }
     });
     // debug(req.body);
     try {

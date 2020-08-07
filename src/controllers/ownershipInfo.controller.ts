@@ -1,7 +1,7 @@
 /**
  * 会員controller
  */
-import * as cinerino from '@cinerino/api-nodejs-client';
+import * as cinerino from '@cinerino/sdk';
 import * as createDebug from 'debug';
 import { Request, Response } from 'express';
 

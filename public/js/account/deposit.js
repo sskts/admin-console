@@ -8,13 +8,13 @@ $(function () {
         newMemberPoint = Math.floor(newMemberPoint);
         $('.grantPoint').text(newMemberPoint);
     });
-    $('.reflect').click(function(){
+    $('.reflect').click(function () {
         var reflectionPoint = $('.grantPoint').text();
         $('.additionPoints').val(reflectionPoint);
         $('.nowpoint').val('');
         $('.grantPoint').text('0');
     });
-    $('.closeUp').click(function(){
+    $('.closeUp').click(function () {
         $('.nowpoint').val('');
         $('.grantPoint').text('0');
     });
@@ -52,7 +52,7 @@ function depositProcess(event) {
         $('.errors').append('加算ポイントが未入力です' + '<br>');
         validation = true;
     }
-    
+
     if (validation) {
         // 入力チェックに当てはまったときの処理
         $('.errors').css('display', 'block');
@@ -61,14 +61,8 @@ function depositProcess(event) {
     // ボタンを押せなくする処理
     $('.submit').prop('disabled', true);
     // 認証情報取得
-    getCredentials(function (auth) {
+    getCredentials().then(function (credentials) {
         // 認証情報取得後の処理
-        console.log(auth);
-        if (auth === null) {
-            // エラー
-            location.reload();
-            return;
-        }
         // 送信データ生成
         var data = {
             object: {
@@ -108,11 +102,13 @@ function depositProcess(event) {
             $('.submit').prop('disabled', false);
         };
         // 通信開始
-        new cinerino.service.Account({
-            endpoint: endpoint,
-            auth: auth,
-            project: { id: projectId }
-        }).deposit4sskts(data).then(depositDone).catch(depositFail);
+        new cinerino.service.Account(createOptions(credentials.accessToken))
+            .deposit4sskts(data)
+            .then(depositDone)
+            .catch(depositFail);
+    }).catch(function (error) {
+        console.error(error);
+        location.reload();
     });
 }
 
