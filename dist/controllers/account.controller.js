@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * 口座controller
  */
-const cinerino = require("@cinerino/api-nodejs-client");
+const cinerino = require("@cinerino/sdk");
 const createDebug = require("debug");
 const http_status_1 = require("http-status");
 const debug = createDebug('sskts-admin-console:');
@@ -38,7 +38,8 @@ function deposit(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         const accountService = new cinerino.service.Account({
             endpoint: process.env.API_ENDPOINT,
-            auth: req.user.authClient
+            auth: req.user.authClient,
+            project: { id: process.env.PROJECT_ID }
         });
         // debug(req.body);
         try {

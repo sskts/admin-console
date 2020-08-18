@@ -83,14 +83,8 @@ function searchProcess(event) {
     // ボタンを押せなくする処理
     $('.submit').prop('disabled', true);
     // 認証情報取得
-    getCredentials(function (auth) {
+    getCredentials().then(function (credentials) {
         // 認証情報取得後の処理
-        // console.log(auth);
-        if (auth === null) {
-            // エラー
-            location.reload();
-            return;
-        }
         // 送信データ生成
         var fromDate = $('input[name=fromDate]').attr('data-value');
         var toDate = $('input[name=toDate]').attr('data-value');
@@ -99,9 +93,6 @@ function searchProcess(event) {
             toDate: moment(toDate).add(24, 'hours').toDate(),
             theaterIds: theaterCodeList
         };
-        // 接続先を取得
-        var endpoint = $('input[name=endpoint]').val();
-        var projectId = $('input[name=projectId]').val();
         var done = function (res) {
             // 通信成功の処理
             // console.log('通信成功の処理', res);
@@ -126,11 +117,13 @@ function searchProcess(event) {
             $('.submit').prop('disabled', false);
         };
         // 通信開始
-        new cinerino.service.OwnershipInfo({
-            endpoint: endpoint,
-            auth: auth,
-            project: { id: projectId }
-        }).countByRegisterDateAndTheater(data).then(done).catch(fail);
-    });
+        new cinerino.service.OwnershipInfo(createOptions(credentials.accessToken))
+            .countByRegisterDateAndTheater(data)
+            .then(done)
+            .catch(fail);
+    }).catch(function (error) {
+        console.error(error);
+        location.reload();
+    });;
 }
 

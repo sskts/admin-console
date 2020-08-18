@@ -1,9 +1,8 @@
 
 /**
  * 認証情報取得
- * @param {Function} cb
  */
-function getCredentials(cb) {
+function getCredentials() {
     // 通信の設定
     var options = {
         dataType: 'json',
@@ -11,28 +10,33 @@ function getCredentials(cb) {
         type: 'GET',
         timeout: 10000
     };
-    var done = function (data, textStatus, jqXhr) {
-        // 通信成功の処理
-        console.log(data);
-        const option = {
-            domain: '',
-            clientId: '',
-            redirectUri: '',
-            logoutUri: '',
-            responseType: '',
-            scope: '',
-            state: '',
-            nonce: null,
-            tokenIssuer: ''
-        };
-        var auth = cinerino.createAuthInstance(option);
-        auth.setCredentials(data);
-        cb(auth);
+    return $.ajax(options);
+}
+
+/**
+ * 設定作成
+ * @param {string} accessToken 
+ */
+function createOptions(accessToken) {
+    var option = {
+        domain: '',
+        clientId: '',
+        redirectUri: '',
+        logoutUri: '',
+        responseType: '',
+        scope: '',
+        state: '',
+        nonce: null,
+        tokenIssuer: ''
     };
-    var fail = function (jqXhr, textStatus, errorThrown) {
-        // 通信失敗の処理
-        console.log(jqXhr, textStatus, errorThrown);
-        cb(null);
+    var auth = cinerino.createAuthInstance(option);
+    auth.setCredentials({ accessToken: accessToken });
+    var endpoint = $('input[name=endpoint]').val();
+    var projectId = $('input[name=projectId]').val();
+
+    return {
+        endpoint: endpoint,
+        auth: auth,
+        project: { id: projectId }
     }
-    $.ajax(options).done(done).fail(fail);
 }
