@@ -76,7 +76,7 @@
     "coverage": "npm run nyc -- \"src/**/*.spec.ts\"",
     "start": "node ./dist/bin/www",
     "dev": "node ./dist/bin/ssl",
-    "test": "npm run lint && npm run coverage",
+    "test": "npm run lint",
     "lint": "tslint --project tsconfig.json -c tslint.json src/**/*.ts --exclude **/*.spec.ts",
     "preversion": "npm run clean && npm run build && npm test && npm run doc",
     "version": "git add -A",
@@ -85,5 +85,5 @@
     "deploy:test": "gcloud app deploy ./app.test.gcp.yaml --project sskts-test",
     "deploy:production": "gcloud app deploy ./app.production.gcp.yaml --project sskts-prod-admin --no-promote --version staging"
   },
-  "version": "1.2.0"
+  "version": "1.3.0"
 }
