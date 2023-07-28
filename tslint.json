@@ -1,7 +1,6 @@
 {
     "extends": [
-        "tslint:latest",
-        "tslint-microsoft-contrib/recommended_ruleset"
+        "tslint:latest"
     ],
     "jsRules": {},
     "rules": {
