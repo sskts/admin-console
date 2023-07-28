@@ -1,13 +1,15 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.deposit = exports.depositRender = void 0;
 /**
  * 口座controller
  */
@@ -18,15 +20,8 @@ const debug = createDebug('sskts-admin-console:');
 /**
  * ポイント付与レンダリング
  */
-function depositRender(req, res) {
+function depositRender(_req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const sellerService = new cinerino.service.Seller({
-            endpoint: process.env.API_ENDPOINT,
-            auth: req.user.authClient,
-            project: { id: process.env.PROJECT_ID }
-        });
-        const sellers = yield sellerService.search({});
-        res.locals.sellers = sellers;
         res.render('account/deposit');
     });
 }
@@ -36,12 +31,7 @@ exports.depositRender = depositRender;
  */
 function deposit(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-        const accountService = new cinerino.service.Account({
-            endpoint: process.env.API_ENDPOINT,
-            auth: req.user.authClient,
-            project: { id: process.env.PROJECT_ID }
-        });
-        // debug(req.body);
+        debug('body', req.body);
         try {
             depositValidation(req);
             const validationResult = yield req.getValidationResult();
@@ -50,31 +40,32 @@ function deposit(req, res) {
                 res.status(http_status_1.BAD_REQUEST);
                 res.json({
                     validation: validationResult.mapped(),
-                    error: new Error('validationResult is not empty').message
+                    error: new Error('validationResult is not empty').message,
                 });
                 return;
             }
-            const args = {
-                recipient: {
-                    id: req.body.recipient.id,
-                    name: req.body.recipient.name,
-                    url: req.body.recipient.url
+            const accountService = new cinerino.service.Account({
+                endpoint: process.env.API_ENDPOINT,
+                auth: req.user.authClient,
+                project: { id: process.env.PROJECT_ID },
+                seller: {
+                    id: '',
                 },
-                toAccountNumber: req.body.toAccountNumber,
-                amount: Number(req.body.amount),
-                notes: req.body.notes
-            };
-            yield accountService.deposit4sskts(args);
+            });
+            const params = req.body;
+            yield accountService.deposit4sskts(params);
             debug('resolve');
             res.json({
-                error: null
+                error: null,
             });
         }
-        catch (err) {
-            debug('reject', err);
+        catch (error) {
+            debug('reject', error);
+            const code = (error === null || error === void 0 ? void 0 : error.code) === undefined ? 400 : error === null || error === void 0 ? void 0 : error.code;
+            res.status(code);
             res.json({
                 validation: null,
-                error: err.message
+                error: error.message,
             });
         }
     });
@@ -84,16 +75,22 @@ exports.deposit = deposit;
  * 入金検証
  */
 function depositValidation(req) {
-    // 入金受取人情報 id
-    req.checkBody('recipient.id', '入金受取人IDは英数字で入力してください').matches(/^[A-Za-z0-9]*$/);
-    // 入金受取人情報 name
-    req.checkBody('recipient.name', '入金受取人名が未入力です').trim().notEmpty();
-    // 入金受取人情報 url
-    req.checkBody('recipient.url', '入金受取人URLは英数字で入力してください').trim().matches(/^[A-Za-z0-9]*$/);
-    // 入金先口座番号
-    req.checkBody('toAccountNumber', '入金先口座番号が未入力です').trim().notEmpty();
-    req.checkBody('toAccountNumber', '入金先口座番号は数字で入力してください').matches(/^[0-9]*$/);
-    // 入金金額
-    req.checkBody('amount', '入金金額が未入力です').trim().notEmpty();
-    req.checkBody('amount', '入金金額は数字で入力してください').matches(/^[-]?[0-9]*$/);
+    // 会員コード
+    req.checkBody('recipient.id', '会員コードが未入力です').trim().notEmpty();
+    req.checkBody('object.toLocation.accountNumber', '会員コードが未入力です')
+        .trim()
+        .notEmpty();
+    // 備考
+    req.checkBody('object.description', '備考が未入力です')
+        .trim()
+        .notEmpty();
+    // 受取人名
+    req.checkBody('recipient.name', '受取人名が未入力です').trim().notEmpty();
+    // 加算ポイント
+    req.checkBody('object.amount', '加算ポイントが未入力です')
+        .trim()
+        .notEmpty();
+    req.checkBody('object.amount', '加算ポイントは数字で入力してください')
+        .toInt()
+        .matches(/^[-]?[0-9]*$/);
 }

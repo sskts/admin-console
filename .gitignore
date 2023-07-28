@@ -17,3 +17,6 @@ coverage/
 
 !.gitignore
 !.gitkeep
+
+*.gcp.yaml
+/ssl
