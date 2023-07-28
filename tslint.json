@@ -1,7 +1,5 @@
 {
-    "extends": [
-        "tslint:latest"
-    ],
+    "extends": ["tslint:latest"],
     "jsRules": {},
     "rules": {
         "arrow-parens": [true],
@@ -30,7 +28,17 @@
             "member-variable-declaration"
         ],
         "trailing-comma": true,
-        "variable-name": [true, "allow-leading-underscore"]
-    },
-    "rulesDirectory": ["node_modules/tslint-microsoft-contrib"]
+        "variable-name": [true, "allow-leading-underscore"],
+        "quotemark": [false, "single"],
+        "whitespace": [
+            false,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-separator",
+            "check-type"
+        ],
+        "no-angle-bracket-type-assertion": false,
+        "object-literal-sort-keys": false
+    }
 }

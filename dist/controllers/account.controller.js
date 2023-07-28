@@ -61,7 +61,7 @@ function deposit(req, res) {
         }
         catch (error) {
             debug('reject', error);
-            const code = (error === null || error === void 0 ? void 0 : error.code) === undefined ? 400 : error === null || error === void 0 ? void 0 : error.code;
+            const code = (error === null || error === void 0 ? void 0 : error.code) === undefined ? http_status_1.BAD_REQUEST : error === null || error === void 0 ? void 0 : error.code;
             res.status(code);
             res.json({
                 validation: null,
@@ -81,9 +81,7 @@ function depositValidation(req) {
         .trim()
         .notEmpty();
     // 備考
-    req.checkBody('object.description', '備考が未入力です')
-        .trim()
-        .notEmpty();
+    req.checkBody('object.description', '備考が未入力です').trim().notEmpty();
     // 受取人名
     req.checkBody('recipient.name', '受取人名が未入力です').trim().notEmpty();
     // 加算ポイント

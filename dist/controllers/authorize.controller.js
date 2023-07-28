@@ -8,7 +8,7 @@ const http_status_1 = require("http-status");
 function getCredentials(req, res) {
     const accessToken = req.user.authClient.credentials.access_token;
     const credentials = {
-        accessToken: accessToken
+        accessToken
     };
     if (accessToken === undefined) {
         res.status(http_status_1.BAD_REQUEST);
