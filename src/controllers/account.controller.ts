@@ -50,7 +50,7 @@ export async function deposit(req: Request, res: Response) {
         });
     } catch (error) {
         debug('reject', error);
-        const code = error?.code === undefined ? 400 : error?.code;
+        const code = error?.code === undefined ? BAD_REQUEST : error?.code;
         res.status(code);
         res.json({
             validation: null,
@@ -69,9 +69,7 @@ function depositValidation(req: Request) {
         .trim()
         .notEmpty();
     // 備考
-    req.checkBody('object.description', '備考が未入力です')
-        .trim()
-        .notEmpty();
+    req.checkBody('object.description', '備考が未入力です').trim().notEmpty();
     // 受取人名
     req.checkBody('recipient.name', '受取人名が未入力です').trim().notEmpty();
 
