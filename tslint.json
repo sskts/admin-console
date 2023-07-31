@@ -1,28 +1,15 @@
 {
-    "extends": [
-        "tslint:latest",
-        "tslint-microsoft-contrib/recommended_ruleset"
-    ],
+    "extends": ["tslint:latest"],
     "jsRules": {},
     "rules": {
-        "arrow-parens": [
-            true
-        ],
-        "arrow-return-shorthand": [
-            true
-        ],
-        "await-promise": [
-            true,
-            "Bluebird"
-        ],
+        "arrow-parens": [true],
+        "arrow-return-shorthand": [true],
+        "await-promise": [true, "Bluebird"],
         "curly": true,
         "export-name": false,
         "import-name": false,
         "interface-over-type-literal": true,
-        "linebreak-style": [
-            true,
-            "LF"
-        ],
+        "linebreak-style": [true, "LF"],
         "no-any": false,
         "no-backbone-get-set-outside-model": false,
         "no-default-export": false,
@@ -39,9 +26,19 @@
             "parameter",
             "property-declaration",
             "member-variable-declaration"
-        ]
-    },
-    "rulesDirectory": [
-        "node_modules/tslint-microsoft-contrib"
-    ]
+        ],
+        "trailing-comma": true,
+        "variable-name": [true, "allow-leading-underscore"],
+        "quotemark": [false, "single"],
+        "whitespace": [
+            false,
+            "check-branch",
+            "check-decl",
+            "check-operator",
+            "check-separator",
+            "check-type"
+        ],
+        "no-angle-bracket-type-assertion": false,
+        "object-literal-sort-keys": false
+    }
 }

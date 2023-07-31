@@ -7,7 +7,7 @@ import { BAD_REQUEST, OK } from 'http-status';
 export function getCredentials(req: Request, res: Response) {
     const accessToken = req.user.authClient.credentials.access_token;
     const credentials = {
-        accessToken: accessToken
+        accessToken
     };
     if (accessToken === undefined) {
         res.status(BAD_REQUEST);
