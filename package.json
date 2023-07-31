@@ -85,5 +85,5 @@
         "deploy:test": "gcloud app deploy ./app.test.gcp.yaml --project sskts-test",
         "deploy:production": "gcloud app deploy ./app.production.gcp.yaml --project sskts-prod-admin --no-promote --version staging"
     },
-    "version": "1.2.0"
+    "version": "1.4.0"
 }
