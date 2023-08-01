@@ -2,7 +2,6 @@
     "compilerOptions": {
         "allowUnreachableCode": false,
         "allowUnusedLabels": false,
-        "charset": "utf8",
         "declaration": false,
         "diagnostics": false,
         "disableSizeLimit": false,
@@ -14,7 +13,6 @@
         "isolatedModules": false,
         "listEmittedFiles": false,
         "listFiles": false,
-        "locale": "en-us",
         "module": "commonjs",
         "newLine": "LF",
         "noImplicitAny": true,
@@ -34,8 +32,9 @@
         "stripInternal": false,
         "suppressExcessPropertyErrors": false,
         "suppressImplicitAnyIndexErrors": false,
-        "target": "es6",
-        "watch": false
+        "target": "ES2015",
+        "types": ["node"],
+        "skipLibCheck": true
     },
     "include": [
         "src"
